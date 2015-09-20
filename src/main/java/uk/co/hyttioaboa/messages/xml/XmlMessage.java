@@ -1,57 +1,90 @@
 package uk.co.hyttioaboa.messages.xml;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import uk.co.hyttioaboa.messages.MessageInterface;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
 
-/**
- * Created by jamesbartlett on 23/08/15.
- */
-public class XmlMessage {
-
+public class XmlMessage extends XmlParent implements MessageInterface {
+    ArrayList<XmlPage> pages;
     String testDefinition;
 
     public XmlMessage(String givenTestDefinition) {
+        super(givenTestDefinition);
         testDefinition = givenTestDefinition;
 
-        if (isMessageValid()) {
-            // TODO: construct message
+        if (isValid()) {
+            convertDefinitionToMessage();
         }
     }
 
-    public boolean isMessageValid() {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setValidating(false);
-        factory.setNamespaceAware(true);
+    public String getUrl() {
+        return url;
+    }
 
-        DocumentBuilder builder;
-        try {
-            builder = factory.newDocumentBuilder();
-        }
-        catch (ParserConfigurationException e) {
+    public ArrayList getPages() {
+        return pages;
+    }
+
+    public boolean hasPages() {
+        return arrayHasElements(pages);
+    }
+
+    public boolean arrayHasElements(ArrayList array) {
+        if (array.size() == 0) {
             return false;
         }
-
-        builder.setErrorHandler(new XmlErrorHandler());
-        try {
-            // the "parse" method also validates XML, will throw an exception if misformatted
-            Document document = builder.parse(new InputSource(new StringReader(testDefinition)));
-        }
-        catch (SAXException e) {
-            return false;
-        }
-        catch (IOException e) {
-            return false;
-        }
-
         return true;
     }
 
+    public Node convertDefinitionToMessage() throws Error {
+        try {
+            message = parseDocument();
+        }
+        catch (Exception ex) {
+            throw new Error(ex);
+        }
+
+        if (hasPages() && !hasElements()) {
+            //JSONArray pages = message.get("pages");
+            pages = getPages(message);
+        }
+        else if (hasElements() && !hasPages()) {
+            elements = getElements(message);
+        }
+        else if (hasElements() && hasPages()) {
+            throw new Error("Message has both pages and elements at the top level");
+        }
+
+        return message;
+    }
+
+    protected ArrayList<XmlPage> getPages(Node parentElement) {
+        Node pagesNode = getChild("pages");
+        if (pagesNode != null) {
+            try {
+                ArrayList<Node> grandchildren = getGrandchildren(pagesNode, "page");
+
+                for (int i = 0; i < grandchildren.size(); i++) {
+                    XmlPage currentPage = new XmlPage(grandchildren.get(i));
+
+                    pages.add(currentPage);
+                }
+            }
+            catch (Exception ex) {
+                throw new Error(ex);
+            }
+        }
+
+        return pages;
+    }
 
 }

@@ -13,10 +13,11 @@ public class Message {
     ArrayList<Page> pages;
     ArrayList<Element> elements;
     private String type;
+    private String url;
 
     public Message(String testDefinition) {
         JsonMessage jsonMessage = new JsonMessage(testDefinition);
-        if (jsonMessage.isJsonMessage()) {
+        if (jsonMessage.isValid()) {
             if (jsonMessage.hasPages() && !jsonMessage.hasElements()) {
 
             }

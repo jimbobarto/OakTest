@@ -4,19 +4,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import uk.co.hyttioaboa.messages.Element;
+import uk.co.hyttioaboa.messages.MessageInterface;
 
 import java.util.ArrayList;
 
-public class JsonMessage extends JsonParent {
+public class JsonMessage extends JsonParent implements MessageInterface {
     ArrayList<JsonPage> pages;
+    String url;
 
     public JsonMessage(String givenTestDefinition) {
         super(givenTestDefinition);
 
-        if (isJsonMessage()) {
+        if ( isValid() ) {
             // TODO: construct message
             convertDefinitionToMessage();
         }
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public ArrayList getPages() {
@@ -35,14 +41,14 @@ public class JsonMessage extends JsonParent {
         return arrayHasElements(elements);
     }
 
-    private boolean arrayHasElements(ArrayList array) {
+    public boolean arrayHasElements(ArrayList array) {
         if (array.size() == 0) {
             return false;
         }
         return true;
     }
 
-    private JSONObject convertDefinitionToMessage() throws Error {
+    public JSONObject convertDefinitionToMessage() throws Error {
         try {
             message = new JSONObject(testDefinition);
         }
@@ -64,7 +70,7 @@ public class JsonMessage extends JsonParent {
         return message;
     }
 
-    private ArrayList getPages(JSONObject parentElement) {
+    public ArrayList getPages(JSONObject parentElement) {
         ArrayList<JsonPage> newArray = new ArrayList<JsonPage>();
         JSONArray pageDefinitions;
 

@@ -3,8 +3,9 @@ package uk.co.hyttioaboa.messages.json;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import uk.co.hyttioaboa.messages.GenericElement;
 
-public class JsonElement {
+public class JsonElement extends GenericElement {
 
     JSONObject elementJson;
     Integer index;
@@ -55,64 +56,9 @@ public class JsonElement {
         }
     }
 
-    public Integer setIndex(Integer newIndex) {
-        this.index = newIndex;
-        return this.index;
-    }
-
-    public String setInstruction(String newInstruction) {
-        this.instruction = newInstruction;
-        return this.instruction;
-    }
-
-    public String setType(String newType) {
-        this.type = newType;
-        return this.type;
-    }
-
-    public String setValue(String newValue) {
-        this.value = newValue;
-        return this.value;
-    }
-
-    public String setInteraction(String newInteraction) {
-        this.interaction = newInteraction;
-        return this.interaction;
-    }
-
-    public String setTimeout(String newTimeout) {
-        this.timeout = newTimeout;
-        return this.timeout;
-    }
-
     public JSONObject setDefinition(JSONObject newDefinition) {
         this.elementJson = newDefinition;
         return this.elementJson;
     }
 
-    public Integer getIndex() {
-        return this.index;
-    }
-
-    public String getInstruction() {
-        return this.instruction;
-    }
-
-    public String getType() {
-        return this.type;
-    }
-
-    public String getValue() {
-        return this.value;
-    }
-
-    public String getInteraction() {
-        return this.interaction;
-    }
-
-    public String getTimeout() {
-        return this.timeout;
-    }
-
-    //TODO: screenshot, wait (pause), save value
 }

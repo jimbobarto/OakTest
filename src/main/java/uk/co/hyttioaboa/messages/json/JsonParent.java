@@ -35,7 +35,7 @@ public class JsonParent {
         }
     }
 
-    public boolean isJsonMessage() {
+    public boolean isValid() {
         try {
             new JSONObject(testDefinition);
         }
