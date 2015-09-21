@@ -13,6 +13,8 @@ public interface MessageInterface {
 
     public String getUrl();
 
+    public boolean isValid();
+
     public ArrayList getPages();
 
     public ArrayList getElements();

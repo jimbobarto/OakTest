@@ -8,5 +8,7 @@ import org.w3c.dom.Node;
 public class XmlPage extends XmlParent {
     public XmlPage(Node pageDefinition) {
         super(pageDefinition);
+
+        elements = getElements(pageDefinition);
     }
 }

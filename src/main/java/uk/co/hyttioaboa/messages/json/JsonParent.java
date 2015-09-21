@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class JsonParent {
     JSONObject message;
     String testDefinition;
-    ArrayList<JsonElement> elements;
+    ArrayList<JsonElement> elements = new ArrayList<JsonElement>();
 
     public JsonParent(String givenTestDefinition) {
         testDefinition = givenTestDefinition;

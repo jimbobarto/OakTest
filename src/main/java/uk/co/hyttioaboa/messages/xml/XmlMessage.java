@@ -14,7 +14,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 
 public class XmlMessage extends XmlParent implements MessageInterface {
-    ArrayList<XmlPage> pages;
+    ArrayList<XmlPage> pages = new ArrayList<XmlPage>();
     String testDefinition;
 
     public XmlMessage(String givenTestDefinition) {
@@ -53,12 +53,15 @@ public class XmlMessage extends XmlParent implements MessageInterface {
             throw new Error(ex);
         }
 
+        pages = getPages(message);
+        elements = getElements(message);
+
         if (hasPages() && !hasElements()) {
-            //JSONArray pages = message.get("pages");
-            pages = getPages(message);
+            //pages = getPages(message);
+
         }
         else if (hasElements() && !hasPages()) {
-            elements = getElements(message);
+            //elements = getElements(message);
         }
         else if (hasElements() && hasPages()) {
             throw new Error("Message has both pages and elements at the top level");
@@ -68,7 +71,7 @@ public class XmlMessage extends XmlParent implements MessageInterface {
     }
 
     protected ArrayList<XmlPage> getPages(Node parentElement) {
-        Node pagesNode = getChild("pages");
+        Node pagesNode = getChild(parentElement, "pages");
         if (pagesNode != null) {
             try {
                 ArrayList<Node> grandchildren = getGrandchildren(pagesNode, "page");

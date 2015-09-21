@@ -27,8 +27,8 @@ public class Message {
             type = "JSON";
         }
         else {
-            XmlMessage xmlValidator = new XmlMessage(testDefinition);
-            if (xmlValidator.isMessageValid()) {
+            XmlMessage xmlMessage = new XmlMessage(testDefinition);
+            if (xmlMessage.isValid()) {
                 System.out.println("Valid XML");
                 type = "XML";
             }

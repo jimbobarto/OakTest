@@ -1,5 +1,6 @@
 package uk.co.hyttioaboa.messages.xml;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -25,14 +26,14 @@ public class XmlParent {
     public XmlParent(Node givenTestDefinition) {
         message = givenTestDefinition;
 
-        Node elementsNode = getChild("elements");
+        Node elementsNode = getChild(message, "elements");
         if (elementsNode != null) {
             elements = getElements(elementsNode);
         }
     }
 
-    public Node getChild(String childName) {
-        NodeList childNodes = message.getChildNodes();
+    public Node getChild(Node parent, String childName) {
+        NodeList childNodes = parent.getChildNodes();
         int numberOfChildNodes = childNodes.getLength();
 
         for (int nodeCounter = 0; nodeCounter< numberOfChildNodes; nodeCounter++) {
@@ -82,7 +83,7 @@ public class XmlParent {
         }
 
         builder.setErrorHandler(new XmlErrorHandler());
-        Node document;
+        Document document;
         try {
             // the "parse" method also validates XML, will throw an exception if misformatted
             document = builder.parse(new InputSource(new StringReader(testDefinition)));
@@ -94,7 +95,7 @@ public class XmlParent {
             return null;
         }
 
-        return document;
+        return document.getDocumentElement();
     }
 
     public ArrayList getElements() {
@@ -113,9 +114,7 @@ public class XmlParent {
     }
 
     protected ArrayList<XmlElement> getElements(Node parentElement) {
-        ArrayList<XmlElement> childElements = new ArrayList<XmlElement>();
-
-        Node elementsNode = getChild("elements");
+        Node elementsNode = getChild(parentElement, "elements");
         if (elementsNode != null) {
             try {
                 ArrayList<Node> grandchildren = getGrandchildren(elementsNode, "element");
@@ -123,7 +122,7 @@ public class XmlParent {
                 for (int i = 0; i < grandchildren.size(); i++) {
                     XmlElement currentElement = new XmlElement(grandchildren.get(i));
 
-                    childElements.add(currentElement);
+                    elements.add(currentElement);
                 }
             }
             catch (Exception ex) {
@@ -131,7 +130,7 @@ public class XmlParent {
             }
         }
 
-        return childElements;
+        return elements;
     }
 
 }

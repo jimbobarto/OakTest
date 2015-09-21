@@ -1,5 +1,6 @@
 package uk.co.hyttioaboa;
 
+import uk.co.hyttioaboa.messages.MessageInterface;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 import uk.co.hyttioaboa.messages.xml.XmlMessage;
 
@@ -13,14 +14,14 @@ public class TestDefinition {
     private String type;
 
     public TestDefinition(String testDefinition) {
-        JsonMessage jsonValidator = new JsonMessage(testDefinition);
-        if (jsonValidator.isJsonMessage()) {
+        MessageInterface message = new JsonMessage(testDefinition);
+        if (message.isValid()) {
             System.out.println("Valid JSON");
             type = "JSON";
         }
         else {
-            XmlMessage xmlValidator = new XmlMessage(testDefinition);
-            if (xmlValidator.isMessageValid()) {
+            message = new XmlMessage(testDefinition);
+            if (message.isValid()) {
                 System.out.println("Valid XML");
                 type = "XML";
             }
