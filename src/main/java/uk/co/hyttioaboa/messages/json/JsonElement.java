@@ -4,8 +4,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import uk.co.hyttioaboa.messages.GenericElement;
+import uk.co.hyttioaboa.messages.interfaces.ElementInterface;
 
-public class JsonElement extends GenericElement {
+public class JsonElement extends GenericElement implements ElementInterface {
 
     JSONObject elementJson;
     Integer index;
@@ -13,7 +14,7 @@ public class JsonElement extends GenericElement {
     String type;
     String interaction;
     String value;
-    String timeout;
+    Long timeout;
 
     public JsonElement(JSONObject elementDefinition) {
         setDefinition(elementDefinition);
@@ -23,7 +24,7 @@ public class JsonElement extends GenericElement {
         setType(getStringProperty("type"));
         setInteraction(getStringProperty("interaction"));
         setValue(getStringProperty("value"));
-        setTimeout(getStringProperty("timeout"));
+        setTimeout(getIntegerProperty("timeout"));
     }
 
     private String getStringProperty(String propertyName) {

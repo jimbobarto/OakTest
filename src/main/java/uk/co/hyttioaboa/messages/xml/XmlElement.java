@@ -3,12 +3,13 @@ package uk.co.hyttioaboa.messages.xml;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import uk.co.hyttioaboa.messages.GenericElement;
+import uk.co.hyttioaboa.messages.interfaces.ElementInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class XmlElement extends GenericElement {
+public class XmlElement extends GenericElement implements ElementInterface {
 
     Node elementXml;
 
@@ -37,7 +38,7 @@ public class XmlElement extends GenericElement {
             setValue(attributes.getNamedItem("value").getNodeValue());
         }
         if (attributes.getNamedItem("timeout") != null) {
-            setTimeout(attributes.getNamedItem("timeout").getNodeValue());
+            setTimeout(Integer.parseInt(attributes.getNamedItem("timeout").getNodeValue()));
         }
     }
 

@@ -1,4 +1,4 @@
-package uk.co.hyttioaboa.messages;
+package uk.co.hyttioaboa.messages.interfaces;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -8,7 +8,7 @@ import uk.co.hyttioaboa.messages.json.JsonPage;
 import java.util.ArrayList;
 
 public interface MessageInterface {
-    ArrayList<JsonPage> pages = new ArrayList<JsonPage>();;
+    ArrayList<PageInterface> pages = new ArrayList<PageInterface>();;
     String url = "";
 
     public String getUrl();

@@ -6,7 +6,7 @@ public class GenericElement {
     String type;
     String interaction;
     String value;
-    String timeout;
+    Integer timeout;
 
     public GenericElement() {
     }
@@ -36,7 +36,7 @@ public class GenericElement {
         return this.interaction;
     }
 
-    public String setTimeout(String newTimeout) {
+    public Integer setTimeout(Integer newTimeout) {
         this.timeout = newTimeout;
         return this.timeout;
     }
@@ -61,7 +61,7 @@ public class GenericElement {
         return this.interaction;
     }
 
-    public String getTimeout() {
+    public Integer getTimeout() {
         return this.timeout;
     }
 

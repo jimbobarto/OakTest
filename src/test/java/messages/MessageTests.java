@@ -3,7 +3,7 @@ package messages;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
-import uk.co.hyttioaboa.messages.MessageInterface;
+import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 import uk.co.hyttioaboa.messages.xml.XmlMessage;
 
@@ -21,7 +21,7 @@ public class MessageTests {
     @Test
     public void validJsonShouldCreateMessage() {
 
-        String jsonDefinition = "{\"url\":\"http://www.bbc.co.uk\", \"pages\":[{\"name\":\"1\", \"elements\":[{\"index\": 1, \"instruction\": \"elementId\", \"type\": \"link\", \"interaction\": \"click\", \"value\": \"\", \"timeout\": \"\"}, {\"index\": 2, \"instruction\": \"elementName\", \"type\": \"link\", \"interaction\": \"click\", \"value\": \"\", \"timeout\": \"\"}]},{\"name\":\"2\"}]}";
+        String jsonDefinition = "{\"url\":\"http://www.bbc.co.uk\", \"pages\":[{\"name\":\"1\", \"elements\":[{\"index\": 1, \"instruction\": \"elementId\", \"type\": \"link\", \"interaction\": \"click\", \"value\": \"\", \"timeout\": 10}, {\"index\": 2, \"instruction\": \"elementName\", \"type\": \"link\", \"interaction\": \"click\", \"value\": \"\", \"timeout\": 15}]},{\"name\":\"2\"}]}";
 
         MessageInterface testMessage = new JsonMessage(jsonDefinition);
         // assert statements
@@ -32,7 +32,7 @@ public class MessageTests {
     public void validXmlShouldCreateMessage() {
 
         //String jsonDefinition = "{\"url\":\"http://www.bbc.co.uk\", \"pages\":[{\"name\":\"1\", \"elements\":[{\"index\": 1, \"instruction\": \"elementId\", \"type\": \"link\", \"interaction\": \"click\", \"value\": \"\", \"timeout\": \"\"}, {\"index\": 2, \"instruction\": \"elementName\", \"type\": \"link\", \"interaction\": \"click\", \"value\": \"\", \"timeout\": \"\"}]},{\"name\":\"2\"}]}";
-        String xmlMessage = "<message><pages><page><elements><element \"instruction\"=\"\"><instruction>elementId</instruction></element></elements></page></pages></message>";
+        String xmlMessage = "<message><pages><page><elements><element><instruction>elementId</instruction></element></elements></page></pages></message>";
 
         MessageInterface testMessage = new XmlMessage(xmlMessage);
         // assert statements

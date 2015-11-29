@@ -1,6 +1,6 @@
 package uk.co.hyttioaboa;
 
-import uk.co.hyttioaboa.messages.MessageInterface;
+import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 import uk.co.hyttioaboa.messages.xml.XmlMessage;
 
@@ -28,6 +28,24 @@ public class TestDefinition {
             else {
                 System.out.println("Invalid everything :(");
             }
+        }
+    }
+
+    public TestDefinition(String testDefinition, String testType) {
+        if (testType == "json") {
+            MessageInterface message = new JsonMessage(testDefinition);
+            if (message.isValid()) {
+                type = "JSON";
+            }
+        }
+        else if (testType == "xml") {
+            MessageInterface message = new XmlMessage(testDefinition);
+            if (message.isValid()) {
+                type = "XML";
+            }
+        }
+        else {
+            System.out.println("Unrecognised test type: " + testType);
         }
     }
 
