@@ -1,0 +1,24 @@
+1) Messages (page/element interfaces) - JB
+2) Rabbit queues (input) - PC?
+3) Excel input to queue (:O)
+4) Rabbit queue listener
+5) Threading on listener
+6) -API executor-
+7) Selenium executor
+8) run results
+9) rabbit output queue
+
+
+
+10) feed into rabbitQ
+11) database structure
+12) website front end
+
+13) object ID tool
+
+
+
+
+Pete
+Get unit tests working
+Sort GIT connection
