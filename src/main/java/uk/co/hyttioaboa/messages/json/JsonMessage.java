@@ -24,6 +24,11 @@ public class JsonMessage extends JsonParent implements MessageInterface {
         return url;
     }
 
+    public String setUrl(String newUrl) {
+        this.url = newUrl;
+        return url;
+    }
+
     public ArrayList getPages() {
         return pages;
     }
@@ -64,6 +69,18 @@ public class JsonMessage extends JsonParent implements MessageInterface {
         }
         else if (message.has("elements") && message.has("pages")) {
             throw new Error("Message has both pages and elements at the top level");
+        }
+
+        if (message.has("url")) {
+            try {
+                setUrl(message.getString("url"));
+            }
+            catch (JSONException ex) {
+                throw new Error(ex);
+            }
+        }
+        else {
+            throw new Error("Message has no URL");
         }
 
         return message;

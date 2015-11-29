@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class XmlMessage extends XmlParent implements MessageInterface {
     ArrayList<XmlPage> pages = new ArrayList<XmlPage>();
     String testDefinition;
+    String url;
 
     public XmlMessage(String givenTestDefinition) {
         super(givenTestDefinition);
@@ -19,6 +20,11 @@ public class XmlMessage extends XmlParent implements MessageInterface {
     }
 
     public String getUrl() {
+        return url;
+    }
+
+    public String setUrl(String newUrl) {
+        this.url = newUrl;
         return url;
     }
 
