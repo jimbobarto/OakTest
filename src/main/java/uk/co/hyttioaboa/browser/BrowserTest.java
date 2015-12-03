@@ -15,11 +15,13 @@ public class BrowserTest {
     public BrowserTest(MessageInterface setUpMessage) {
         this.message = setUpMessage;
 
-        WebDriver driver = new FirefoxDriver();
-        driver.get(message.getUrl());
+
     }
 
     public String test() {
+        WebDriver driver = new FirefoxDriver();
+        driver.get(message.getUrl());
+
         ArrayList<PageInterface> pages = this.message.getPages();
 
         for (Iterator<PageInterface> pageIterator = pages.iterator(); pageIterator.hasNext(); ) {
@@ -29,7 +31,9 @@ public class BrowserTest {
             page.test();
 
         }
+driver.close();
 
         return "Hello";
+
     }
 }
