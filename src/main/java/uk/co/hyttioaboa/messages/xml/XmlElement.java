@@ -25,8 +25,8 @@ public class XmlElement extends GenericElement implements ElementInterface {
         if (attributes.getNamedItem("index") != null) {
             setIndex(Integer.parseInt(attributes.getNamedItem("index").getNodeValue()));
         }
-        if (attributes.getNamedItem("instruction") != null) {
-            setInstruction(attributes.getNamedItem("instruction").getNodeValue());
+        if (attributes.getNamedItem("identifier") != null) {
+            setIdentifier(attributes.getNamedItem("identifier").getNodeValue());
         }
         if (attributes.getNamedItem("type") != null) {
             setType(attributes.getNamedItem("type").getNodeValue());

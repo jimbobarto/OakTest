@@ -15,7 +15,7 @@ public class Element {
 
     public Element(JsonElement elementdefinition) {
         setIndex(elementdefinition.getIndex());
-        setInstruction(elementdefinition.getInstruction());
+        setInstruction(elementdefinition.getIdentifier());
     }
 
     public Integer setIndex(Integer index) {

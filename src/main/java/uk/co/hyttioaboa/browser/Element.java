@@ -21,24 +21,23 @@ public class Element {
     }
 
     public String test() {
-
-        String instruction = this.message.getInstruction();
-        String type = this.message.getType();
-        String interaction = this.message.getInteraction();
-
-        System.out.println("Instruction: " + instruction);
-        System.out.println("Type: " + type);
-        System.out.println("Interaction: " + interaction);
-
-
+            String identifier = this.message.getIdentifier();
+            String type = this.message.getType();
+            String interaction = this.message.getInteraction();
+        /**
+            System.out.println("Interaction: " + identifier);
+            System.out.println("Type: " + type);
+            System.out.println("Interaction: " + interaction);
+        */
 
         HashMap interactionTypes = new HashMap(Config.interactionTypes());
         HashMap elementTypes = new HashMap(Config.elementTypes());
 
         String interactionType=(String)interactionTypes.get(interaction);
         String elementType=(String)elementTypes.get(type);
-        System.out.println(interactionType);
-        System.out.println(elementType);
+
+        System.out.println("Final interaction type - " + interactionType);
+        System.out.println("Final element type - " + elementType);
 
 
         Object classInstance =null;

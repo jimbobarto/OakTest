@@ -10,7 +10,7 @@ public class JsonElement extends GenericElement implements ElementInterface {
 
     JSONObject elementJson;
     Integer index;
-    String instruction;
+    String identifier;
     String type;
     String interaction;
     String value;
@@ -20,7 +20,7 @@ public class JsonElement extends GenericElement implements ElementInterface {
         setDefinition(elementDefinition);
 
         setIndex(getIntegerProperty("index"));
-        setInstruction(getStringProperty("instruction"));
+        setIdentifier(getStringProperty("identifier"));
         setType(getStringProperty("type"));
         setInteraction(getStringProperty("interaction"));
         setValue(getStringProperty("value"));

@@ -8,7 +8,7 @@ import org.json.JSONException;
 public interface ElementInterface {
     public Integer setIndex(Integer index);
 
-    public String setInstruction(String instruction);
+    public String setIdentifier(String identifier);
 
     public String setType(String type);
 
@@ -17,9 +17,11 @@ public interface ElementInterface {
     public Integer setTimeout(Integer timeout);
 
 
+
+
     public Integer getIndex();
 
-    public String getInstruction();
+    public String getIdentifier();
 
     public String getType();
 

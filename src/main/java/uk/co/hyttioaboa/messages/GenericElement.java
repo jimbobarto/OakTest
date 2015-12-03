@@ -2,7 +2,7 @@ package uk.co.hyttioaboa.messages;
 
 public class GenericElement {
     Integer index;
-    String instruction;
+    String identifier;
     String type;
     String interaction;
     String value;
@@ -16,9 +16,9 @@ public class GenericElement {
         return this.index;
     }
 
-    public String setInstruction(String newInstruction) {
-        this.instruction = newInstruction;
-        return this.instruction;
+    public String setIdentifier(String newIdentifier) {
+        this.identifier = newIdentifier;
+        return this.identifier;
     }
 
     public String setType(String newType) {
@@ -45,8 +45,8 @@ public class GenericElement {
         return this.index;
     }
 
-    public String getInstruction() {
-        return this.instruction;
+    public String getIdentifier() {
+        return this.identifier;
     }
 
     public String getType() {
