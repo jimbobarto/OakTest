@@ -5,17 +5,19 @@ import uk.co.hyttioaboa.messages.interfaces.ElementInterface;
 import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
 import org.openqa.selenium.WebDriver;
 import uk.co.hyttioaboa.messages.interfaces.PageInterface;
+import uk.co.hyttioaboa.results.ResponseNode;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class BrowserTest {
     MessageInterface message;
+    ResponseNode rootResponseNode;
 
     public BrowserTest(MessageInterface setUpMessage) {
         this.message = setUpMessage;
 
-
+        this.rootResponseNode = new ResponseNode(message.getName());
     }
 
     public String test() {
@@ -26,12 +28,17 @@ public class BrowserTest {
 
         for (Iterator<PageInterface> pageIterator = pages.iterator(); pageIterator.hasNext(); ) {
             PageInterface pageMessage = pageIterator.next();
-            Page page = new Page(pageMessage);
+            ResponseNode pageResponseNode = this.rootResponseNode.createChildNode(pageMessage.getName());
+
+            Page page = new Page(pageMessage, pageResponseNode);
 
             page.test();
 
+            pageResponseNode.end();
         }
-driver.close();
+        driver.close();
+
+        System.out.println("Final status: " + this.rootResponseNode.getStatus());
 
         return "Hello";
 

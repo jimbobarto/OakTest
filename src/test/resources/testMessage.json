@@ -1,5 +1,6 @@
 {
   "url": "http://www.bbc.co.uk/news/",
+  "name": "Example test",
   "pages": [
     {
       "name": "1",

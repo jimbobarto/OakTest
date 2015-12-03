@@ -12,4 +12,8 @@ public interface PageInterface {
 
     public boolean hasElements();
 
+    public String getName();
+
+    public String setName(String newName);
+
 }

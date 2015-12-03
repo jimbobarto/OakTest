@@ -10,9 +10,12 @@ import java.util.ArrayList;
 public class JsonMessage extends JsonParent implements MessageInterface {
     ArrayList<JsonPage> pages;
     String url;
+    String name;
 
     public JsonMessage(String givenTestDefinition) {
         super(givenTestDefinition);
+
+        System.out.println("In JsonMessage!");
 
         if ( isValid() ) {
             // TODO: construct message
@@ -21,12 +24,12 @@ public class JsonMessage extends JsonParent implements MessageInterface {
     }
 
     public String getUrl() {
-        return url;
+        return this.url;
     }
 
     public String setUrl(String newUrl) {
         this.url = newUrl;
-        return url;
+        return this.url;
     }
 
     public ArrayList getPages() {
@@ -81,6 +84,18 @@ public class JsonMessage extends JsonParent implements MessageInterface {
         }
         else {
             throw new Error("Message has no URL");
+        }
+
+        if (message.has("name")) {
+            try {
+                setName(message.getString("name"));
+            }
+            catch (JSONException ex) {
+                throw new Error(ex);
+            }
+        }
+        else {
+            throw new Error("Message has no Name");
         }
 
         return message;

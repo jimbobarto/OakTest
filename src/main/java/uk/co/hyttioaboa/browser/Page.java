@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import uk.co.hyttioaboa.messages.interfaces.ElementInterface;
 import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
 import uk.co.hyttioaboa.messages.interfaces.PageInterface;
+import uk.co.hyttioaboa.results.ResponseNode;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,9 +14,11 @@ import java.util.Iterator;
  */
 public class Page {
     PageInterface message;
+    ResponseNode pageNode;
 
-    public Page (PageInterface setUpMessage) {
+    public Page (PageInterface setUpMessage, ResponseNode pageResponseNode) {
         this.message = setUpMessage;
+        this.pageNode = pageResponseNode;
     }
 
     public String test() {

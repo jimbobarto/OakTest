@@ -26,6 +26,16 @@ public class GetJson {
         return message;
     }
 
+    public String readFile(String path) {
+        try {
+            byte[] encoded = Files.readAllBytes(Paths.get(path));
+            return new String(encoded, Charset.defaultCharset());
+        }
+        catch (Exception e) {
+            throw new Error(e);
+        }
+    }
+
     static String readFile(String path, Charset encoding) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded, encoding);

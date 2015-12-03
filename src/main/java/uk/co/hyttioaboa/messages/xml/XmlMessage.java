@@ -65,6 +65,29 @@ public class XmlMessage extends XmlParent implements MessageInterface {
             throw new Error("Message has both pages and elements at the top level");
         }
 
+//        if (message.has("url")) {
+//            try {
+//                setUrl(message.getString("url"));
+//            }
+//            catch (Exception ex) {
+//                throw new Error(ex);
+//            }
+//        }
+//        else {
+//            throw new Error("Message has no URL");
+//        }
+//
+//        if (message.has("name")) {
+//            try {
+//                setUrl(message.getString("name"));
+//            }
+//            catch (Exception ex) {
+//                throw new Error(ex);
+//            }
+//        }
+//        else {
+//            throw new Error("Message has no Name");
+//        }
         return message;
     }
 
