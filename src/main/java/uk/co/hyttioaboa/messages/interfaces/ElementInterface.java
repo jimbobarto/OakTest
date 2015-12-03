@@ -10,6 +10,8 @@ public interface ElementInterface {
 
     public String setIdentifier(String identifier);
 
+    public String setName(String name);
+
     public String setType(String type);
 
     public String setInteraction(String interaction);
@@ -22,6 +24,8 @@ public interface ElementInterface {
     public Integer getIndex();
 
     public String getIdentifier();
+
+    public String getName();
 
     public String getType();
 

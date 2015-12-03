@@ -25,9 +25,12 @@ public class Page {
         ArrayList<ElementInterface> elements = this.message.getElements();
         for (Iterator<ElementInterface> elementIterator = elements.iterator(); elementIterator.hasNext(); ) {
             ElementInterface elementMessage = elementIterator.next();
+            ResponseNode elementResponseNode = this.pageNode.createChildNode(elementMessage.getName());
 
-            Element element = new Element(elementMessage);
+            Element element = new Element(elementMessage, elementResponseNode);
             element.test();
+
+            elementResponseNode.end();
         }
 
         return "Hello";

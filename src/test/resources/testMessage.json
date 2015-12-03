@@ -6,6 +6,7 @@
       "name": "1",
       "elements": [
         {
+          "name": "First link",
           "index": 1,
           "identifier": "elementId",
           "type": "link",
@@ -14,6 +15,7 @@
           "timeout": 10
         },
         {
+          "name": "Second link",
           "index": 2,
           "identifier": "elementName",
           "type": "link",

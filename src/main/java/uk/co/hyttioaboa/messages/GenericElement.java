@@ -5,6 +5,7 @@ public class GenericElement {
     String identifier;
     String type;
     String interaction;
+    String name;
     String value;
     Integer timeout;
 
@@ -19,6 +20,11 @@ public class GenericElement {
     public String setIdentifier(String newIdentifier) {
         this.identifier = newIdentifier;
         return this.identifier;
+    }
+
+    public String setName(String newName) {
+        this.name = newName;
+        return this.name;
     }
 
     public String setType(String newType) {
@@ -47,6 +53,10 @@ public class GenericElement {
 
     public String getIdentifier() {
         return this.identifier;
+    }
+
+    public String getName() {
+        return this.name;
     }
 
     public String getType() {

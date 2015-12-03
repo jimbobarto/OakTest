@@ -4,6 +4,7 @@ import uk.co.hyttioaboa.config.Config;
 import uk.co.hyttioaboa.elementInteractions.ElementInteraction;
 import uk.co.hyttioaboa.messages.interfaces.ElementInterface;
 import uk.co.hyttioaboa.messages.interfaces.PageInterface;
+import uk.co.hyttioaboa.results.ResponseNode;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -15,9 +16,11 @@ import java.util.*;
  */
 public class Element {
     ElementInterface message;
+    ResponseNode elementNode;
 
-    public Element (ElementInterface setUpMessage) {
+    public Element (ElementInterface setUpMessage, ResponseNode elementResponseNode) {
         this.message = setUpMessage;
+        this.elementNode = elementResponseNode;
     }
 
     public String test() {
