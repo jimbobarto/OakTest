@@ -1,0 +1,55 @@
+Test meta data
+--------------
+URL
+Browser
+OS
+Browser version
+OS version
+Client
+Results ID
+Device
+
+
+Page meta data
+--------------
+Override URL
+Page title
+Loop indicator
+Screenshot
+
+
+Element meta data
+-----------------
+Timeout
+Screenshot
+Ifexists
+Error override
+
+
+Object
+------
+Interaction type
+Identification type
+Identification value
+
+
+
+Interaction Types
+-----------------
+Click
+Dbl click
+Drag
+Type
+Check object value
+Check text
+
+
+
+
+
+Element Action
+--------------
+Check (meta data)
+Interact
+Check/Interact
+Ignore
