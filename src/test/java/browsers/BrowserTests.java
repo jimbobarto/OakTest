@@ -1,5 +1,6 @@
 package browsers;
 
+import json.GetJson;
 import org.junit.Test;
 import uk.co.hyttioaboa.browser.BrowserTest;
 import uk.co.hyttioaboa.messages.interfaces.ElementInterface;
@@ -13,7 +14,9 @@ import java.util.Iterator;
 public class BrowserTests {
     @Test
     public void browserShouldStart() {
-        String jsonDefinition = "{\"url\":\"http://www.google.co.uk\", \"pages\":[{\"name\":\"1\", \"elements\":[{\"index\": 1, \"instruction\": \"elementId\", \"type\": \"link\", \"interaction\": \"click\", \"value\": \"\", \"timeout\": 10}, {\"index\": 2, \"instruction\": \"elementName\", \"type\": \"link\", \"interaction\": \"click\", \"value\": \"\", \"timeout\": 15}]},{\"name\":\"2\"}]}";
+        GetJson jsonGetter = new GetJson();
+        String jsonDefinition = jsonGetter.getTestMessage();
+
         MessageInterface testMessage = new JsonMessage(jsonDefinition);
 
         BrowserTest browser = new BrowserTest(testMessage);
