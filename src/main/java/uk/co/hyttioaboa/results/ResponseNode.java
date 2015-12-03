@@ -7,12 +7,13 @@ import java.util.ArrayList;
  */
 public class ResponseNode {
     String name;
-    Integer nodeStatus;
-    ArrayList<ResponseMessage> responseMessages;
-    ArrayList<ResponseNode> childNodes;
+    Integer nodeStatus = 0;
+    ArrayList<ResponseMessage> responseMessages = new ArrayList<ResponseMessage>();
+    ArrayList<ResponseNode> childNodes = new ArrayList<ResponseNode>();
     ResponseNode parentNode = null;
 
     public ResponseNode(String nodeName) {
+        //TODO: add in timestamps
         this(nodeName, 101, "Node created");
     }
 
@@ -26,6 +27,8 @@ public class ResponseNode {
         this.responseMessages.add(createMessage);
 
         aggregateStatus(status);
+
+        System.out.println(this.name + " (" + status + "): " + message);
     }
 
     public void setParentNode(ResponseNode parent) {
@@ -56,4 +59,11 @@ public class ResponseNode {
         return this.nodeStatus;
     }
 
+    public Integer getStatus() {
+        return this.nodeStatus;
+    }
+
+    public void end() {
+        addMessage(111, "Node finished");
+    }
 }

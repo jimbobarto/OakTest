@@ -15,6 +15,10 @@ public interface MessageInterface {
 
     public String setUrl(String newUrl);
 
+    public String getName();
+
+    public String setName(String newName);
+
     public boolean isValid();
 
     public ArrayList getPages();

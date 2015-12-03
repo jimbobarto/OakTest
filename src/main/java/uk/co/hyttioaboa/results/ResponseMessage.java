@@ -1,8 +1,5 @@
 package uk.co.hyttioaboa.results;
 
-/**
- * Created by jamesbartlett on 03/12/15.
- */
 public class ResponseMessage {
     Integer status;
     String message;

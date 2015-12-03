@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class XmlParent {
     Node message;
     String testDefinition;
+    String name;
     ArrayList<XmlElement> elements = new ArrayList<XmlElement>();
 
     public XmlParent(String givenTestDefinition) {
@@ -30,6 +31,15 @@ public class XmlParent {
         if (elementsNode != null) {
             elements = getElements(elementsNode);
         }
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String setName(String newName) {
+        this.name = newName;
+        return this.name;
     }
 
     public Node getChild(Node parent, String childName) {

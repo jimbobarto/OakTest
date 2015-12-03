@@ -9,6 +9,7 @@ import java.util.ArrayList;
 public class JsonParent {
     JSONObject message;
     String testDefinition;
+    String name;
     ArrayList<JsonElement> elements = new ArrayList<JsonElement>();
 
     public JsonParent(String givenTestDefinition) {
@@ -33,6 +34,27 @@ public class JsonParent {
                 throw new Error(ex);
             }
         }
+
+        if (message.has("name")) {
+            try {
+                setName(message.getString("name"));
+            }
+            catch (JSONException ex) {
+                throw new Error(ex);
+            }
+        }
+        else {
+            throw new Error("Message has no Name");
+        }
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String setName(String newName) {
+        this.name = newName;
+        return this.name;
     }
 
     public boolean isValid() {
