@@ -13,6 +13,7 @@ public class SimpleConsumer {
     String queue;
     QueueingConsumer consumer;
     Channel channel;
+    String consumedMessage;
 
     public SimpleConsumer(String consumerUri, String consumerQueue) {
         this.uri = consumerUri;
@@ -21,28 +22,41 @@ public class SimpleConsumer {
 
     public SimpleConsumer(String[] args) {
         try {
-            String uri = (args.length > 0) ? args[0] : "amqp://localhost";
-            String queueName = (args.length > 1) ? args[1] : "SimpleQueue";
+            this.uri = (args.length > 0) ? args[0] : "amqp://localhost";
+            this.queue = (args.length > 1) ? args[1] : "SimpleQueue";
 
-            ConnectionFactory connFactory = new ConnectionFactory();
-            connFactory.setUri(uri);
-            Connection conn = connFactory.newConnection();
+            setUp();
 
-            this.channel = conn.createChannel();
-
-            channel.queueDeclare(queueName, false, false, false, null);
-
-            QueueingConsumer consumer = new QueueingConsumer(this.channel);
-            channel.basicConsume(queueName, consumer);
-
-            QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-            System.out.println("Message: " + new String(delivery.getBody()));
-            channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
+            consumeSingleMessage();
         } catch (Exception ex) {
             System.err.println("Main thread caught exception: " + ex);
             ex.printStackTrace();
             System.exit(1);
         }
+    }
+
+    public SimpleConsumer(RabbitMessage rabbitMessage) {
+        try {
+            this.uri = rabbitMessage.getUri();
+            this.queue = rabbitMessage.getRoutingKey();
+        } catch (Exception ex) {
+            System.err.println("Main thread caught exception: " + ex);
+            ex.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    public String consumeMessage() {
+        try {
+            setUp();
+            consumeSingleMessage();
+        } catch (Exception ex) {
+            System.err.println("Main thread caught exception: " + ex);
+            ex.printStackTrace();
+            System.exit(1);
+        }
+
+        return this.consumedMessage;
     }
 
     public void setUp() {
@@ -66,7 +80,7 @@ public class SimpleConsumer {
     public void consumeSingleMessage() {
         try {
             QueueingConsumer.Delivery delivery = this.consumer.nextDelivery();
-            System.out.println("Message: " + new String(delivery.getBody()));
+            this.consumedMessage = new String(delivery.getBody());
             this.channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
         }
         catch (Exception e) {
@@ -74,4 +88,7 @@ public class SimpleConsumer {
         }
     }
 
+    public String getConsumedMessage() {
+        return this.consumedMessage;
+    }
 }
