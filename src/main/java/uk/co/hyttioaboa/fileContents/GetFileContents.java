@@ -1,23 +1,20 @@
-package json;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+package uk.co.hyttioaboa.fileContents;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class GetJson {
+public class GetFileContents {
 
-    public GetJson() {
+    public GetFileContents() {
 
     }
 
-    public String getTestMessage() {
+    public String getTestMessage(String messagePath) {
         String message;
         try {
-            message = readFile("src/test/resources/testMessage.json", Charset.defaultCharset());
+            message = readFile(messagePath, Charset.defaultCharset());
         }
         catch (IOException ioEx) {
             throw new Error(ioEx);

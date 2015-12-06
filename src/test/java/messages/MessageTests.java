@@ -1,5 +1,6 @@
 package messages;
 
+import uk.co.hyttioaboa.fileContents.GetFileContents;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
@@ -20,8 +21,8 @@ public class MessageTests {
 
     @Test
     public void validJsonShouldCreateMessage() {
-
-        String jsonDefinition = "{\"url\":\"http://www.bbc.co.uk\", \"pages\":[{\"name\":\"1\", \"elements\":[{\"index\": 1, \"instruction\": \"elementId\", \"type\": \"link\", \"interaction\": \"click\", \"value\": \"\", \"timeout\": 10}, {\"index\": 2, \"instruction\": \"elementName\", \"type\": \"link\", \"interaction\": \"click\", \"value\": \"\", \"timeout\": 15}]},{\"name\":\"2\"}]}";
+        GetFileContents fileGetter = new GetFileContents();
+        String jsonDefinition = fileGetter.getTestMessage("src/test/resources/testMessage.json");
 
         MessageInterface testMessage = new JsonMessage(jsonDefinition);
         // assert statements
@@ -30,12 +31,11 @@ public class MessageTests {
 
     @Test
     public void validXmlShouldCreateMessage() {
-
-        //String jsonDefinition = "{\"url\":\"http://www.bbc.co.uk\", \"pages\":[{\"name\":\"1\", \"elements\":[{\"index\": 1, \"instruction\": \"elementId\", \"type\": \"link\", \"interaction\": \"click\", \"value\": \"\", \"timeout\": \"\"}, {\"index\": 2, \"instruction\": \"elementName\", \"type\": \"link\", \"interaction\": \"click\", \"value\": \"\", \"timeout\": \"\"}]},{\"name\":\"2\"}]}";
-        String xmlMessage = "<message><pages><page><elements><element><instruction>elementId</instruction></element></elements></page></pages></message>";
+        GetFileContents fileGetter = new GetFileContents();
+        String xmlMessage = fileGetter.getTestMessage("src/test/resources/testMessage.xml");
 
         MessageInterface testMessage = new XmlMessage(xmlMessage);
         // assert statements
-        assertEquals("Number of pages in the test message should be 1", 1, testMessage.getPages().size());
+        assertEquals("Number of pages in the test message should be 2", 2, testMessage.getPages().size());
     }
 }

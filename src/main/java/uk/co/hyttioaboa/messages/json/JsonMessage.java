@@ -15,8 +15,6 @@ public class JsonMessage extends JsonParent implements MessageInterface {
     public JsonMessage(String givenTestDefinition) {
         super(givenTestDefinition);
 
-        System.out.println("In JsonMessage!");
-
         if ( isValid() ) {
             // TODO: construct message
             convertDefinitionToMessage();

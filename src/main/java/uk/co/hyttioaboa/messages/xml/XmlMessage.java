@@ -1,5 +1,6 @@
 package uk.co.hyttioaboa.messages.xml;
 
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
 
@@ -20,7 +21,7 @@ public class XmlMessage extends XmlParent implements MessageInterface {
     }
 
     public String getUrl() {
-        return url;
+        return this.url;
     }
 
     public String setUrl(String newUrl) {
@@ -65,29 +66,15 @@ public class XmlMessage extends XmlParent implements MessageInterface {
             throw new Error("Message has both pages and elements at the top level");
         }
 
-//        if (message.has("url")) {
-//            try {
-//                setUrl(message.getString("url"));
-//            }
-//            catch (Exception ex) {
-//                throw new Error(ex);
-//            }
-//        }
-//        else {
-//            throw new Error("Message has no URL");
-//        }
-//
-//        if (message.has("name")) {
-//            try {
-//                setUrl(message.getString("name"));
-//            }
-//            catch (Exception ex) {
-//                throw new Error(ex);
-//            }
-//        }
-//        else {
-//            throw new Error("Message has no Name");
-//        }
+        String url = getChildStringValue("url");
+        if (url != "") {
+            setUrl(url);
+        }
+        NamedNodeMap attributes = message.getAttributes();
+        if (attributes.getNamedItem("name") != null) {
+            setName(attributes.getNamedItem("name").getNodeValue());
+        }
+
         return message;
     }
 

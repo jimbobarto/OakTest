@@ -1,0 +1,27 @@
+<message name="Example test">
+    <url>http://www.bbc.co.uk/news/</url>
+    <pages>
+        <page name="Page 1">
+            <elements>
+                <element name="First link">
+                    <instruction>elementId</instruction>
+                    <type>link</type>
+                    <interaction>click</interaction>
+                    <value></value>
+                    <text></text>
+                    <timeout>10</timeout>
+                </element>
+                <element name="Second link">
+                    <instruction>elementName</instruction>
+                    <type>link</type>
+                    <interaction>click</interaction>
+                    <value></value>
+                    <text></text>
+                    <timeout>15</timeout>
+                </element>
+            </elements>
+        </page>
+        <page name="Page 2">
+        </page>
+    </pages>
+</message>

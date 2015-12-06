@@ -12,37 +12,34 @@ import java.util.Arrays;
 public class XmlElement extends GenericElement implements ElementInterface {
 
     Node elementXml;
+    XmlNode xmlNode;
 
     public XmlElement(Node elementDefinition) {
         setDefinition(elementDefinition);
 
         NamedNodeMap attributes = this.elementXml.getAttributes();
 
+        xmlNode = new XmlNode(elementDefinition);
+
         getProperties(attributes);
     }
 
     private void getProperties(NamedNodeMap attributes) {
-        if (attributes.getNamedItem("index") != null) {
-            setIndex(Integer.parseInt(attributes.getNamedItem("index").getNodeValue()));
-        }
-        if (attributes.getNamedItem("identifier") != null) {
-            setIdentifier(attributes.getNamedItem("identifier").getNodeValue());
-        }
         if (attributes.getNamedItem("name") != null) {
-            setIdentifier(attributes.getNamedItem("name").getNodeValue());
+            setName(attributes.getNamedItem("name").getNodeValue());
         }
-        if (attributes.getNamedItem("type") != null) {
-            setType(attributes.getNamedItem("type").getNodeValue());
-        }
-        if (attributes.getNamedItem("interaction") != null) {
-            setInteraction(attributes.getNamedItem("interaction").getNodeValue());
-        }
-        if (attributes.getNamedItem("value") != null) {
-            setValue(attributes.getNamedItem("value").getNodeValue());
-        }
-        if (attributes.getNamedItem("timeout") != null) {
-            setTimeout(Integer.parseInt(attributes.getNamedItem("timeout").getNodeValue()));
-        }
+
+        String identifier = xmlNode.getChildStringValue("identifier");
+        setIdentifier(identifier);
+        String type = xmlNode.getChildStringValue("type");
+        setType(type);
+        String interaction = xmlNode.getChildStringValue("interaction");
+        setInteraction(interaction);
+        String value = xmlNode.getChildStringValue("value");
+        setValue(value);
+        //String text = xmlNode.getChildStringValue("text");
+        Integer timeout = xmlNode.getChildIntegerValue("timeout");
+        setTimeout(timeout);
     }
 
     public Node setDefinition(Node newDefinition) {

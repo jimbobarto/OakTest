@@ -20,7 +20,6 @@ public class JsonElement extends GenericElement implements ElementInterface {
     public JsonElement(JSONObject elementDefinition) {
         setDefinition(elementDefinition);
 
-        setIndex(getIntegerProperty("index"));
         setIdentifier(getStringProperty("identifier"));
         setType(getStringProperty("type"));
         setInteraction(getStringProperty("interaction"));

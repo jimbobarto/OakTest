@@ -7,20 +7,20 @@
       "elements": [
         {
           "name": "First link",
-          "index": 1,
           "identifier": "elementId",
           "type": "link",
           "interaction": "click",
           "value": "",
+          "text": "",
           "timeout": 10
         },
         {
           "name": "Second link",
-          "index": 2,
           "identifier": "elementName",
           "type": "link",
           "interaction": "click",
           "value": "",
+          "text": "",
           "timeout": 15
         }
       ]
