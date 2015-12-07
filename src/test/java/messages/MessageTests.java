@@ -8,9 +8,6 @@ import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 import uk.co.hyttioaboa.messages.xml.XmlMessage;
 
-/**
- * Created by jamesbartlett on 13/09/15.
- */
 public class MessageTests {
     Integer index;
     String instruction;

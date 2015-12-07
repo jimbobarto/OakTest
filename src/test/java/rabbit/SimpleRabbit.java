@@ -11,7 +11,6 @@ import static org.junit.Assert.assertEquals;
 
 public class SimpleRabbit {
 
-
     @Test
     public void messageShouldPublishAndBeConsumed() {
         RabbitMessage rabbitMessage = new RabbitMessage("amqp://localhost", "", "SimpleQueue");
