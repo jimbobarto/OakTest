@@ -1,5 +1,6 @@
 package uk.co.hyttioaboa.browser;
 
+import org.openqa.selenium.WebDriver;
 import uk.co.hyttioaboa.config.Config;
 import uk.co.hyttioaboa.elementInteractions.ElementInteraction;
 import uk.co.hyttioaboa.messages.interfaces.ElementInterface;
@@ -23,7 +24,7 @@ public class Element {
         this.elementNode = elementResponseNode;
     }
 
-    public String test() {
+    public String test(WebDriver driver) {
             String identifier = this.message.getIdentifier();
             String type = this.message.getType();
             String interaction = this.message.getInteraction();
@@ -63,15 +64,16 @@ public class Element {
             throw new Error(getMethodException);
         }
 
+
+
         try {
-            methodInstance.invoke(interactionType);
+             methodInstance.invoke(driver, identifier);
+
         } catch (IllegalArgumentException e) {
         } catch (IllegalAccessException e) {
         } catch (InvocationTargetException e) {
         }
 
         return "Hello";
-
-
     }
 }

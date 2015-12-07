@@ -21,14 +21,14 @@ public class Page {
         this.pageNode = pageResponseNode;
     }
 
-    public String test() {
+    public String test(WebDriver driver) {
         ArrayList<ElementInterface> elements = this.message.getElements();
         for (Iterator<ElementInterface> elementIterator = elements.iterator(); elementIterator.hasNext(); ) {
             ElementInterface elementMessage = elementIterator.next();
             ResponseNode elementResponseNode = this.pageNode.createChildNode(elementMessage.getName());
 
             Element element = new Element(elementMessage, elementResponseNode);
-            element.test();
+            element.test(driver);
 
             elementResponseNode.end();
         }

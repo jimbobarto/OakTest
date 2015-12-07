@@ -32,7 +32,7 @@ public class BrowserTest {
 
             Page page = new Page(pageMessage, pageResponseNode);
 
-            page.test();
+            page.test(driver);
 
             pageResponseNode.end();
         }
