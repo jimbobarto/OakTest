@@ -31,4 +31,6 @@ public class Config {
         return elementMap;
     }
 
+    //TODO Need to add in a map for different object identification types such as ID etc
+
 }

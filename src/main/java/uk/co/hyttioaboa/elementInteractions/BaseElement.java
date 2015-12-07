@@ -9,12 +9,5 @@ public class BaseElement extends ElementInteraction{
         super();
     }
 
-    public static boolean click(){
-        //webdriver.element.click();
-        //check link text
-        //click link
-        System.out.println("this is the BaseElement Class");
-        return true;
-    };
 
 }
