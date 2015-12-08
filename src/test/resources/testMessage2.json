@@ -1,0 +1,32 @@
+{
+  "url": "http://www.amazon.co.uk/",
+  "name": "Example test",
+  "pages": [
+    {
+      "name": "1",
+      "elements": [
+        {
+          "name": "Shop by Department",
+          "identifier": "nav-link-shopall",
+          "type": "link",
+          "interaction": "click",
+          "value": "",
+          "text": "",
+          "timeout": 10
+        },
+        {
+          "name": "Amazon prime link",
+          "identifier": "nav-link-prime",
+          "type": "link",
+          "interaction": "click",
+          "value": "",
+          "text": "",
+          "timeout": 15
+        }
+      ]
+    },
+    {
+      "name": "2"
+    }
+  ]
+}

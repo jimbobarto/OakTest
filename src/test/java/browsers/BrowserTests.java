@@ -30,15 +30,15 @@ public class BrowserTests {
         browser.test();
     }
 
-
     @Test
-    public void validXMLSHouldClickLink() {
+    public void validXMLShouldClickLink() {
         GetFileContents fileGetter = new GetFileContents();
-        String xmlMessage = fileGetter.getTestMessage("src/test/resources/testMessage2.json");
+        String jsonDefinition = fileGetter.getTestMessage("src/test/resources/testMessage2.json");
 
-        MessageInterface testMessage = new XmlMessage(xmlMessage);
-        // assert statements
-        //TODO add in check that it correctly reports link was clicked
-        //assertEquals("Number of pages in the test message should be 2", 2, testMessage.getPages().size());
+        MessageInterface testMessage = new JsonMessage(jsonDefinition);
+
+        BrowserTest browser = new BrowserTest(testMessage);
+        browser.test();
     }
+
 }
