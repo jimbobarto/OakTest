@@ -5,9 +5,6 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.QueueingConsumer;
 
-/**
- * Created by jamesbartlett on 03/12/15.
- */
 public class SimpleConsumer {
     String uri;
     String queue;

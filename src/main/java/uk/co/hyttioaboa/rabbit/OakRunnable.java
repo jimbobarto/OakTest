@@ -4,19 +4,29 @@ import uk.co.hyttioaboa.browser.BrowserTest;
 import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 
-public class OakRunnable implements Runnable {
-    RabbitMessage rabbitMessage;
+import java.io.UnsupportedEncodingException;
 
-    public OakRunnable(RabbitMessage rabbitMessage) {
-        this.rabbitMessage = rabbitMessage;
+public class OakRunnable implements Runnable {
+    String rabbitMessage;
+
+    public OakRunnable(byte[] byteMessage) {
+        String message;
+        try {
+            message = new String(byteMessage, "UTF-8");
+        }
+        catch (UnsupportedEncodingException e) {
+            throw new Error(e);
+        }
+        this.rabbitMessage = message;
+    }
+
+    public OakRunnable(String newMessage) {
+        this.rabbitMessage = newMessage;
     }
 
     public void run() {
-        SimpleConsumer consumer = new SimpleConsumer(this.rabbitMessage);
-        String consumedMessage = consumer.consumeMessage();
 
-        MessageInterface publishedTestMessage = new JsonMessage(consumedMessage);
-        //System.out.println("Number of pages: " + publishedTestMessage.getPages().size());
+        MessageInterface publishedTestMessage = new JsonMessage(this.rabbitMessage);
 
         BrowserTest browser = new BrowserTest(publishedTestMessage);
         browser.test();
