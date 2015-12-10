@@ -33,45 +33,43 @@ public class Element {
             System.out.println("Type: " + type);
             System.out.println("Interaction: " + interaction);
         */
-
+        //Get the maps for classes and methods
         HashMap interactionTypes = new HashMap(Config.interactionTypes());
         HashMap elementTypes = new HashMap(Config.elementTypes());
 
+        //Get the relevant values from the maps
         String interactionType=(String)interactionTypes.get(interaction);
         String elementType=(String)elementTypes.get(type);
 
-        System.out.println("Final interaction type - " + interactionType);
-        System.out.println("Final element type - " + elementType);
+        //System.out.println("Final interaction type - " + interactionType);
+        //System.out.println("Final element type - " + elementType);
 
-
-        Object classInstance =null;
-        //GET CLASS from elementTypes
+        Object classInstance;
+        //GET the relevant class required
         try {
             Class<?> clazz = Class.forName("uk.co.hyttioaboa.elementInteractions."+ elementType);
             Constructor<?> constructor = clazz.getConstructor();
             classInstance = constructor.newInstance();
-
         }catch(Exception getClassException){
             throw new Error(getClassException);
         }
 
-
+        //Get the relevant method
         java.lang.reflect.Method methodInstance;
-        methodInstance = null;
         try {
-            methodInstance = classInstance.getClass().getMethod(interactionType);
+            methodInstance = classInstance.getClass().getMethod(interaction, WebDriver.class, String.class);
         } catch (Exception getMethodException) {
             throw new Error(getMethodException);
         }
 
 
-
+        //Run the class/method
         try {
-             methodInstance.invoke(driver, identifier);
+            methodInstance.invoke(classInstance, driver, identifier);
 
-        } catch (IllegalArgumentException e) {
-        } catch (IllegalAccessException e) {
-        } catch (InvocationTargetException e) {
+        } catch (IllegalArgumentException e) {System.out.println(e);
+        } catch (IllegalAccessException e) {System.out.println(e);
+        } catch (InvocationTargetException e) {System.out.println(e);
         }
 
         return "Hello";

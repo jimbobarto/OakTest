@@ -31,7 +31,7 @@ public class BrowserTests {
     }
 
     @Test
-    public void validXMLShouldClickLink() {
+    public void linkIDShouldClickLink() {
         GetFileContents fileGetter = new GetFileContents();
         String jsonDefinition = fileGetter.getTestMessage("src/test/resources/testMessage2.json");
 

@@ -15,9 +15,10 @@ public class ElementInteraction {
 
     }
 
-    public static boolean click(WebDriver driver, String identifier){
+    public boolean click(WebDriver driver, String identifier){
         Actions tempAction = new Actions(driver);
         //TODO Put all this in properly
+        System.out.println("clicky clicky woop woop");
         WebElement targetElement = driver.findElement(By.id(identifier));
 
         tempAction.click(targetElement);
