@@ -5,6 +5,7 @@
             <elements>
                 <element name="First link">
                     <identifier>elementId</identifier>
+                    <identifierType>elementName</identifierType>
                     <type>link</type>
                     <interaction>click</interaction>
                     <value></value>
@@ -13,6 +14,7 @@
                 </element>
                 <element name="Second link">
                     <identifier>elementName</identifier>
+                    <identifierType>elementName</identifierType>
                     <type>link</type>
                     <interaction>click</interaction>
                     <value></value>

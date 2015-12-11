@@ -26,7 +26,7 @@ public class ElementInteraction {
         String identifierType = setUpMessage.getIdentifierType();
 
         Actions tempAction = new Actions(driver);
-
+        System.out.println(identifier + " + " + identifierType);
         WebElement targetElement = findMyElement(identifierType, identifier ,driver);
 
         if ( targetElement != null ) {
@@ -41,15 +41,14 @@ public class ElementInteraction {
         return true;
     }
 
-    public WebElement findMyElement(String identifierType, String locationValue, WebDriver driver){
+    public WebElement findMyElement(String identifierType, String identifier, WebDriver driver){
         WebElement targetElement = null;
 
         try{
             if ( identifierType.equals("ID") ) {
-                targetElement = driver.findElement(By.id(locationValue));
+                targetElement = driver.findElement(By.id(identifier));
             }
-
-        }catch ( NoSuchElementException noElement) {
+        } catch ( NoSuchElementException noElement) {
         }
 
         return targetElement;

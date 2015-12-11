@@ -8,6 +8,7 @@
         {
           "name": "First link",
           "identifier": "elementId",
+          "identifierType": "ID",
           "type": "link",
           "interaction": "click",
           "value": "",
@@ -17,6 +18,7 @@
         {
           "name": "Second link",
           "identifier": "elementName",
+          "identifierType": "ID",
           "type": "link",
           "interaction": "click",
           "value": "",
