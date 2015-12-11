@@ -24,8 +24,8 @@ public class GenericElement {
     }
 
     public String setIdentifierType(String newIdentifierType) {
-        this.identifier = newIdentifierType;
-        return this.identifier;
+        this.identifierType = newIdentifierType;
+        return this.identifierType;
     }
     public String setName(String newName) {
         this.name = newName;

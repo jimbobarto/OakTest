@@ -32,7 +32,7 @@ public class XmlElement extends GenericElement implements ElementInterface {
         String identifier = xmlNode.getChildStringValue("identifier");
         setIdentifier(identifier);
         String identifierType = xmlNode.getChildStringValue("identifierType");
-        setIdentifier(identifierType);
+        setIdentifierType(identifierType);
 
         String type = xmlNode.getChildStringValue("type");
         setType(type);
