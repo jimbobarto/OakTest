@@ -3,6 +3,7 @@ package uk.co.hyttioaboa.messages;
 public class GenericElement {
     Integer index;
     String identifier;
+    String identifierType;
     String type;
     String interaction;
     String name;
@@ -22,6 +23,10 @@ public class GenericElement {
         return this.identifier;
     }
 
+    public String setIdentifierType(String newIdentifierType) {
+        this.identifier = newIdentifierType;
+        return this.identifier;
+    }
     public String setName(String newName) {
         this.name = newName;
         return this.name;
@@ -53,6 +58,10 @@ public class GenericElement {
 
     public String getIdentifier() {
         return this.identifier;
+    }
+
+    public String getIdentifierType() {
+        return this.identifierType;
     }
 
     public String getName() {

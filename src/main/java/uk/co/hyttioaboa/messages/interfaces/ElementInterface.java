@@ -18,7 +18,7 @@ public interface ElementInterface {
 
     public Integer setTimeout(Integer timeout);
 
-
+    public String setIdentifierType(String identifierType);
 
 
     public Integer getIndex();
@@ -34,5 +34,7 @@ public interface ElementInterface {
     public String getInteraction();
 
     public Integer getTimeout();
+
+    public String getIdentifierType();
 
 }

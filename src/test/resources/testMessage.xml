@@ -4,7 +4,7 @@
         <page name="Page 1">
             <elements>
                 <element name="First link">
-                    <instruction>elementId</instruction>
+                    <identifier>elementId</identifier>
                     <type>link</type>
                     <interaction>click</interaction>
                     <value></value>
@@ -12,7 +12,7 @@
                     <timeout>10</timeout>
                 </element>
                 <element name="Second link">
-                    <instruction>elementName</instruction>
+                    <identifier>elementName</identifier>
                     <type>link</type>
                     <interaction>click</interaction>
                     <value></value>

@@ -11,6 +11,7 @@ public class JsonElement extends GenericElement implements ElementInterface {
     JSONObject elementJson;
     Integer index;
     String identifier;
+    String identifierType;
     String name;
     String type;
     String interaction;
@@ -21,6 +22,7 @@ public class JsonElement extends GenericElement implements ElementInterface {
         setDefinition(elementDefinition);
 
         setIdentifier(getStringProperty("identifier"));
+        setIdentifierType(getStringProperty("identifierType"));
         setType(getStringProperty("type"));
         setInteraction(getStringProperty("interaction"));
         setName(getStringProperty("name"));

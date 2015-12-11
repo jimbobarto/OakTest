@@ -41,9 +41,6 @@ public class Element {
         String interactionType=(String)interactionTypes.get(interaction);
         String elementType=(String)elementTypes.get(type);
 
-        //System.out.println("Final interaction type - " + interactionType);
-        //System.out.println("Final element type - " + elementType);
-
         Object classInstance;
         //GET the relevant class required
         try {
@@ -57,7 +54,8 @@ public class Element {
         //Get the relevant method
         java.lang.reflect.Method methodInstance;
         try {
-            methodInstance = classInstance.getClass().getMethod(interaction, WebDriver.class, String.class);
+            methodInstance = classInstance.getClass().getMethod(interaction, WebDriver.class, ElementInterface.class, ResponseNode.class);
+            //methodInstance = classInstance.getClass().getMethod(interaction, WebDriver.class, String.class);
         } catch (Exception getMethodException) {
             throw new Error(getMethodException);
         }
@@ -65,11 +63,14 @@ public class Element {
 
         //Run the class/method
         try {
-            methodInstance.invoke(classInstance, driver, identifier);
+            //methodInstance.invoke(classInstance, driver, identifier);
+            methodInstance.invoke(classInstance, driver, this.message, this.elementNode);
 
         } catch (IllegalArgumentException e) {System.out.println(e);
         } catch (IllegalAccessException e) {System.out.println(e);
-        } catch (InvocationTargetException e) {System.out.println(e);
+        } catch (InvocationTargetException e) {
+            throw new Error(e);
+
         }
 
         return "Hello";

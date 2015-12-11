@@ -8,6 +8,7 @@
         {
           "name": "Shop by Department",
           "identifier": "nav-link-shopall",
+          "identifierType": "ID",
           "type": "link",
           "interaction": "click",
           "value": "",
@@ -17,6 +18,7 @@
         {
           "name": "Amazon prime link",
           "identifier": "nav-link-prime",
+          "identifierType": "ID",
           "type": "link",
           "interaction": "click",
           "value": "",
