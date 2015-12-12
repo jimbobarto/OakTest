@@ -54,7 +54,7 @@ public class Element {
         //Get the relevant method
         java.lang.reflect.Method methodInstance;
         try {
-            methodInstance = classInstance.getClass().getMethod(interaction, WebDriver.class, ElementInterface.class, ResponseNode.class);
+            methodInstance = classInstance.getClass().getMethod(interactionType, WebDriver.class, ElementInterface.class, ResponseNode.class);
             //methodInstance = classInstance.getClass().getMethod(interaction, WebDriver.class, String.class);
         } catch (Exception getMethodException) {
             throw new Error(getMethodException);

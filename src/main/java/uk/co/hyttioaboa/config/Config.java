@@ -13,7 +13,7 @@ public class Config {
         Map <String, String> interactionMap = new HashMap<String, String>();
         interactionMap.put("click", "click");
         interactionMap.put("checkText", "checkElementText");
-        interactionMap.put("typeValue", "typeValue");
+        interactionMap.put("typevalue", "typeValue");
 
         return interactionMap;
     }
@@ -32,5 +32,16 @@ public class Config {
     }
 
     //TODO Need to add in a map for different object identification types such as ID etc
+    public static final Map findByTypes(){
 
+        Map <String, String> findByMap = new HashMap<String, String>();
+        findByMap.put("css", "CSS");
+        findByMap.put("id", "ID");
+        findByMap.put("ID", "ID");
+        findByMap.put("linktext", "LINKTEXT");
+        findByMap.put("xpath", "XPATH");
+        findByMap.put("class", "CLASS");
+
+        return findByMap;
+    }
 }

@@ -41,4 +41,15 @@ public class BrowserTests {
         browser.test();
     }
 
+    @Test
+    public void emterSearchValue() {
+        GetFileContents fileGetter = new GetFileContents();
+        String jsonDefinition = fileGetter.getTestMessage("src/test/resources/testMessage3.json");
+
+        MessageInterface testMessage = new JsonMessage(jsonDefinition);
+
+        BrowserTest browser = new BrowserTest(testMessage);
+        browser.test();
+    }
+
 }

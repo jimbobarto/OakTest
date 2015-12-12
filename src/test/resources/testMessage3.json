@@ -1,0 +1,45 @@
+{
+  "url": "http://www.amazon.co.uk/",
+  "name": "Example test",
+  "pages": [
+    {
+      "name": "1",
+      "elements": [
+        {
+          "name": "Amazon search field",
+          "identifier": "twotabsearchtextbox",
+          "identifierType": "ID",
+          "type": "textbox",
+          "interaction": "typevalue",
+          "value": "something random",
+          "text": "",
+          "timeout": 10
+        },
+        {
+          "name": "Amazon search buttonk",
+          "identifier": "//div[@class='nav-right']//input[@class='nav-input']",
+          "identifierType": "xpath",
+          "type": "link",
+          "interaction": "click",
+          "value": "something random",
+          "text": "",
+          "timeout": 15
+        },
+        {
+          "name": "Something Random search result",
+          "identifier": "Something Random",
+          "identifierType": "linktext",
+          "type": "link",
+          "interaction": "click",
+          "value": "",
+          "text": "",
+          "timeout": 15
+        }
+
+      ]
+    },
+    {
+      "name": "2"
+    }
+  ]
+}
