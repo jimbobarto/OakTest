@@ -18,70 +18,79 @@ import java.util.HashMap;
  */
 public class ElementInteraction {
 
-    public ElementInteraction(){
+    WebDriver driver;
+    ElementInterface setUpMessage;
+    ResponseNode responseNode;
+    String identifierType;
+    String identifier;
+    String type;
+
+    public ElementInteraction(WebDriver elementDriver, ElementInterface message, ResponseNode elementResponseNode) {
+        this.driver = elementDriver;
+        this.setUpMessage = message;
+        this.responseNode = elementResponseNode;
+
+        this.identifierType = getIdentifierType();
+        this.identifier = setUpMessage.getIdentifier();
+        this.type = setUpMessage.getType();
     }
 
-    public boolean typeValue(WebDriver driver, ElementInterface setUpMessage, ResponseNode elementResponseNode) {
-        String identifier = setUpMessage.getIdentifier();
-        HashMap idType = new HashMap(Config.findByTypes());
-        String identifierType=(String)idType.get(setUpMessage.getIdentifierType());
+    public boolean typeValue() {
         String inputValue = setUpMessage.getValue();
-        WebElement targetElement = findMyElement(identifierType, identifier ,driver);
+
+        WebElement targetElement = findMyElement();
 
         if ( targetElement != null ) {
             targetElement.sendKeys(inputValue);
-            elementResponseNode.addMessage(200, "Value '" + inputValue + "' input.");
+            responseNode.addMessage(200, "Value '" + inputValue + "' input.");
             return true;
         }
         else {
-            elementResponseNode.addMessage(404, "No object with an " + setUpMessage.getIdentifierType()+ " of '" + identifier + "' was found.");
+            responseNode.addMessage(404, "No object with an " + this.identifierType + " of '" + this.identifier + "' was found.");
             return false;
         }
     }
 
-        public boolean click(WebDriver driver, ElementInterface setUpMessage, ResponseNode elementResponseNode){
+    public boolean click() {
 
-        String identifier = setUpMessage.getIdentifier();
-        HashMap idType = new HashMap(Config.findByTypes());
-        String identifierType=(String)idType.get(setUpMessage.getIdentifierType());
-
-        Actions tempAction = new Actions(driver);
-
-        WebElement targetElement = findMyElement(identifierType, identifier ,driver);
+        WebElement targetElement = findMyElement();
 
         if (targetElement != null ) {
-            tempAction.click(targetElement);
-            tempAction.perform();
-            elementResponseNode.addMessage(200, "Clicked the " + setUpMessage.getType() + " identified by " + setUpMessage.getIdentifierType() + " of " + setUpMessage.getIdentifier());
+            targetElement.click();
+            responseNode.addMessage(200, "Clicked the " + this.type + " identified by " + this.identifierType + " of " + this.identifier);
             return true;
         } else {
-            //TODO report it didn't work with a failure
-            elementResponseNode.addMessage(404, "No object with an " + setUpMessage.getIdentifierType()+ " of '" + identifier + "' was found.");
+            responseNode.addMessage(404, "No object with an " + this.identifierType + " of '" + this.identifier + "' was found.");
             return false;
         }
     }
 
+    private String getIdentifierType() {
+        HashMap idTypes = new HashMap(Config.findByTypes());
+        String identifierType = (String)idTypes.get(setUpMessage.getIdentifierType());
 
+        return identifierType;
+    }
 
-
-    public WebElement findMyElement(String identifierType, String identifier, WebDriver driver){
+    public WebElement findMyElement() {
         WebElement targetElement = null;
 
+        //TODO: add in a wait ability
         try{
-            if ( identifierType.equals("ID") ) {
-                targetElement = driver.findElement(By.id(identifier));
+            if (this.identifierType.equals("ID") ) {
+                targetElement = this.driver.findElement(By.id(this.identifier));
             }
-            else if (identifierType.equals("XPATH")) {
-                targetElement = driver.findElement(By.xpath(identifier));
+            else if (this.identifierType.equals("XPATH")) {
+                targetElement = this.driver.findElement(By.xpath(this.identifier));
             }
-            else if (identifierType.equals("CSS")) {
-                targetElement = driver.findElement(By.cssSelector(identifier));
+            else if (this.identifierType.equals("CSS")) {
+                targetElement = this.driver.findElement(By.cssSelector(this.identifier));
             }
-            else if (identifierType.equals("CLASS")) {
-                targetElement = driver.findElement(By.className(identifier));
+            else if (this.identifierType.equals("CLASS")) {
+                targetElement = this.driver.findElement(By.className(this.identifier));
             }
-            else if (identifierType.equals("LINKTEXT")) {
-                targetElement = driver.findElement(By.linkText(identifier));
+            else if (this.identifierType.equals("LINKTEXT")) {
+                targetElement = this.driver.findElement(By.linkText(this.identifier));
             }
         } catch ( NoSuchElementException noElement) {
         }

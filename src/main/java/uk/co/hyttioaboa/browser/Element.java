@@ -45,17 +45,16 @@ public class Element {
         //GET the relevant class required
         try {
             Class<?> clazz = Class.forName("uk.co.hyttioaboa.elementInteractions."+ elementType);
-            Constructor<?> constructor = clazz.getConstructor();
-            classInstance = constructor.newInstance();
-        }catch(Exception getClassException){
+            Constructor<?> constructor = clazz.getConstructor(WebDriver.class, ElementInterface.class, ResponseNode.class);
+            classInstance = constructor.newInstance(driver, this.message, this.elementNode);
+        } catch(Exception getClassException){
             throw new Error(getClassException);
         }
 
         //Get the relevant method
         java.lang.reflect.Method methodInstance;
         try {
-            methodInstance = classInstance.getClass().getMethod(interactionType, WebDriver.class, ElementInterface.class, ResponseNode.class);
-            //methodInstance = classInstance.getClass().getMethod(interaction, WebDriver.class, String.class);
+            methodInstance = classInstance.getClass().getMethod(interactionType);
         } catch (Exception getMethodException) {
             throw new Error(getMethodException);
         }
@@ -63,8 +62,7 @@ public class Element {
 
         //Run the class/method
         try {
-            //methodInstance.invoke(classInstance, driver, identifier);
-            methodInstance.invoke(classInstance, driver, this.message, this.elementNode);
+            methodInstance.invoke(classInstance);
 
         } catch (IllegalArgumentException e) {System.out.println(e);
         } catch (IllegalAccessException e) {System.out.println(e);
