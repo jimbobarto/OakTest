@@ -22,6 +22,11 @@ public class Translator {
         this.existingVariables = variables;
     }
 
+    public Map<String, String> addVariable(String variableKey, String variableValue) {
+        this.existingVariables.put(variableKey, variableValue);
+        return this.existingVariables;
+    }
+
     public boolean containsVariable(String testString) {
         Pattern pattern = Pattern.compile("\\$\\{.+\\}");
         Matcher matcher = pattern.matcher(testString);
