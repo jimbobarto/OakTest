@@ -1,6 +1,7 @@
 package uk.co.hyttioaboa;
 
 import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
+import uk.co.hyttioaboa.messages.json.JsonException;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 import uk.co.hyttioaboa.messages.xml.XmlMessage;
 
@@ -14,7 +15,15 @@ public class TestDefinition {
     private String type;
 
     public TestDefinition(String testDefinition) {
-        MessageInterface message = new JsonMessage(testDefinition);
+        MessageInterface message;
+        try {
+            message = new JsonMessage(testDefinition);
+        }
+        catch (JsonException jsonException) {
+            System.out.println(jsonException.getMessage());
+            return;
+        }
+
         if (message.isValid()) {
             System.out.println("Valid JSON");
             type = "JSON";
@@ -33,7 +42,15 @@ public class TestDefinition {
 
     public TestDefinition(String testDefinition, String testType) {
         if (testType == "json") {
-            MessageInterface message = new JsonMessage(testDefinition);
+            MessageInterface message;
+            try {
+                message = new JsonMessage(testDefinition);
+            }
+            catch (JsonException jsonException) {
+                System.out.println(jsonException.getMessage());
+                return;
+            }
+
             if (message.isValid()) {
                 type = "JSON";
             }

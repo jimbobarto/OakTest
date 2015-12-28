@@ -9,10 +9,12 @@ import java.util.ArrayList;
 
 public class JsonMessage extends JsonParent implements MessageInterface {
     ArrayList<JsonPage> pages;
+    ArrayList<JsonPage> requests;
     String url;
     String name;
+    String type;
 
-    public JsonMessage(String givenTestDefinition) {
+    public JsonMessage(String givenTestDefinition)  throws JsonException {
         super(givenTestDefinition);
 
         if ( isValid() ) {
@@ -28,6 +30,15 @@ public class JsonMessage extends JsonParent implements MessageInterface {
     public String setUrl(String newUrl) {
         this.url = newUrl;
         return this.url;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public String setType(String newType) {
+        this.type = newType;
+        return this.type;
     }
 
     public ArrayList getPages() {
@@ -53,7 +64,7 @@ public class JsonMessage extends JsonParent implements MessageInterface {
         return true;
     }
 
-    public JSONObject convertDefinitionToMessage() throws Error {
+    public JSONObject convertDefinitionToMessage()  throws JsonException {
         try {
             message = new JSONObject(testDefinition);
         }
@@ -99,7 +110,7 @@ public class JsonMessage extends JsonParent implements MessageInterface {
         return message;
     }
 
-    public ArrayList getPages(JSONObject parentElement) {
+    public ArrayList getPages(JSONObject parentElement)  throws JsonException {
         ArrayList<JsonPage> newArray = new ArrayList<JsonPage>();
         JSONArray pageDefinitions;
 

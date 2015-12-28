@@ -3,6 +3,7 @@ package rabbit;
 import org.junit.Test;
 import uk.co.hyttioaboa.fileContents.GetFileContents;
 import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
+import uk.co.hyttioaboa.messages.json.JsonException;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 import uk.co.hyttioaboa.rabbit.RabbitMessage;
 import uk.co.hyttioaboa.rabbit.SimpleConsumer;
@@ -18,7 +19,14 @@ public class SimpleRabbit {
         GetFileContents fileGetter = new GetFileContents();
         String jsonMessage = fileGetter.getTestMessage("src/test/resources/testMessage.json");
 
-        MessageInterface testMessage = new JsonMessage(jsonMessage);
+        MessageInterface testMessage;
+        try {
+            testMessage = new JsonMessage(jsonMessage);
+        }
+        catch (JsonException jsonException) {
+            System.out.println(jsonException.getMessage());
+            return;
+        }
         assertEquals("Number of pages in the test message should be 2", 2, testMessage.getPages().size());
 
         rabbitMessage.setMessage(jsonMessage);
@@ -28,7 +36,14 @@ public class SimpleRabbit {
         SimpleConsumer consumer = new SimpleConsumer(rabbitMessage);
         String consumedMessage = consumer.consumeMessage();
 
-        MessageInterface publishedTestMessage = new JsonMessage(consumedMessage);
+        MessageInterface publishedTestMessage;
+        try {
+            publishedTestMessage = new JsonMessage(consumedMessage);
+        }
+        catch (JsonException jsonException) {
+            System.out.println(jsonException.getMessage());
+            return;
+        }
         assertEquals("Number of pages in the test message should be 2", 2, publishedTestMessage.getPages().size());
     }
 

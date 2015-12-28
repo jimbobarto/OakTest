@@ -12,11 +12,11 @@ public class JsonParent {
     String name;
     ArrayList<JsonElement> elements = new ArrayList<JsonElement>();
 
-    public JsonParent(String givenTestDefinition) {
+    public JsonParent(String givenTestDefinition) throws JsonException {
         testDefinition = givenTestDefinition;
     }
 
-    public JsonParent(JSONObject givenTestDefinition) {
+    public JsonParent(JSONObject givenTestDefinition) throws JsonException {
         message = givenTestDefinition;
 
         if (message.has("elements")) {
@@ -31,7 +31,7 @@ public class JsonParent {
                 }
             }
             catch (JSONException ex) {
-                throw new Error(ex);
+                throw new JsonException("An element or elements were invalid at construction", ex);
             }
         }
 
@@ -40,11 +40,12 @@ public class JsonParent {
                 setName(message.getString("name"));
             }
             catch (JSONException ex) {
-                throw new Error(ex);
+                //throw new Error(ex);
+                throw new JsonException("Could not get the name to set it!", ex);
             }
         }
         else {
-            throw new Error("Message has no Name");
+            throw new JsonException("JSON object has no name defined");
         }
     }
 
@@ -83,7 +84,7 @@ public class JsonParent {
         return true;
     }
 
-    protected ArrayList getElements(JSONObject parentElement) {
+    protected ArrayList getElements(JSONObject parentElement) throws JsonException {
         ArrayList<JsonElement> newArray = new ArrayList<JsonElement>();
         JSONArray elementDefinitions;
 
@@ -101,7 +102,8 @@ public class JsonParent {
             }
         }
         catch (JSONException ex) {
-            throw new Error(ex);
+            //throw new Error(ex);
+            throw new JsonException("An element or elements were invalid", ex);
         }
 
         return newArray;

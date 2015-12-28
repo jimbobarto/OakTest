@@ -3,6 +3,7 @@ package uk.co.hyttioaboa.messages;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import uk.co.hyttioaboa.messages.json.JsonException;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 import uk.co.hyttioaboa.messages.json.JsonPage;
 import uk.co.hyttioaboa.messages.xml.XmlMessage;
@@ -16,7 +17,15 @@ public class Message {
     private String url;
 
     public Message(String testDefinition) {
-        JsonMessage jsonMessage = new JsonMessage(testDefinition);
+        JsonMessage jsonMessage;
+        try {
+            jsonMessage = new JsonMessage(testDefinition);
+        }
+        catch (JsonException jsonException) {
+            System.out.println(jsonException.getMessage());
+            return;
+        }
+
         if (jsonMessage.isValid()) {
             if (jsonMessage.hasPages() && !jsonMessage.hasElements()) {
 
