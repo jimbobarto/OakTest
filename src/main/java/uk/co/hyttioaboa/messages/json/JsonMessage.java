@@ -3,6 +3,7 @@ package uk.co.hyttioaboa.messages.json;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import uk.co.hyttioaboa.messages.MessageException;
 import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class JsonMessage extends JsonParent implements MessageInterface {
     String name;
     String type;
 
-    public JsonMessage(String givenTestDefinition)  throws JsonException {
+    public JsonMessage(String givenTestDefinition) throws MessageException {
         super(givenTestDefinition);
 
         if ( isValid() ) {
@@ -64,12 +65,12 @@ public class JsonMessage extends JsonParent implements MessageInterface {
         return true;
     }
 
-    public JSONObject convertDefinitionToMessage()  throws JsonException {
+    public JSONObject convertDefinitionToMessage()  throws MessageException {
         try {
             message = new JSONObject(testDefinition);
         }
         catch (JSONException ex) {
-            throw new Error(ex);
+            throw new MessageException("Invalid JSON message", ex);
         }
 
         if (message.has("pages") && !message.has("elements")) {
@@ -80,7 +81,7 @@ public class JsonMessage extends JsonParent implements MessageInterface {
             elements = getElements(message);
         }
         else if (message.has("elements") && message.has("pages")) {
-            throw new Error("Message has both pages and elements at the top level");
+            throw new MessageException("Message has both pages and elements at the top level");
         }
 
         if (message.has("url")) {
@@ -88,11 +89,11 @@ public class JsonMessage extends JsonParent implements MessageInterface {
                 setUrl(message.getString("url"));
             }
             catch (JSONException ex) {
-                throw new Error(ex);
+                throw new MessageException("Could not set message URL", ex);
             }
         }
         else {
-            throw new Error("Message has no URL");
+            throw new MessageException("Message has no URL");
         }
 
         if (message.has("name")) {
@@ -100,17 +101,17 @@ public class JsonMessage extends JsonParent implements MessageInterface {
                 setName(message.getString("name"));
             }
             catch (JSONException ex) {
-                throw new Error(ex);
+                throw new MessageException("Could not set message name", ex);
             }
         }
         else {
-            throw new Error("Message has no Name");
+            throw new MessageException("Message has no Name");
         }
 
         return message;
     }
 
-    public ArrayList getPages(JSONObject parentElement)  throws JsonException {
+    public ArrayList<JsonPage> getPages(JSONObject parentElement) throws MessageException {
         ArrayList<JsonPage> newArray = new ArrayList<JsonPage>();
         JSONArray pageDefinitions;
 
@@ -128,7 +129,7 @@ public class JsonMessage extends JsonParent implements MessageInterface {
             }
         }
         catch (JSONException ex) {
-            throw new Error(ex);
+            throw new MessageException("Invalid page/s", ex);
         }
 
         return newArray;

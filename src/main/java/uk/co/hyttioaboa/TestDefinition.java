@@ -1,7 +1,7 @@
 package uk.co.hyttioaboa;
 
 import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
-import uk.co.hyttioaboa.messages.json.JsonException;
+import uk.co.hyttioaboa.messages.MessageException;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 import uk.co.hyttioaboa.messages.xml.XmlMessage;
 
@@ -19,7 +19,7 @@ public class TestDefinition {
         try {
             message = new JsonMessage(testDefinition);
         }
-        catch (JsonException jsonException) {
+        catch (MessageException jsonException) {
             System.out.println(jsonException.getMessage());
             return;
         }
@@ -46,7 +46,7 @@ public class TestDefinition {
             try {
                 message = new JsonMessage(testDefinition);
             }
-            catch (JsonException jsonException) {
+            catch (MessageException jsonException) {
                 System.out.println(jsonException.getMessage());
                 return;
             }

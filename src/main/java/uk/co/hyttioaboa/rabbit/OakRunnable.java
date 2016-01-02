@@ -2,7 +2,7 @@ package uk.co.hyttioaboa.rabbit;
 
 import uk.co.hyttioaboa.browser.BrowserTest;
 import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
-import uk.co.hyttioaboa.messages.json.JsonException;
+import uk.co.hyttioaboa.messages.MessageException;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 
 import java.io.UnsupportedEncodingException;
@@ -30,7 +30,7 @@ public class OakRunnable implements Runnable {
         try {
             publishedTestMessage = new JsonMessage(this.rabbitMessage);
         }
-        catch (JsonException jsonException) {
+        catch (MessageException jsonException) {
             System.out.println(jsonException.getMessage());
             return;
         }

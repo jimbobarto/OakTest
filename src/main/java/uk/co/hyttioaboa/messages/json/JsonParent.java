@@ -3,21 +3,25 @@ package uk.co.hyttioaboa.messages.json;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import uk.co.hyttioaboa.messages.MessageException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class JsonParent {
-    JSONObject message;
+public class JsonParent extends JsonCommon {
     String testDefinition;
     String name;
     ArrayList<JsonElement> elements = new ArrayList<JsonElement>();
+    protected List<String> validTypes = Arrays.asList("browser", "api");
 
-    public JsonParent(String givenTestDefinition) throws JsonException {
+    public JsonParent(String givenTestDefinition) throws MessageException {
+        super(givenTestDefinition);
         testDefinition = givenTestDefinition;
     }
 
-    public JsonParent(JSONObject givenTestDefinition) throws JsonException {
-        message = givenTestDefinition;
+    public JsonParent(JSONObject givenTestDefinition) throws MessageException {
+        super(givenTestDefinition);
 
         if (message.has("elements")) {
             try {
@@ -31,7 +35,7 @@ public class JsonParent {
                 }
             }
             catch (JSONException ex) {
-                throw new JsonException("An element or elements were invalid at construction", ex);
+                throw new MessageException("An element or elements were invalid at construction", ex);
             }
         }
 
@@ -41,11 +45,11 @@ public class JsonParent {
             }
             catch (JSONException ex) {
                 //throw new Error(ex);
-                throw new JsonException("Could not get the name to set it!", ex);
+                throw new MessageException("Could not get the name to set it!", ex);
             }
         }
         else {
-            throw new JsonException("JSON object has no name defined");
+            throw new MessageException("JSON object has no name defined");
         }
     }
 
@@ -68,7 +72,6 @@ public class JsonParent {
         return true;
     }
 
-
     public ArrayList getElements() {
         return elements;
     }
@@ -84,7 +87,7 @@ public class JsonParent {
         return true;
     }
 
-    protected ArrayList getElements(JSONObject parentElement) throws JsonException {
+    protected ArrayList<JsonElement> getElements(JSONObject parentElement) throws MessageException {
         ArrayList<JsonElement> newArray = new ArrayList<JsonElement>();
         JSONArray elementDefinitions;
 
@@ -103,7 +106,7 @@ public class JsonParent {
         }
         catch (JSONException ex) {
             //throw new Error(ex);
-            throw new JsonException("An element or elements were invalid", ex);
+            throw new MessageException("An element or elements were invalid", ex);
         }
 
         return newArray;

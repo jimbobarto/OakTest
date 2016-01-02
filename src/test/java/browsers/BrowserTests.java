@@ -4,7 +4,7 @@ import uk.co.hyttioaboa.fileContents.GetFileContents;
 import org.junit.Test;
 import uk.co.hyttioaboa.browser.BrowserTest;
 import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
-import uk.co.hyttioaboa.messages.json.JsonException;
+import uk.co.hyttioaboa.messages.MessageException;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 import uk.co.hyttioaboa.messages.xml.XmlMessage;
 
@@ -18,7 +18,7 @@ public class BrowserTests {
         try {
             testMessage = new JsonMessage(jsonDefinition);
         }
-        catch (JsonException jsonException) {
+        catch (MessageException jsonException) {
             System.out.println(jsonException.getMessage());
             return;
         }
@@ -47,7 +47,7 @@ public class BrowserTests {
         try {
             testMessage = new JsonMessage(jsonDefinition);
         }
-        catch (JsonException jsonException) {
+        catch (MessageException jsonException) {
             System.out.println(jsonException.getMessage());
             return;
         }
@@ -65,7 +65,7 @@ public class BrowserTests {
         try {
             testMessage = new JsonMessage(jsonDefinition);
         }
-        catch (JsonException jsonException) {
+        catch (MessageException jsonException) {
             System.out.println(jsonException.getMessage());
             return;
         }

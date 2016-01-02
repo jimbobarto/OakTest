@@ -2,14 +2,11 @@ package uk.co.hyttioaboa.messages.xml;
 
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import uk.co.hyttioaboa.messages.GenericElement;
+import uk.co.hyttioaboa.messages.GenericProperties;
 import uk.co.hyttioaboa.messages.interfaces.ElementInterface;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 
-
-public class XmlElement extends GenericElement implements ElementInterface {
+public class XmlElement extends GenericProperties implements ElementInterface {
 
     Node elementXml;
     XmlNode xmlNode;

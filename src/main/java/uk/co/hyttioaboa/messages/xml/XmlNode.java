@@ -6,7 +6,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import uk.co.hyttioaboa.messages.GenericElement;
+import uk.co.hyttioaboa.messages.GenericProperties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 
-public class XmlNode extends GenericElement {
+public class XmlNode extends GenericProperties {
     Node message;
     String testDefinition;
     String name;

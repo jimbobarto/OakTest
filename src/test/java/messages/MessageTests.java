@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
-import uk.co.hyttioaboa.messages.json.JsonException;
+import uk.co.hyttioaboa.messages.MessageException;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 import uk.co.hyttioaboa.messages.xml.XmlMessage;
 
@@ -26,7 +26,7 @@ public class MessageTests {
         try {
             testMessage = new JsonMessage(jsonDefinition);
         }
-        catch (JsonException jsonException) {
+        catch (MessageException jsonException) {
             System.out.println(jsonException.getMessage());
             return;
         }

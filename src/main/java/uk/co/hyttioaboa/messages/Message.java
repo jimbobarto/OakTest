@@ -1,9 +1,5 @@
 package uk.co.hyttioaboa.messages;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import uk.co.hyttioaboa.messages.json.JsonException;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 import uk.co.hyttioaboa.messages.json.JsonPage;
 import uk.co.hyttioaboa.messages.xml.XmlMessage;
@@ -21,7 +17,7 @@ public class Message {
         try {
             jsonMessage = new JsonMessage(testDefinition);
         }
-        catch (JsonException jsonException) {
+        catch (MessageException jsonException) {
             System.out.println(jsonException.getMessage());
             return;
         }
