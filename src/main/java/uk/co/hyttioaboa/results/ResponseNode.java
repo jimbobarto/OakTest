@@ -1,10 +1,13 @@
 package uk.co.hyttioaboa.results;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 
 public class ResponseNode {
+    final static Logger logger = Logger.getLogger(ResponseNode.class);
+
     String name;
     Integer nodeStatus = 0;
     ArrayList<ResponseMessage> responseMessages = new ArrayList<ResponseMessage>();
@@ -27,7 +30,7 @@ public class ResponseNode {
 
         aggregateStatus(status);
 
-        System.out.println(this.name + " (" + status + "): " + message);
+        logger.info(this.name + " (" + status + "): " + message);
     }
 
     public void addMessage(Integer status, String message, String stackTrace) {

@@ -1,5 +1,6 @@
 package requests;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import uk.co.hyttioaboa.api.ApiTest;
 import uk.co.hyttioaboa.browser.BrowserTest;
@@ -20,6 +21,8 @@ import java.util.Iterator;
 import static org.junit.Assert.assertEquals;
 
 public class RequestTests {
+    final static Logger logger = Logger.getLogger(RequestTests.class);
+
     @Test
     public void simpleGet() {
         Request newRequest = new Request();
@@ -27,10 +30,10 @@ public class RequestTests {
             newRequest.get("http://jsonplaceholder.typicode.com/posts/1");
             int statusCode = newRequest.getStatus();
             assertEquals("Status code was as expected", 200, statusCode);
-            System.out.println("Body: " + newRequest.getBody());
+            logger.info("Body: " + newRequest.getBody());
         }
         catch(RequestException reqEx) {
-            System.out.println("Got a problem...");
+            logger.error("Got a problem... " + reqEx.getMessage());
         }
     }
 
@@ -44,7 +47,7 @@ public class RequestTests {
             testMessage = new JsonMessage(jsonDefinition);
         }
         catch (MessageException jsonException) {
-            System.out.println(jsonException.getMessage());
+            logger.error(jsonException.getMessage());
             return;
         }
 
@@ -55,11 +58,11 @@ public class RequestTests {
                 PageInterface pageMessage = pageIterator.next();
                 int statusCode = newRequest.request(pageMessage.getVerb(), pageMessage.getUri());
                 //assertEquals("Status code was as expected", pageMessage.getExpectedStatusCode(), statusCode);
-                System.out.println("Body: " + newRequest.getBody());
+                logger.info("Body: " + newRequest.getBody());
             }
         }
         catch(RequestException reqEx) {
-            System.out.println("Got a problem...");
+            logger.error("Got a problem... " + reqEx.getMessage());
         }
     }
 
@@ -73,7 +76,7 @@ public class RequestTests {
             testMessage = new JsonMessage(jsonDefinition);
         }
         catch (MessageException jsonException) {
-            System.out.println(jsonException.getMessage());
+            logger.error(jsonException.getMessage());
             return;
         }
 
@@ -82,7 +85,7 @@ public class RequestTests {
             api.test();
         }
         catch(Exception reqEx) {
-            System.out.println("Got a problem...");
+            logger.error("Got a problem... " + reqEx.getMessage());
         }
     }
 }
