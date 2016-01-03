@@ -40,4 +40,8 @@ public interface PageInterface {
 
     public String setExpectedResult(String newName);
 
+    public Integer getExpectedStatusCode();
+
+    public Integer setExpectedStatusCode(int newStatusCode);
+
 }

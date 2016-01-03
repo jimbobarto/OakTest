@@ -31,7 +31,8 @@ public class JsonCommon extends GenericProperties {
             }
         }
         else {
-            throw new MessageException("The json element definition for '" + propertyName + "' was invalid: " + this.message.toString());
+            //throw new MessageException("The json element definition for '" + propertyName + "' was invalid: " + this.message.toString());
+            return "";
         }
     }
 
@@ -45,7 +46,8 @@ public class JsonCommon extends GenericProperties {
             }
         }
         else {
-            throw new MessageException("The json element definition for '" + propertyName + "' was invalid: " + this.message.toString());
+            //throw new MessageException("The json element definition for '" + propertyName + "' was invalid: " + this.message.toString());
+            return null;
         }
     }
 }

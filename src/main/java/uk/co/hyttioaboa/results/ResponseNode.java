@@ -1,10 +1,9 @@
 package uk.co.hyttioaboa.results;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import java.util.ArrayList;
 
-/**
- * Created by jamesbartlett on 03/12/15.
- */
 public class ResponseNode {
     String name;
     Integer nodeStatus = 0;
@@ -29,6 +28,23 @@ public class ResponseNode {
         aggregateStatus(status);
 
         System.out.println(this.name + " (" + status + "): " + message);
+    }
+
+    public void addMessage(Integer status, String message, String stackTrace) {
+        addMessage(status, message);
+
+        ResponseMessage createMessage = new ResponseMessage(150, stackTrace);
+        this.responseMessages.add(createMessage);
+        aggregateStatus(150);
+    }
+
+    public void addMessage(Integer status, Throwable exception) {
+        addMessage(status, exception.getMessage());
+
+        // ExceptionUtils.getStackTrace will get the stack trace as a string. See http://stackoverflow.com/questions/1149703/how-can-i-convert-a-stack-trace-to-a-string for details.
+        ResponseMessage createMessage = new ResponseMessage(150, ExceptionUtils.getStackTrace(exception));
+        this.responseMessages.add(createMessage);
+        aggregateStatus(150);
     }
 
     public void setParentNode(ResponseNode parent) {

@@ -13,6 +13,7 @@ public class JsonPage extends JsonParent implements PageInterface {
     String headers;
     String payload;
     String expectedResults;
+    Integer expectedStatusCode;
 
     public JsonPage(JSONObject pageDefinition) throws MessageException {
         super(pageDefinition);
@@ -25,6 +26,7 @@ public class JsonPage extends JsonParent implements PageInterface {
             setHeaders(getStringProperty("headers"));
             setPayload(getStringProperty("payload"));
             setExpectedResult(getStringProperty("expectedResults"));
+            setExpectedStatusCode(getIntegerProperty("expectedStatusCode"));
         }
     }
 
@@ -114,6 +116,15 @@ public class JsonPage extends JsonParent implements PageInterface {
     public String setExpectedResult(String newExpectedResult) {
         this.expectedResults = newExpectedResult;
         return this.expectedResults;
+    }
+
+    public Integer getExpectedStatusCode() {
+        return this.expectedStatusCode;
+    }
+
+    public Integer setExpectedStatusCode(int newExpectedStatusCode) {
+        this.expectedStatusCode = newExpectedStatusCode;
+        return this.expectedStatusCode;
     }
 
 }

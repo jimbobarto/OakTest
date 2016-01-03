@@ -14,6 +14,7 @@ public class XmlPage extends XmlParent implements PageInterface {
     String headers;
     String payload;
     String expectedResults;
+    int expectedStatusCode;
 
     public XmlPage(Node pageDefinition) {
         super(pageDefinition);
@@ -71,6 +72,15 @@ public class XmlPage extends XmlParent implements PageInterface {
     public String setExpectedResult(String newExpectedResult) {
         this.expectedResults = newExpectedResult;
         return this.expectedResults;
+    }
+
+    public Integer getExpectedStatusCode() {
+        return this.expectedStatusCode;
+    }
+
+    public Integer setExpectedStatusCode(int newExpectedStatusCode) {
+        this.expectedStatusCode = newExpectedStatusCode;
+        return this.expectedStatusCode;
     }
 
 }

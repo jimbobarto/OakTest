@@ -1,0 +1,12 @@
+{
+  "url": "http://jsonplaceholder.typicode.com/",
+  "name": "Example test",
+  "pages": [
+    {
+      "name": "Simple API test",
+      "verb": "get",
+      "uri": "posts/1",
+      "expectedStatusCode": 200
+    }
+  ]
+}
