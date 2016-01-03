@@ -31,7 +31,7 @@ public class MessageTests {
             return;
         }
         // assert statements
-        assertEquals("Number of pages in the test message should be 2", 2, testMessage.getPages().size());
+        assertEquals("Number of pages in the test message should be 1", 1, testMessage.getPages().size());
     }
 
     @Test
