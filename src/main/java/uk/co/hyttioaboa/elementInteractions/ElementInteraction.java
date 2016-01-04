@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import org.openqa.selenium.NoSuchElementException;
 import uk.co.hyttioaboa.config.Config;
+import uk.co.hyttioaboa.constants.Status;
 import uk.co.hyttioaboa.messages.interfaces.ElementInterface;
 import uk.co.hyttioaboa.results.ResponseNode;
 
@@ -42,11 +43,11 @@ public class ElementInteraction {
 
         if ( targetElement != null ) {
             targetElement.sendKeys(inputValue);
-            responseNode.addMessage(200, "Value '" + inputValue + "' input.");
+            responseNode.addMessage(Status.BASIC_SUCCESS.getValue(), "Value '" + inputValue + "' input.");
             return true;
         }
         else {
-            responseNode.addMessage(404, "No object with an " + this.identifierType + " of '" + this.identifier + "' was found.");
+            responseNode.addMessage(Status.OBJECT_NOT_FOUND.getValue(), "No object with an " + this.identifierType + " of '" + this.identifier + "' was found.");
             return false;
         }
     }
@@ -57,10 +58,10 @@ public class ElementInteraction {
 
         if (targetElement != null ) {
             targetElement.click();
-            responseNode.addMessage(200, "Clicked the " + this.type + " identified by " + this.identifierType + " of " + this.identifier);
+            responseNode.addMessage(Status.BASIC_SUCCESS.getValue(), "Clicked the " + this.type + " identified by " + this.identifierType + " of " + this.identifier);
             return true;
         } else {
-            responseNode.addMessage(404, "No object with an " + this.identifierType + " of '" + this.identifier + "' was found.");
+            responseNode.addMessage(Status.OBJECT_NOT_FOUND.getValue(), "No object with an " + this.identifierType + " of '" + this.identifier + "' was found.");
             return false;
         }
     }

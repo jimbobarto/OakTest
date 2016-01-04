@@ -2,6 +2,7 @@ package uk.co.hyttioaboa.results;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
+import uk.co.hyttioaboa.constants.Status;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ public class ResponseNode {
 
     public ResponseNode(String nodeName) {
         //TODO: add in timestamps
-        this(nodeName, 101, "Node created");
+        this(nodeName, Status.NODE_CREATED.getValue(), "Node created");
     }
 
     public ResponseNode(String nodeName, Integer newStatus, String newMessage) {
@@ -36,18 +37,18 @@ public class ResponseNode {
     public void addMessage(Integer status, String message, String stackTrace) {
         addMessage(status, message);
 
-        ResponseMessage createMessage = new ResponseMessage(150, stackTrace);
+        ResponseMessage createMessage = new ResponseMessage(Status.STACK_TRACE_ADDED.getValue(), stackTrace);
         this.responseMessages.add(createMessage);
-        aggregateStatus(150);
+        aggregateStatus(Status.STACK_TRACE_ADDED.getValue());
     }
 
     public void addMessage(Integer status, Throwable exception) {
         addMessage(status, exception.getMessage());
 
         // ExceptionUtils.getStackTrace will get the stack trace as a string. See http://stackoverflow.com/questions/1149703/how-can-i-convert-a-stack-trace-to-a-string for details.
-        ResponseMessage createMessage = new ResponseMessage(150, ExceptionUtils.getStackTrace(exception));
+        ResponseMessage createMessage = new ResponseMessage(Status.STACK_TRACE_ADDED.getValue(), ExceptionUtils.getStackTrace(exception));
         this.responseMessages.add(createMessage);
-        aggregateStatus(150);
+        aggregateStatus(Status.STACK_TRACE_ADDED.getValue());
     }
 
     public void setParentNode(ResponseNode parent) {
@@ -55,7 +56,7 @@ public class ResponseNode {
     }
 
     public ResponseNode createChildNode(String childName) {
-        return createChildNode(childName, 101, "Node created");
+        return createChildNode(childName, Status.NODE_CREATED.getValue(), "Node created");
     }
 
     public ResponseNode createChildNode(String childName, Integer childStatus, String childMessage) {
@@ -83,6 +84,6 @@ public class ResponseNode {
     }
 
     public void end() {
-        addMessage(111, "Node finished");
+        addMessage(Status.NODE_FINISHED.getValue(), "Node finished");
     }
 }

@@ -1,5 +1,6 @@
 package uk.co.hyttioaboa.api;
 
+import uk.co.hyttioaboa.constants.Status;
 import uk.co.hyttioaboa.messages.interfaces.PageInterface;
 import uk.co.hyttioaboa.requests.Request;
 import uk.co.hyttioaboa.requests.RequestException;
@@ -39,9 +40,9 @@ public class ApiRequest {
             this.actualBody = this.requestContainer.getBody();
         }
         catch (RequestException reqEx) {
-            this.actualStatusCode = 500;
+            this.actualStatusCode = Status.BASIC_ERROR.getValue();
 
-            requestNode.addMessage(500, reqEx);
+            requestNode.addMessage(Status.BASIC_ERROR.getValue(), reqEx);
         }
 
         check();
@@ -56,9 +57,9 @@ public class ApiRequest {
     private void checkStatus(int actualStatus) {
         if (this.expectedStatusCode != null) {
             if (actualStatus == this.expectedStatusCode) {
-                createChildNode("Status OK", 200, "Status was " + this.expectedStatusCode + " as expected");
+                createChildNode("Status OK", Status.BASIC_SUCCESS.getValue(), "Status was " + this.expectedStatusCode + " as expected");
             } else {
-                createChildNode("Status not OK", 400, "Status was " + actualStatus + " but expected " + this.expectedStatusCode);
+                createChildNode("Status not OK", Status.BASIC_FAILURE.getValue(), "Status was " + actualStatus + " but expected " + this.expectedStatusCode);
             }
         }
     }
