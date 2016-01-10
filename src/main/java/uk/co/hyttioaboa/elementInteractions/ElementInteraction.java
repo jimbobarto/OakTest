@@ -6,13 +6,17 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import uk.co.hyttioaboa.config.Config;
+import uk.co.hyttioaboa.constants.Selenium;
 import uk.co.hyttioaboa.constants.Status;
 import uk.co.hyttioaboa.messages.interfaces.ElementInterface;
 import uk.co.hyttioaboa.results.ResponseNode;
 
 import java.util.HashMap;
-
+import org.openqa.selenium.TimeoutException;
+import uk.co.hyttioaboa.results.TestTimer;
 
 /**
  * Created by Pete on 03/12/2015.
@@ -25,6 +29,10 @@ public class ElementInteraction {
     String identifierType;
     String identifier;
     String type;
+    Integer timeoutInSeconds;
+    By byIdentifier;
+    TestTimer timer;
+
 
     public ElementInteraction(WebDriver elementDriver, ElementInterface message, ResponseNode elementResponseNode) {
         this.driver = elementDriver;
@@ -34,6 +42,23 @@ public class ElementInteraction {
         this.identifierType = getIdentifierType();
         this.identifier = setUpMessage.getIdentifier();
         this.type = setUpMessage.getType();
+        this.timeoutInSeconds = setTimeout();
+
+        //TODO: initialize the Timer at a higher level...
+        this.timer = new TestTimer();
+    }
+
+    private Integer setTimeout() {
+        Integer messageTimeout = this.setUpMessage.getTimeout();
+        Integer timeout;
+        if (messageTimeout != null) {
+            timeout = messageTimeout;
+        }
+        else {
+            timeout = Selenium.DEFAULT_TIMEOUT.getValue();
+        }
+
+        return timeout;
     }
 
     public boolean typeValue() {
@@ -42,7 +67,9 @@ public class ElementInteraction {
         WebElement targetElement = findMyElement();
 
         if ( targetElement != null ) {
+            startTimer();
             targetElement.sendKeys(inputValue);
+            stopTimer();
             responseNode.addMessage(Status.BASIC_SUCCESS.getValue(), "Value '" + inputValue + "' input.");
             return true;
         }
@@ -57,11 +84,12 @@ public class ElementInteraction {
         WebElement targetElement = findMyElement();
 
         if (targetElement != null ) {
+            startTimer();
             targetElement.click();
+            stopTimer();
             responseNode.addMessage(Status.BASIC_SUCCESS.getValue(), "Clicked the " + this.type + " identified by " + this.identifierType + " of " + this.identifier);
             return true;
         } else {
-            responseNode.addMessage(Status.OBJECT_NOT_FOUND.getValue(), "No object with an " + this.identifierType + " of '" + this.identifier + "' was found.");
             return false;
         }
     }
@@ -76,26 +104,89 @@ public class ElementInteraction {
     public WebElement findMyElement() {
         WebElement targetElement = null;
 
-        //TODO: add in a wait ability
-        try{
-            if (this.identifierType.equals("ID") ) {
-                targetElement = this.driver.findElement(By.id(this.identifier));
+        By identifier = getElementBy();
+        if (elementIsVisible(identifier)) {
+            try {
+                targetElement = this.driver.findElement(identifier);
             }
-            else if (this.identifierType.equals("XPATH")) {
-                targetElement = this.driver.findElement(By.xpath(this.identifier));
+            catch (NoSuchElementException noElement) {
+                responseNode.addMessage(Status.OBJECT_NOT_FOUND.getValue(), "No object with an " + this.identifierType + " of '" + this.identifier + "' was found.");
+                return null;
             }
-            else if (this.identifierType.equals("CSS")) {
-                targetElement = this.driver.findElement(By.cssSelector(this.identifier));
-            }
-            else if (this.identifierType.equals("CLASS")) {
-                targetElement = this.driver.findElement(By.className(this.identifier));
-            }
-            else if (this.identifierType.equals("LINKTEXT")) {
-                targetElement = this.driver.findElement(By.linkText(this.identifier));
-            }
-        } catch ( NoSuchElementException noElement) {
         }
-
         return targetElement;
+    }
+
+    public By getElementBy() {
+        if (this.byIdentifier == null) {
+
+            By identifier;
+            switch (this.identifierType) {
+                case "ID":
+                    identifier = By.id(this.identifier);
+                    break;
+                case "NAME":
+                    identifier = By.name(this.identifier);
+                    break;
+                case "XPATH":
+                    identifier = By.xpath(this.identifier);
+                    break;
+                case "CSS":
+                    identifier = By.cssSelector(this.identifier);
+                    break;
+                case "CLASS":
+                    identifier = By.className(this.identifier);
+                    break;
+                case "LINKTEXT":
+                    identifier = By.linkText(this.identifier);
+                    break;
+                default:
+                    identifier = By.id(this.identifier);
+                    break;
+            }
+            this.byIdentifier = identifier;
+
+            return identifier;
+        }
+        else {
+            return this.byIdentifier;
+        }
+    }
+
+    private Boolean elementIsVisible(By identifier) {
+        WebDriverWait wait = new WebDriverWait(this.driver, this.timeoutInSeconds);
+        try {
+            wait.until(ExpectedConditions.visibilityOfElementLocated(identifier));
+        }
+        catch (TimeoutException timeoutException) {
+            responseNode.addMessage(Status.TIMEOUT.getValue(), "No object with an " + this.identifierType + " of '" + this.identifier + "' was found.");
+            return false;
+        }
+        return true;
+    }
+
+    private Boolean elementIsClickable(By identifier) {
+        WebDriverWait wait = new WebDriverWait(this.driver, this.timeoutInSeconds);
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(identifier));
+        }
+        catch (TimeoutException timeoutException) {
+            responseNode.addMessage(Status.TIMEOUT.getValue(), "No object with an " + this.identifierType + " of '" + this.identifier + "' could be clicked.");
+            return false;
+        }
+        return true;
+    }
+
+    private void startTimer() {
+        this.timer.startTimer();
+        responseNode.addMessage(Status.TIMER_STARTED.getValue(), this.timer.getFormattedStartTime());
+    }
+
+    private void stopTimer() {
+        this.timer.stopTimer();
+        responseNode.addMessage(Status.TIMER_FINISHED.getValue(), this.timer.getFormattedFinishTime());
+
+        long elapsedTime = this.timer.getElapsedTime();
+        responseNode.addMessage(Status.ELAPSED_TIME.getValue(), String.valueOf(elapsedTime));
     }
 }
