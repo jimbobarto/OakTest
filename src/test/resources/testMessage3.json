@@ -3,7 +3,7 @@
   "name": "Example test",
   "pages": [
     {
-      "name": "1",
+      "name": "Do Stuff",
       "elements": [
         {
           "name": "Amazon search field",
@@ -16,7 +16,7 @@
           "timeout": 10
         },
         {
-          "name": "Amazon search buttonk",
+          "name": "Amazon search button",
           "identifier": "//div[@class='nav-right']//input[@class='nav-input']",
           "identifierType": "xpath",
           "type": "link",

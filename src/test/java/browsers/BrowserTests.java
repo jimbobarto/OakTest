@@ -7,6 +7,9 @@ import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
 import uk.co.hyttioaboa.messages.MessageException;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 import uk.co.hyttioaboa.messages.xml.XmlMessage;
+import uk.co.hyttioaboa.results.ResponseNode;
+
+import static org.junit.Assert.assertEquals;
 
 public class BrowserTests {
     @Test
@@ -54,6 +57,13 @@ public class BrowserTests {
 
         BrowserTest browser = new BrowserTest(testMessage);
         browser.test();
+
+        ResponseNode node = browser.getResponseNode();
+        //ResponseNode targetNode = node.getNodeByPath("stuff/stuff/stuff");
+
+        assertEquals(200,node.getStatus(),0);
+
+
     }
 
     @Test
@@ -72,6 +82,13 @@ public class BrowserTests {
 
         BrowserTest browser = new BrowserTest(testMessage);
         browser.test();
+
+
+        ResponseNode node = browser.getResponseNode();
+
+        assertEquals(200,node.getNodeByPath("Example test/Do Stuff/Amazon search field").getStatus(),0);
+
+        assertEquals(200,node.getNodeByPath("Example test[0]/Do Stuff[0]/Amazon search field[0]").getStatus(),0);
     }
 
 }
