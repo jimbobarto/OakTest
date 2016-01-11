@@ -2,9 +2,13 @@ package uk.co.hyttioaboa.results;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import uk.co.hyttioaboa.constants.Status;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ResponseNode {
     final static Logger logger = Logger.getLogger(ResponseNode.class);
@@ -77,6 +81,38 @@ public class ResponseNode {
         }
 
         return this.nodeStatus;
+    }
+
+    public JSONObject createReport() {
+        JSONObject report = new JSONObject();
+        try {
+            report.put("name", this.name);
+            report.put("status", this.nodeStatus);
+
+            JSONArray messages = new JSONArray();
+            Iterator<ResponseMessage> messageIterator = this.responseMessages.iterator();
+            while (messageIterator.hasNext()) {
+                ResponseMessage currentMessage = messageIterator.next();
+                JSONObject messageObject = new JSONObject();
+                messageObject.put("status", currentMessage.getStatus());
+                messageObject.put("message", currentMessage.getMessage());
+                messages.put(messageObject);
+            }
+            report.put("messages", messages);
+
+            JSONArray children = new JSONArray();
+            Iterator<ResponseNode> childrenIterator = this.childNodes.iterator();
+            while (childrenIterator.hasNext()) {
+                JSONObject childObject = childrenIterator.next().createReport();
+                children.put(childObject);
+            }
+            report.put("children", children);
+        }
+        catch (JSONException ex) {
+            throw new Error(ex);
+        }
+
+        return report;
     }
 
     public Integer getStatus() {
