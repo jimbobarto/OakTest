@@ -20,6 +20,10 @@ public class BrowserTest {
         this.rootResponseNode = new ResponseNode(message.getName());
     }
 
+    public ResponseNode getResponseNode() {
+        return this.rootResponseNode;
+    }
+
     public String test() {
         WebDriver driver = new FirefoxDriver();
         driver.get(message.getUrl());
@@ -37,6 +41,8 @@ public class BrowserTest {
             pageResponseNode.end();
         }
         driver.close();
+
+        this.rootResponseNode.end();
 
         System.out.println("Final status: " + this.rootResponseNode.getStatus());
 
