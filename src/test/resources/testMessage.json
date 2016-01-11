@@ -13,7 +13,7 @@
           "interaction": "click",
           "value": "",
           "text": "",
-          "timeout": 10
+          "timeout": 1
         },
         {
           "name": "Second link",
@@ -23,7 +23,7 @@
           "interaction": "click",
           "value": "",
           "text": "",
-          "timeout": 15
+          "timeout": 1
         }
       ]
     }

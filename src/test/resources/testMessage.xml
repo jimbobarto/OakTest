@@ -10,7 +10,7 @@
                     <interaction>click</interaction>
                     <value></value>
                     <text></text>
-                    <timeout>10</timeout>
+                    <timeout>1</timeout>
                 </element>
                 <element name="Second link">
                     <identifier>elementName</identifier>
@@ -19,7 +19,7 @@
                     <interaction>click</interaction>
                     <value></value>
                     <text></text>
-                    <timeout>15</timeout>
+                    <timeout>1</timeout>
                 </element>
             </elements>
         </page>
