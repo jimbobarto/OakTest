@@ -1,5 +1,7 @@
 package browsers;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import uk.co.hyttioaboa.fileContents.GetFileContents;
 import org.junit.Test;
 import uk.co.hyttioaboa.browser.BrowserTest;
@@ -10,6 +12,7 @@ import uk.co.hyttioaboa.messages.xml.XmlMessage;
 import uk.co.hyttioaboa.results.ResponseNode;
 
 import static org.junit.Assert.assertEquals;
+
 
 public class BrowserTests {
     @Test
@@ -58,11 +61,21 @@ public class BrowserTests {
         BrowserTest browser = new BrowserTest(testMessage);
         browser.test();
 
+
         ResponseNode node = browser.getResponseNode();
         //ResponseNode targetNode = node.getNodeByPath("stuff/stuff/stuff");
 
         assertEquals(200,node.getStatus(),0);
 
+
+        ResponseNode reporterNode = browser.getResponseNode();
+        JSONObject report = reporterNode.createReport();
+        try {
+            System.out.println(report.toString(3));
+        }
+        catch (JSONException ex) {
+            System.out.println("Badness");
+        }
 
     }
 
