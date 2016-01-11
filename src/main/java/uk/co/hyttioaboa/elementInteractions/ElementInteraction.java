@@ -67,9 +67,9 @@ public class ElementInteraction {
         WebElement targetElement = findMyElement();
 
         if ( targetElement != null ) {
-            startTimer();
+            startTimerInteract();
             targetElement.sendKeys(inputValue);
-            stopTimer();
+            stopTimerInteract();
             responseNode.addMessage(Status.BASIC_SUCCESS.getValue(), "Value '" + inputValue + "' input.");
             return true;
         }
@@ -84,9 +84,9 @@ public class ElementInteraction {
         WebElement targetElement = findMyElement();
 
         if (targetElement != null ) {
-            startTimer();
+            startTimerInteract();
             targetElement.click();
-            stopTimer();
+            stopTimerInteract();
             responseNode.addMessage(Status.BASIC_SUCCESS.getValue(), "Clicked the " + this.type + " identified by " + this.identifierType + " of " + this.identifier);
             return true;
         } else {
@@ -105,6 +105,8 @@ public class ElementInteraction {
         WebElement targetElement = null;
 
         By identifier = getElementBy();
+
+        startTimerFind();
         if (elementIsVisible(identifier)) {
             try {
                 targetElement = this.driver.findElement(identifier);
@@ -112,6 +114,9 @@ public class ElementInteraction {
             catch (NoSuchElementException noElement) {
                 responseNode.addMessage(Status.OBJECT_NOT_FOUND.getValue(), "No object with an " + this.identifierType + " of '" + this.identifier + "' was found.");
                 return null;
+            }
+            finally {
+                stopTimerFind();
             }
         }
         return targetElement;
@@ -177,16 +182,32 @@ public class ElementInteraction {
         return true;
     }
 
-    private void startTimer() {
+    private void startTimer(Integer status) {
         this.timer.startTimer();
-        responseNode.addMessage(Status.TIMER_STARTED.getValue(), this.timer.getFormattedStartTime());
+        responseNode.addMessage(status, this.timer.getFormattedStartTime());
     }
 
-    private void stopTimer() {
+    private void startTimerFind() {
+        this.startTimer(Status.TIMER_STARTED_FIND.getValue());
+    }
+
+    private void startTimerInteract() {
+        this.startTimer(Status.TIMER_STARTED_INTERACT.getValue());
+    }
+
+    private void stopTimer(Integer timerStatus, Integer elapsedStatus) {
         this.timer.stopTimer();
-        responseNode.addMessage(Status.TIMER_FINISHED.getValue(), this.timer.getFormattedFinishTime());
+        responseNode.addMessage(timerStatus, this.timer.getFormattedFinishTime());
 
         long elapsedTime = this.timer.getElapsedTime();
-        responseNode.addMessage(Status.ELAPSED_TIME.getValue(), String.valueOf(elapsedTime));
+        responseNode.addMessage(elapsedStatus, String.valueOf(elapsedTime));
+    }
+
+    private void stopTimerFind() {
+        this.stopTimer(Status.TIMER_FINISHED_FIND.getValue(), Status.ELAPSED_TIME_FIND.getValue());
+    }
+
+    private void stopTimerInteract() {
+        this.stopTimer(Status.TIMER_FINISHED_INTERACT.getValue(), Status.ELAPSED_TIME_INTERACT.getValue());
     }
 }
