@@ -3,6 +3,7 @@ package uk.co.hyttioaboa;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import uk.co.hyttioaboa.constants.Queues;
 import uk.co.hyttioaboa.rabbit.OakConsumer;
 import uk.co.hyttioaboa.rabbit.OakRunnable;
 
@@ -23,7 +24,7 @@ public class Main {
 
             Channel ch = conn.createChannel();
 
-            OakConsumer newConsumer = new OakConsumer(executor, ch, "SimpleQueue");
+            OakConsumer newConsumer = new OakConsumer(executor, ch, Queues.TESTS.getValue());
         }
         catch (Exception e) {
             throw new Error(e);

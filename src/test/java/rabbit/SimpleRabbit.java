@@ -1,6 +1,7 @@
 package rabbit;
 
 import org.junit.Test;
+import uk.co.hyttioaboa.constants.Queues;
 import uk.co.hyttioaboa.fileContents.GetFileContents;
 import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
 import uk.co.hyttioaboa.messages.MessageException;
@@ -14,7 +15,7 @@ public class SimpleRabbit {
 
     @Test
     public void messageShouldPublishAndBeConsumed() {
-        RabbitMessage rabbitMessage = new RabbitMessage("amqp://localhost", "", "SimpleQueue");
+        RabbitMessage rabbitMessage = new RabbitMessage("amqp://localhost", "", Queues.TESTS.getValue());
 
         GetFileContents fileGetter = new GetFileContents();
         String jsonMessage = fileGetter.getTestMessage("src/test/resources/testMessage.json");

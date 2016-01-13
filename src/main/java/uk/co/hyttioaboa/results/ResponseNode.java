@@ -83,34 +83,30 @@ public class ResponseNode {
         return this.nodeStatus;
     }
 
-    public JSONObject createReport() {
+    public JSONObject createReport() throws JSONException {
         JSONObject report = new JSONObject();
-        try {
-            report.put("name", this.name);
-            report.put("status", this.nodeStatus);
 
-            JSONArray messages = new JSONArray();
-            Iterator<ResponseMessage> messageIterator = this.responseMessages.iterator();
-            while (messageIterator.hasNext()) {
-                ResponseMessage currentMessage = messageIterator.next();
-                JSONObject messageObject = new JSONObject();
-                messageObject.put("status", currentMessage.getStatus());
-                messageObject.put("message", currentMessage.getMessage());
-                messages.put(messageObject);
-            }
-            report.put("messages", messages);
+        report.put("name", this.name);
+        report.put("status", this.nodeStatus);
 
-            JSONArray children = new JSONArray();
-            Iterator<ResponseNode> childrenIterator = this.childNodes.iterator();
-            while (childrenIterator.hasNext()) {
-                JSONObject childObject = childrenIterator.next().createReport();
-                children.put(childObject);
-            }
-            report.put("children", children);
+        JSONArray messages = new JSONArray();
+        Iterator<ResponseMessage> messageIterator = this.responseMessages.iterator();
+        while (messageIterator.hasNext()) {
+            ResponseMessage currentMessage = messageIterator.next();
+            JSONObject messageObject = new JSONObject();
+            messageObject.put("status", currentMessage.getStatus());
+            messageObject.put("message", currentMessage.getMessage());
+            messages.put(messageObject);
         }
-        catch (JSONException ex) {
-            throw new Error(ex);
+        report.put("messages", messages);
+
+        JSONArray children = new JSONArray();
+        Iterator<ResponseNode> childrenIterator = this.childNodes.iterator();
+        while (childrenIterator.hasNext()) {
+            JSONObject childObject = childrenIterator.next().createReport();
+            children.put(childObject);
         }
+        report.put("children", children);
 
         return report;
     }

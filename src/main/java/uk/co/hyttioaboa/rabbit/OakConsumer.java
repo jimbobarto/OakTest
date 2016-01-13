@@ -22,6 +22,7 @@ public class OakConsumer extends DefaultConsumer {
         queue = newQueue;
 
         try {
+            channel.queueDeclare(queue, true, false, false, null);
             channel.basicConsume(queue, false, this);
         }
         catch (IOException e) {

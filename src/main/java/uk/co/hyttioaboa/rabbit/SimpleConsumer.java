@@ -4,6 +4,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.QueueingConsumer;
+import uk.co.hyttioaboa.constants.Queues;
 
 public class SimpleConsumer {
     String uri;
@@ -20,7 +21,7 @@ public class SimpleConsumer {
     public SimpleConsumer(String[] args) {
         try {
             this.uri = (args.length > 0) ? args[0] : "amqp://localhost";
-            this.queue = (args.length > 1) ? args[1] : "SimpleQueue";
+            this.queue = (args.length > 1) ? args[1] : Queues.TESTS.getValue();
 
             setUp();
 

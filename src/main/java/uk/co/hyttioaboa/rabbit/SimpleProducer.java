@@ -1,6 +1,7 @@
 package uk.co.hyttioaboa.rabbit;
 
 import com.rabbitmq.client.*;
+import uk.co.hyttioaboa.constants.Queues;
 
 public class SimpleProducer {
     String uri;
@@ -13,7 +14,7 @@ public class SimpleProducer {
             String message = (args.length > 1) ? args[1] :
                     "the time is " + new java.util.Date().toString();
             this.exchange = (args.length > 2) ? args[2] : "";
-            this.routingKey = (args.length > 3) ? args[3] : "SimpleQueue";
+            this.routingKey = (args.length > 3) ? args[3] : Queues.TESTS.getValue();
 
             System.out.println("I've done summat");
 
@@ -23,9 +24,8 @@ public class SimpleProducer {
 
             Channel ch = conn.createChannel();
 
-            if (exchange.equals("")) {
-                ch.queueDeclare(routingKey, false, false, false, null);
-            }
+            ch.queueDeclare(routingKey, false, false, false, null);
+
             ch.basicPublish(exchange, routingKey, null, message.getBytes());
             ch.close();
             conn.close();
@@ -55,9 +55,7 @@ public class SimpleProducer {
 
             Channel ch = conn.createChannel();
 
-            if (this.exchange.equals("")) {
-                ch.queueDeclare(this.routingKey, false, false, false, null);
-            }
+            ch.queueDeclare(this.routingKey, true, false, false, null);
 
             ch.basicPublish(this.exchange, this.routingKey, null, connectMessage.getBytes());
             ch.close();

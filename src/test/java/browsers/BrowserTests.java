@@ -2,6 +2,7 @@ package browsers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import uk.co.hyttioaboa.constants.Queues;
 import uk.co.hyttioaboa.fileContents.GetFileContents;
 import org.junit.Test;
 import uk.co.hyttioaboa.browser.BrowserTest;
@@ -9,7 +10,11 @@ import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
 import uk.co.hyttioaboa.messages.MessageException;
 import uk.co.hyttioaboa.messages.json.JsonMessage;
 import uk.co.hyttioaboa.messages.xml.XmlMessage;
+import uk.co.hyttioaboa.rabbit.RabbitMessage;
+import uk.co.hyttioaboa.rabbit.SimpleProducer;
 import uk.co.hyttioaboa.results.ResponseNode;
+
+import static org.junit.Assert.assertEquals;
 
 public class BrowserTests {
     @Test
@@ -59,13 +64,23 @@ public class BrowserTests {
         browser.test();
 
         ResponseNode reporterNode = browser.getResponseNode();
-        JSONObject report = reporterNode.createReport();
+        String reportMessage = "";
         try {
+            JSONObject report = reporterNode.createReport();
             System.out.println(report.toString(3));
+            reportMessage = report.toString(3);
         }
         catch (JSONException ex) {
+            //TODO something here with the exception
             System.out.println("Badness");
         }
+
+        RabbitMessage rabbitMessage = new RabbitMessage("amqp://localhost", "", Queues.RESULTS.getValue());
+
+        rabbitMessage.setMessage(reportMessage);
+
+        SimpleProducer producer = new SimpleProducer(rabbitMessage);
+
     }
 
     @Test

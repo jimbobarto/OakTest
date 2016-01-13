@@ -4,6 +4,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import org.junit.Test;
+import uk.co.hyttioaboa.constants.Queues;
 import uk.co.hyttioaboa.fileContents.GetFileContents;
 import uk.co.hyttioaboa.rabbit.OakConsumer;
 import uk.co.hyttioaboa.rabbit.OakRunnable;
@@ -22,7 +23,7 @@ public class RabbitRunnable {
             GetFileContents fileGetter = new GetFileContents();
             String jsonMessage = fileGetter.getTestMessage("src/test/resources/testMessage.json");
 
-            RabbitMessage rabbitProducerMessage = new RabbitMessage("amqp://localhost", "", "SimpleQueue");
+            RabbitMessage rabbitProducerMessage = new RabbitMessage("amqp://localhost", "", Queues.TESTS.getValue());
             rabbitProducerMessage.setMessage(jsonMessage);
 
             SimpleProducer producer = new SimpleProducer(rabbitProducerMessage);
@@ -36,7 +37,7 @@ public class RabbitRunnable {
 
             Channel ch = conn.createChannel();
 
-            OakConsumer newConsumer = new OakConsumer(executor, ch, "SimpleQueue");
+            OakConsumer newConsumer = new OakConsumer(executor, ch, Queues.TESTS.getValue());
         }
         catch (Exception e) {
             throw new Error(e);
