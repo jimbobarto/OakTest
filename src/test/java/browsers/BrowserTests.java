@@ -63,6 +63,13 @@ public class BrowserTests {
         BrowserTest browser = new BrowserTest(testMessage);
         browser.test();
 
+
+        ResponseNode node = browser.getResponseNode();
+        //ResponseNode targetNode = node.getNodeByPath("stuff/stuff/stuff");
+
+        assertEquals(200,node.getStatus(),0);
+
+
         ResponseNode reporterNode = browser.getResponseNode();
         String reportMessage = "";
         try {
@@ -76,11 +83,8 @@ public class BrowserTests {
         }
 
         RabbitMessage rabbitMessage = new RabbitMessage("amqp://localhost", "", Queues.RESULTS.getValue());
-
         rabbitMessage.setMessage(reportMessage);
-
         SimpleProducer producer = new SimpleProducer(rabbitMessage);
-
     }
 
     @Test
@@ -99,6 +103,13 @@ public class BrowserTests {
 
         BrowserTest browser = new BrowserTest(testMessage);
         browser.test();
+
+
+        ResponseNode node = browser.getResponseNode();
+
+        assertEquals(200,node.getNodeByPath("Example test/Do Stuff/Amazon search field").getStatus(),0);
+
+        assertEquals(200,node.getNodeByPath("Example test[0]/Do Stuff[0]/Amazon search field[0]").getStatus(),0);
     }
 
 }

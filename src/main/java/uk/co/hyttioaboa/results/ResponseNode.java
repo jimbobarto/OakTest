@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import uk.co.hyttioaboa.constants.Status;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class ResponseNode {
@@ -28,6 +29,68 @@ public class ResponseNode {
         this.name = nodeName;
         addMessage(newStatus, newMessage);
     }
+
+    public ArrayList<ResponseNode> getChildNodes(String nodeName){
+
+        //TODO get all nodes that match the name and return that array
+        return this.childNodes;
+        
+    }
+
+    public ResponseNode getNodeByPath(String nodePath){
+        //TODO Do this
+
+        String myArray[] = nodePath.split("/");
+        String targetNodeName = myArray[0];
+
+        String compVal = targetNodeName.replaceFirst("\\[\\d+\\]","");
+
+        if (!compVal.equals(this.name)) {
+            return null;
+        }
+        else if (myArray.length == 1) {
+            return this;
+        }
+
+        String targetChildNodeName = myArray[1];
+
+        Integer nodeCount = null;
+        //If '[' is present then we need to split out the number and string into separate values
+
+        if (targetChildNodeName.indexOf ("[") > 0) {
+            targetChildNodeName = targetChildNodeName.replaceFirst("]","");
+            String splittingArray[] = targetChildNodeName.split("\\[");
+            nodeCount = Integer.parseInt( splittingArray[1] );
+            targetChildNodeName = splittingArray[0];
+        }
+
+        String newPath = nodePath.replaceAll("^" + compVal + "[\\[\\d\\]]*/", "");
+        Integer matchesCount=-1;
+
+        for (int i = 0; i < this.childNodes.size(); i++) {
+            String currentNodeName = this.childNodes.get(i).getName();
+
+            if (currentNodeName.equals(targetChildNodeName)) {
+                matchesCount++;
+            }
+
+            if (((nodeCount != null) && (matchesCount != nodeCount) && (!currentNodeName.equals(targetChildNodeName))) || (!currentNodeName.equals(targetChildNodeName))){
+            } else {
+                ResponseNode currentNode = this.childNodes.get(i).getNodeByPath(newPath);
+                if (currentNode != null) {
+                    return currentNode;
+                }
+            }
+        }
+
+        return null;
+    }
+
+
+    public String getName(){
+        return this.name;
+    }
+
 
     public void addMessage(Integer status, String message) {
         ResponseMessage createMessage = new ResponseMessage(status, message);
