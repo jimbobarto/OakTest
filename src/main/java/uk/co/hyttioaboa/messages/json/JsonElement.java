@@ -7,16 +7,6 @@ import uk.co.hyttioaboa.messages.interfaces.ElementInterface;
 
 public class JsonElement extends JsonCommon implements ElementInterface {
 
-
-    Integer index;
-    String identifier;
-    String identifierType;
-    String name;
-    String type;
-    String interaction;
-    String value;
-    Long timeout;
-
     public JsonElement(JSONObject elementDefinition) throws MessageException {
         super(elementDefinition);
 
@@ -31,6 +21,22 @@ public class JsonElement extends JsonCommon implements ElementInterface {
         }
         catch (MessageException msgEx) {
             throw msgEx;
+        }
+
+        if (this.name == null) {
+            throw new MessageException("Element has no name");
+        }
+        if (this.identifier == null) {
+            throw new MessageException("Element has no identifier");
+        }
+        if (this.identifierType == null) {
+            throw new MessageException("Element has no identifier type");
+        }
+        if (this.type == null) {
+            throw new MessageException("Element has no type");
+        }
+        if (this.interaction == null) {
+            throw new MessageException("Element has no interaction");
         }
     }
 

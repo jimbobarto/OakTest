@@ -16,7 +16,7 @@
           "timeout": 10
         },
         {
-          "name": "Amazon search button",
+          "name": "Amazon search buttonk",
           "identifier": "//div[@class='nav-right']//input[@class='nav-input']",
           "identifierType": "xpath",
           "type": "link",
@@ -25,6 +25,21 @@
           "text": "",
           "timeout": 15
         },
+        {
+          "name": "Something Random search result",
+          "identifier": "Something Random",
+          "identifierType": "linktext",
+          "type": "link",
+          "interaction": "click",
+          "value": "",
+          "text": "",
+          "timeout": 15
+        }
+
+      ]
+    },
+    {
+      "elements": [
         {
           "name": "Something Random search result",
           "identifier": "Something Random",

@@ -1,20 +1,19 @@
 package uk.co.hyttioaboa.messages;
 
 public class GenericProperties {
-    Integer index;
-    String identifier;
-    String identifierType;
-    String type;
-    String interaction;
-    String name;
-    String value;
-    Integer timeout;
-    String verb;
-    String uri;
-    String headers;
-    String payload;
-    String expectedResults;
-
+    public Integer index;
+    public String identifier;
+    public String identifierType;
+    public String type;
+    public String interaction;
+    public String name;
+    public String value;
+    public Integer timeout;
+    public String verb;
+    public String uri;
+    public String headers;
+    public String payload;
+    public String expectedResults;
 
     public GenericProperties() {
         //TODO: screenshot, wait (pause), save value

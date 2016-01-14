@@ -6,6 +6,7 @@ import org.json.JSONException;
  * Created by jamesbartlett on 05/10/15.
  */
 public interface ElementInterface {
+
     public Integer setIndex(Integer index);
 
     public String setIdentifier(String identifier);

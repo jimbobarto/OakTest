@@ -16,7 +16,7 @@
           "timeout": 10
         },
         {
-          "name": "Amazon search button",
+          "name": "Amazon search buttonk",
           "identifier": "//div[@class='nav-right']//input[@class='nav-input']",
           "identifierType": "xpath",
           "type": "link",
@@ -37,6 +37,9 @@
         }
 
       ]
-    }
+    },
+    {
+      "name": "2"
+   }
   ]
 }

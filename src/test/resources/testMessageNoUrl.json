@@ -1,0 +1,30 @@
+{
+  "name": "test",
+  "pages": [
+    {
+      "name": "1",
+      "elements": [
+        {
+          "name": "Shop by Department",
+          "identifier": "nav-link-shopall",
+          "identifierType": "ID",
+          "type": "link",
+          "interaction": "click",
+          "value": "",
+          "text": "",
+          "timeout": 10
+        },
+        {
+          "name": "Amazon prime link",
+          "identifier": "nav-link-prime",
+          "identifierType": "ID",
+          "type": "link",
+          "interaction": "click",
+          "value": "",
+          "text": "",
+          "timeout": 15
+        }
+      ]
+    }
+  ]
+}
