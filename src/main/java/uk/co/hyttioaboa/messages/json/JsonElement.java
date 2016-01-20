@@ -39,9 +39,6 @@ public class JsonElement extends JsonCommon implements ElementInterface {
         if (this.interaction == null) {
             throw new MessageException("Element has no interaction");
         }
-        if (this.text == null) {
-            throw new MessageException("Element has no text");
-        }
     }
 
 

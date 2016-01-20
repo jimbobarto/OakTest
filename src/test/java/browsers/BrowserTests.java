@@ -103,13 +103,32 @@ public class BrowserTests {
 
         BrowserTest browser = new BrowserTest(testMessage);
         browser.test();
-
-
         ResponseNode node = browser.getResponseNode();
 
         assertEquals(200,node.getNodeByPath("Example test/Do Stuff/Amazon search field").getStatus(),0);
-
         assertEquals(200,node.getNodeByPath("Example test[0]/Do Stuff[0]/Amazon search field[0]").getStatus(),0);
     }
 
+
+    @Test
+    public void checkTextSimple() {
+        GetFileContents fileGetter = new GetFileContents();
+        String jsonDefinition = fileGetter.getTestMessage("src/test/resources/checkTextSimple.json");
+
+        MessageInterface testMessage;
+        try {
+            testMessage = new JsonMessage(jsonDefinition);
+        }
+        catch (MessageException jsonException) {
+            System.out.println(jsonException.getMessage());
+            return;
+        }
+
+        BrowserTest browser = new BrowserTest(testMessage);
+        browser.test();
+        ResponseNode node = browser.getResponseNode();
+
+        //assertEquals(200,node.getNodeByPath("Example test/Do Stuff/Amazon search field").getStatus(),0);
+        //assertEquals(200,node.getNodeByPath("Example test[0]/Do Stuff[0]/Amazon search field[0]").getStatus(),0);
+    }
 }

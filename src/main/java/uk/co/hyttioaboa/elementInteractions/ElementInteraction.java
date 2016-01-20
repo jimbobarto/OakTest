@@ -94,6 +94,46 @@ public class ElementInteraction {
         }
     }
 
+
+    public boolean checkElementText() {
+        WebElement targetElement = findMyElement();
+
+        if(targetElement != null ) {
+            String expectedText = this.setUpMessage.getText();
+            String displayedText = targetElement.getText();
+
+            System.out.println("Objects text = " + displayedText);
+            System.out.println("Expected value text = " + expectedText);
+
+
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+
+    public boolean getAttribute() {
+
+        WebElement targetElement = findMyElement();
+
+        if(targetElement != null ) {
+
+
+
+
+
+
+
+
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private String getIdentifierType() {
         HashMap idTypes = new HashMap(Config.findByTypes());
         String identifierType = (String)idTypes.get(setUpMessage.getIdentifierType());
