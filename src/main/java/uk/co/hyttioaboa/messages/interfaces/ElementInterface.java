@@ -15,11 +15,14 @@ public interface ElementInterface {
 
     public String setType(String type);
 
+    public String setText(String text);
+
     public String setInteraction(String interaction);
 
     public Integer setTimeout(Integer timeout);
 
     public String setIdentifierType(String identifierType);
+
 
 
     public Integer getIndex();
@@ -38,4 +41,5 @@ public interface ElementInterface {
 
     public String getIdentifierType();
 
+    public String getText();
 }

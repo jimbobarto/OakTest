@@ -33,6 +33,8 @@ public class XmlElement extends GenericProperties implements ElementInterface {
 
         String type = xmlNode.getChildStringValue("type");
         setType(type);
+        String text = xmlNode.getChildStringValue("text");
+        setType(text);
         String interaction = xmlNode.getChildStringValue("interaction");
         setInteraction(interaction);
         String value = xmlNode.getChildStringValue("value");

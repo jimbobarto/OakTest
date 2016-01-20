@@ -12,7 +12,10 @@ public class Config {
 
         Map <String, String> interactionMap = new HashMap<String, String>();
         interactionMap.put("click", "click");
+        interactionMap.put("checktext", "checkElementText");
         interactionMap.put("checkText", "checkElementText");
+        interactionMap.put("getattribute", "getAttribute");
+        interactionMap.put("checkElementText", "checkElementText");
         interactionMap.put("typevalue", "typeValue");
 
         return interactionMap;
@@ -27,7 +30,7 @@ public class Config {
         elementMap.put("link", "Link");
         elementMap.put("textbox", "TextBox");
         elementMap.put("paragraph", "Paragraph");
-
+        elementMap.put("header", "Header");
         return elementMap;
     }
 
@@ -37,6 +40,7 @@ public class Config {
         Map <String, String> findByMap = new HashMap<String, String>();
         findByMap.put("css", "CSS");
         findByMap.put("id", "ID");
+        findByMap.put("Id", "ID");
         findByMap.put("ID", "ID");
         findByMap.put("linktext", "LINKTEXT");
         findByMap.put("xpath", "XPATH");

@@ -10,6 +10,7 @@ public class GenericProperties {
     public String value;
     public Integer timeout;
     public String verb;
+    public String text;
     public String uri;
     public String headers;
     public String payload;
@@ -39,9 +40,9 @@ public class GenericProperties {
         return this.type;
     }
 
-    public String getValue() {
-        return this.value;
-    }
+    public String getText() {return this.text;}
+
+    public String getValue() {return this.value;}
 
     public String getInteraction() {
         return this.interaction;
@@ -100,6 +101,10 @@ public class GenericProperties {
         return this.value;
     }
 
+    public String setText(String newValue) {
+        this.value = newValue;
+        return this.value;
+    }
     public String setInteraction(String newInteraction) {
         this.interaction = newInteraction;
         return this.interaction;
