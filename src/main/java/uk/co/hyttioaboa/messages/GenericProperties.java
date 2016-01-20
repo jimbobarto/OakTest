@@ -102,8 +102,8 @@ public class GenericProperties {
     }
 
     public String setText(String newValue) {
-        this.value = newValue;
-        return this.value;
+        this.text = newValue;
+        return this.text;
     }
     public String setInteraction(String newInteraction) {
         this.interaction = newInteraction;
