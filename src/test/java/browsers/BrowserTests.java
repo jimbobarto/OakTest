@@ -128,7 +128,9 @@ public class BrowserTests {
         browser.test();
         ResponseNode node = browser.getResponseNode();
 
-        //assertEquals(200,node.getNodeByPath("Example test/Do Stuff/Amazon search field").getStatus(),0);
-        //assertEquals(200,node.getNodeByPath("Example test[0]/Do Stuff[0]/Amazon search field[0]").getStatus(),0);
+        assertEquals(201,node.getNodeByPath("Check text example/Get the objects text[0]/header object").getStatus(),0);
+        assertEquals(300,node.getNodeByPath("Check text example/Get the objects text[0]/header object[1]").getStatus(),0);
+        assertEquals(401,node.getNodeByPath("Check text example/Get the objects text[0]/header object[2]").getStatus(),0);
+        assertEquals(402,node.getNodeByPath("Check text example/Get the objects text[0]/header object[3]").getStatus(),0);
     }
 }
