@@ -49,6 +49,36 @@
           "value": "",
           "text": "Something Random",
           "timeout": 10
+        },
+        {
+          "name": "header object",
+          "identifier": "title_feature_div",
+          "identifierType": "id",
+          "type": "header",
+          "interaction": "checktext",
+          "value": "",
+          "text": "somethiNg rAndOm",
+          "timeout": 10
+        },
+        {
+          "name": "header object",
+          "identifier": "title_feature_div",
+          "identifierType": "id",
+          "type": "header",
+          "interaction": "checktext",
+          "value": "",
+          "text": "Cheesedip",
+          "timeout": 10
+        },
+        {
+          "name": "header object",
+          "identifier": "title_feature_div",
+          "identifierType": "id",
+          "type": "header",
+          "interaction": "checktext",
+          "value": "",
+          "text": "",
+          "timeout": 10
         }
       ]
     }

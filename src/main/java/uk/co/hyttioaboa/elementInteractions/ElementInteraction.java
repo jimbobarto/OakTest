@@ -1,5 +1,6 @@
 package uk.co.hyttioaboa.elementInteractions;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -96,17 +97,30 @@ public class ElementInteraction {
 
 
     public boolean checkElementText() {
+        String expectedText = this.setUpMessage.getText();
+
+        if (StringUtils.isBlank(expectedText)) {
+            responseNode.addMessage(Status.NO_TEXT_CHECK_DATA.getValue(), "No check text supplied!");
+            return false;
+        }
+
         WebElement targetElement = findMyElement();
 
         if(targetElement != null ) {
-            String expectedText = this.setUpMessage.getText();
+
             String displayedText = targetElement.getText();
 
-            System.out.println("Objects text = " + displayedText);
-            System.out.println("Expected value text = " + expectedText);
 
-
-            return true;
+            if (expectedText.equals(displayedText)) {
+                responseNode.addMessage(Status.CHECK_SUCCESS.getValue(), "Text as expected.");
+                return true;
+            } else if(expectedText.toLowerCase().equals(displayedText.toLowerCase())){
+                responseNode.addMessage(Status.TEXT_CHECK_WARNING.getValue(), "Text matched but only when case insensitive.");
+                return true;
+            } else {
+                responseNode.addMessage(Status.TEXT_CHECK_FAILURE.getValue(), "Text expected - " + expectedText + " but found text was - " + displayedText);
+                return false;
+            }
         } else {
             return false;
         }
@@ -119,14 +133,6 @@ public class ElementInteraction {
         WebElement targetElement = findMyElement();
 
         if(targetElement != null ) {
-
-
-
-
-
-
-
-
 
             return true;
         } else {
