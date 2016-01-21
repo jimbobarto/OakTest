@@ -74,11 +74,12 @@ public class ResponseNode {
                 matchesCount++;
             }
 
-            if (((nodeCount != null) && (matchesCount != nodeCount) && (!currentNodeName.equals(targetChildNodeName))) || (!currentNodeName.equals(targetChildNodeName))){
-            } else {
-                ResponseNode currentNode = this.childNodes.get(i).getNodeByPath(newPath);
-                if (currentNode != null) {
-                    return currentNode;
+            if (currentNodeName.equals(targetChildNodeName)) {
+                if (nodeCount == null || matchesCount == nodeCount) {
+                    ResponseNode currentNode = this.childNodes.get(i).getNodeByPath(newPath);
+                    if (currentNode != null) {
+                        return currentNode;
+                    }
                 }
             }
         }
