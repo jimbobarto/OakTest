@@ -151,7 +151,10 @@ public class GenericProperties {
     }
 
     public boolean mapHasElements(Map map) {
-        if (map.size() == 0) {
+        if (map == null) {
+            return false;
+        }
+        else if (map.size() == 0) {
             return false;
         }
         return true;
