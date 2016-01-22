@@ -1,9 +1,7 @@
 package variables;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Test;
-import uk.co.hyttioaboa.variables.Translator;
+import uk.co.oaktest.variables.Translator;
 
 import java.util.HashMap;
 import java.util.Map;

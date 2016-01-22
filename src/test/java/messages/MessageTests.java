@@ -1,15 +1,14 @@
 package messages;
 
-import org.json.JSONObject;
-import uk.co.hyttioaboa.fileContents.GetFileContents;
+import uk.co.oaktest.fileContents.GetFileContents;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
-import uk.co.hyttioaboa.messages.MessageException;
-import uk.co.hyttioaboa.messages.json.JsonMessage;
-import uk.co.hyttioaboa.messages.xml.XmlMessage;
+import uk.co.oaktest.messages.interfaces.MessageInterface;
+import uk.co.oaktest.messages.MessageException;
+import uk.co.oaktest.messages.json.JsonMessage;
+import uk.co.oaktest.messages.xml.XmlMessage;
 
 public class MessageTests {
     Integer index;

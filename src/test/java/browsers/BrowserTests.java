@@ -2,17 +2,18 @@ package browsers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import uk.co.hyttioaboa.constants.Queues;
-import uk.co.hyttioaboa.fileContents.GetFileContents;
+import uk.co.oaktest.constants.Queues;
+import uk.co.oaktest.container.Container;
+import uk.co.oaktest.fileContents.GetFileContents;
 import org.junit.Test;
-import uk.co.hyttioaboa.browser.BrowserTest;
-import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
-import uk.co.hyttioaboa.messages.MessageException;
-import uk.co.hyttioaboa.messages.json.JsonMessage;
-import uk.co.hyttioaboa.messages.xml.XmlMessage;
-import uk.co.hyttioaboa.rabbit.RabbitMessage;
-import uk.co.hyttioaboa.rabbit.SimpleProducer;
-import uk.co.hyttioaboa.results.ResponseNode;
+import uk.co.oaktest.browser.BrowserTest;
+import uk.co.oaktest.messages.interfaces.MessageInterface;
+import uk.co.oaktest.messages.MessageException;
+import uk.co.oaktest.messages.json.JsonMessage;
+import uk.co.oaktest.messages.xml.XmlMessage;
+import uk.co.oaktest.rabbit.RabbitMessage;
+import uk.co.oaktest.rabbit.SimpleProducer;
+import uk.co.oaktest.results.ResponseNode;
 
 import static org.junit.Assert.assertEquals;
 
@@ -31,7 +32,7 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(testMessage);
+        BrowserTest browser = new BrowserTest(new Container(testMessage));
         browser.test();
     }
 
@@ -42,7 +43,7 @@ public class BrowserTests {
 
         MessageInterface testMessage = new XmlMessage(xmlMessage);
 
-        BrowserTest browser = new BrowserTest(testMessage);
+        BrowserTest browser = new BrowserTest(new Container(testMessage));
         browser.test();
     }
 
@@ -60,7 +61,7 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(testMessage);
+        BrowserTest browser = new BrowserTest(new Container(testMessage));
         browser.test();
 
 
@@ -101,12 +102,12 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(testMessage);
+        BrowserTest browser = new BrowserTest(new Container(testMessage));
         browser.test();
         ResponseNode node = browser.getResponseNode();
 
         assertEquals(200,node.getNodeByPath("Example test/Do Stuff/Amazon search field").getStatus(),0);
-        assertEquals(200,node.getNodeByPath("Example test[0]/Do Stuff[0]/Amazon search field[0]").getStatus(),0);
+        assertEquals(200, node.getNodeByPath("Example test[0]/Do Stuff[0]/Amazon search field[0]").getStatus(), 0);
     }
 
 
@@ -124,7 +125,7 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(testMessage);
+        BrowserTest browser = new BrowserTest(new Container(testMessage));
         browser.test();
         ResponseNode node = browser.getResponseNode();
 

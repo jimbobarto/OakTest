@@ -1,14 +1,14 @@
 package rabbit;
 
 import org.junit.Test;
-import uk.co.hyttioaboa.constants.Queues;
-import uk.co.hyttioaboa.fileContents.GetFileContents;
-import uk.co.hyttioaboa.messages.interfaces.MessageInterface;
-import uk.co.hyttioaboa.messages.MessageException;
-import uk.co.hyttioaboa.messages.json.JsonMessage;
-import uk.co.hyttioaboa.rabbit.RabbitMessage;
-import uk.co.hyttioaboa.rabbit.SimpleConsumer;
-import uk.co.hyttioaboa.rabbit.SimpleProducer;
+import uk.co.oaktest.constants.Queues;
+import uk.co.oaktest.fileContents.GetFileContents;
+import uk.co.oaktest.messages.interfaces.MessageInterface;
+import uk.co.oaktest.messages.MessageException;
+import uk.co.oaktest.messages.json.JsonMessage;
+import uk.co.oaktest.rabbit.RabbitMessage;
+import uk.co.oaktest.rabbit.SimpleConsumer;
+import uk.co.oaktest.rabbit.SimpleProducer;
 import static org.junit.Assert.assertEquals;
 
 public class SimpleRabbit {

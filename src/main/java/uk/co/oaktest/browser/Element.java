@@ -1,0 +1,74 @@
+package uk.co.oaktest.browser;
+
+import org.openqa.selenium.WebDriver;
+import uk.co.oaktest.config.Config;
+import uk.co.oaktest.container.Container;
+import uk.co.oaktest.messages.interfaces.ElementInterface;
+import uk.co.oaktest.results.ResponseNode;
+import uk.co.oaktest.variables.Translator;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+
+/**
+ * Created by jamesbartlett on 30/11/15.
+ */
+public class Element {
+    ElementInterface message;
+    ResponseNode elementNode;
+    Translator translator;
+    Container container;
+
+    public Element (ElementInterface setUpMessage, ResponseNode elementResponseNode, Container elementContainer) {
+        this.message = setUpMessage;
+        this.elementNode = elementResponseNode;
+        this.container = elementContainer;
+    }
+
+    public String test() {
+        String identifier = this.message.getIdentifier();
+        String type = this.message.getType();
+        String interaction = this.message.getInteraction();
+
+        //Get the maps for classes and methods
+        HashMap interactionTypes = new HashMap(Config.interactionTypes());
+        HashMap elementTypes = new HashMap(Config.elementTypes());
+
+        //Get the relevant values from the maps
+        String interactionType=(String)interactionTypes.get(interaction);
+        String elementType=(String)elementTypes.get(type);
+
+        Object classInstance;
+        //GET the relevant class required
+        try {
+            Class<?> clazz = Class.forName("uk.co.oaktest.elementInteractions."+ elementType);
+            Constructor<?> constructor = clazz.getConstructor(ElementInterface.class, ResponseNode.class, Container.class);
+            classInstance = constructor.newInstance(this.message, this.elementNode, this.container);
+        } catch(Exception getClassException){
+            throw new Error(getClassException);
+        }
+
+        //Get the relevant method
+        java.lang.reflect.Method methodInstance;
+        try {
+            methodInstance = classInstance.getClass().getMethod(interactionType);
+        } catch (Exception getMethodException) {
+            throw new Error(getMethodException);
+        }
+
+
+        //Run the class/method
+        try {
+            methodInstance.invoke(classInstance);
+
+        } catch (IllegalArgumentException e) {System.out.println(e);
+        } catch (IllegalAccessException e) {System.out.println(e);
+        } catch (InvocationTargetException e) {
+            throw new Error(e);
+
+        }
+
+        return "Hello";
+    }
+}

@@ -4,12 +4,11 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import org.junit.Test;
-import uk.co.hyttioaboa.constants.Queues;
-import uk.co.hyttioaboa.fileContents.GetFileContents;
-import uk.co.hyttioaboa.rabbit.OakConsumer;
-import uk.co.hyttioaboa.rabbit.OakRunnable;
-import uk.co.hyttioaboa.rabbit.RabbitMessage;
-import uk.co.hyttioaboa.rabbit.SimpleProducer;
+import uk.co.oaktest.constants.Queues;
+import uk.co.oaktest.fileContents.GetFileContents;
+import uk.co.oaktest.rabbit.OakConsumer;
+import uk.co.oaktest.rabbit.RabbitMessage;
+import uk.co.oaktest.rabbit.SimpleProducer;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
