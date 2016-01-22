@@ -130,8 +130,26 @@ public class BrowserTests {
         ResponseNode node = browser.getResponseNode();
 
         assertEquals(201,node.getNodeByPath("Check text example/Get the objects text[0]/header object").getStatus(),0);
-        assertEquals(300,node.getNodeByPath("Check text example/Get the objects text[0]/header object[1]").getStatus(),0);
+        assertEquals(300, node.getNodeByPath("Check text example/Get the objects text[0]/header object[1]").getStatus(), 0);
         assertEquals(401,node.getNodeByPath("Check text example/Get the objects text[0]/header object[2]").getStatus(),0);
         assertEquals(402,node.getNodeByPath("Check text example/Get the objects text[0]/header object[3]").getStatus(),0);
+    }
+
+    @Test
+    public void checkUnknownElement() {
+        GetFileContents fileGetter = new GetFileContents();
+        String jsonDefinition = fileGetter.getTestMessage("src/test/resources/messageWithUnknownElementType.json");
+
+        MessageInterface testMessage;
+        try {
+            testMessage = new JsonMessage(jsonDefinition);
+        }
+        catch (MessageException jsonException) {
+            System.out.println(jsonException.getMessage());
+            return;
+        }
+
+        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        browser.test();
     }
 }

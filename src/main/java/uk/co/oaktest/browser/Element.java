@@ -39,13 +39,22 @@ public class Element {
         String interactionType=(String)interactionTypes.get(interaction);
         String elementType=(String)elementTypes.get(type);
 
+        Class<?> runtimeClass;
         Object classInstance;
-        //GET the relevant class required
+
         try {
-            Class<?> clazz = Class.forName("uk.co.oaktest.elementInteractions."+ elementType);
-            Constructor<?> constructor = clazz.getConstructor(ElementInterface.class, ResponseNode.class, Container.class);
+            runtimeClass = Class.forName("uk.co.oaktest.elementInteractions."+ elementType);
+        }
+        catch (ClassNotFoundException exception) {
+            runtimeClass = uk.co.oaktest.elementInteractions.BaseElement.class;
+        }
+
+        try {
+            Constructor<?> constructor = runtimeClass.getConstructor(ElementInterface.class, ResponseNode.class, Container.class);
             classInstance = constructor.newInstance(this.message, this.elementNode, this.container);
-        } catch(Exception getClassException){
+        }
+        catch(Exception getClassException) {
+            //TODO: replace with exception
             throw new Error(getClassException);
         }
 
@@ -53,7 +62,9 @@ public class Element {
         java.lang.reflect.Method methodInstance;
         try {
             methodInstance = classInstance.getClass().getMethod(interactionType);
-        } catch (Exception getMethodException) {
+        }
+        catch (Exception getMethodException) {
+            //TODO: replace with exception
             throw new Error(getMethodException);
         }
 
@@ -65,6 +76,7 @@ public class Element {
         } catch (IllegalArgumentException e) {System.out.println(e);
         } catch (IllegalAccessException e) {System.out.println(e);
         } catch (InvocationTargetException e) {
+            //TODO: replace with exception
             throw new Error(e);
 
         }

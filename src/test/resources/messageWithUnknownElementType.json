@@ -1,0 +1,31 @@
+{
+  "url": "http://www.bbc.co.uk/news/",
+  "name": "Example test",
+  "pages": [
+    {
+      "name": "1",
+      "elements": [
+        {
+          "name": "First link",
+          "identifier": "elementId",
+          "identifierType": "ID",
+          "type": "unknown",
+          "interaction": "click",
+          "value": "",
+          "text": "",
+          "timeout": 1
+        },
+        {
+          "name": "Second link",
+          "identifier": "elementName",
+          "identifierType": "ID",
+          "type": "link",
+          "interaction": "click",
+          "value": "",
+          "text": "",
+          "timeout": 1
+        }
+      ]
+    }
+  ]
+}
