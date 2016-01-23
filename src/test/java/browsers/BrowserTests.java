@@ -152,4 +152,22 @@ public class BrowserTests {
         BrowserTest browser = new BrowserTest(new Container(testMessage));
         browser.test();
     }
+
+    @Test
+    public void variableIsEvaluated() {
+        GetFileContents fileGetter = new GetFileContents();
+        String jsonDefinition = fileGetter.getTestMessage("src/test/resources/messageWithVariable.json");
+
+        MessageInterface testMessage;
+        try {
+            testMessage = new JsonMessage(jsonDefinition);
+        }
+        catch (MessageException jsonException) {
+            System.out.println(jsonException.getMessage());
+            return;
+        }
+
+        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        browser.test();
+    }
 }

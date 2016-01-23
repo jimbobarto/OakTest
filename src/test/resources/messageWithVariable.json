@@ -1,0 +1,24 @@
+{
+  "url": "http://www.bbc.co.uk/news/",
+  "name": "Example test",
+  "variables": {
+    "suffix": "sport/"
+  },
+  "pages": [
+    {
+      "name": "1",
+      "elements": [
+        {
+          "name": "First link",
+          "identifier": "//a[@href='/${suffix}']",
+          "identifierType": "xpath",
+          "type": "link",
+          "interaction": "click",
+          "value": "",
+          "text": "",
+          "timeout": 5
+        }
+      ]
+    }
+  ]
+}

@@ -47,9 +47,10 @@ public class ElementInteraction {
         this.translator = this.container.getTranslator();
 
         this.identifierType = getIdentifierType();
-        this.identifier = setUpMessage.getIdentifier();
         this.type = setUpMessage.getType();
         this.timeoutInSeconds = setTimeout();
+
+        this.identifier = this.translator.translate(setUpMessage.getIdentifier());
 
         //TODO: initialize the Timer at a higher level...
         this.timer = new TestTimer();

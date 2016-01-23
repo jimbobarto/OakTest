@@ -51,7 +51,7 @@ public class Translator {
             Matcher variableMatcher = variableNamePattern.matcher(currentVariable);
             if (variableMatcher.find()) {
                 // the variable is simply the name of a variable in turn, so look for it in the list
-                return getVariable(currentVariable);
+                stringContainingVariable = stringContainingVariable.replaceFirst("\\$\\{" + currentVariable + "\\}", getVariable(currentVariable));
             }
             else {
                 Pattern variablePathPattern = Pattern.compile("^(\\w+)\\.(.+)$");
@@ -62,7 +62,8 @@ public class Translator {
                     String path = variablePathMatcher.group(2);
 
                     String pathString = getVariable(pathName);
-                    return JsonPath.read(pathString, "$." + path);
+                    String evaluatedVariable = JsonPath.read(pathString, "$." + path);
+                    stringContainingVariable = stringContainingVariable.replaceFirst("\\$\\{" + currentVariable + "\\}", evaluatedVariable);
                 }
 
             }

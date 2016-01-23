@@ -113,6 +113,8 @@ public class JsonMessage extends JsonParent implements MessageInterface {
             throw new MessageException("Message has no Name");
         }
 
+        this.variables = getVariables(message);
+
         return message;
     }
 
