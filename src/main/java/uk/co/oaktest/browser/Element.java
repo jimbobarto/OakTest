@@ -2,6 +2,7 @@ package uk.co.oaktest.browser;
 
 import org.openqa.selenium.WebDriver;
 import uk.co.oaktest.config.Config;
+import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.container.Container;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.results.ResponseNode;
@@ -43,10 +44,11 @@ public class Element {
         Object classInstance;
 
         try {
-            runtimeClass = Class.forName("uk.co.oaktest.elementInteractions."+ elementType);
+            runtimeClass = Class.forName("uk.co.oaktest.elementInteractions." + elementType);
         }
         catch (ClassNotFoundException exception) {
             runtimeClass = uk.co.oaktest.elementInteractions.BaseElement.class;
+            this.elementNode.addMessage(Status.UNKNOWN_ELEMENT.getValue(), "Element type '" + type + "' unrecognised");
         }
 
         try {
