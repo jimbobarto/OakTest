@@ -12,6 +12,7 @@ import uk.co.oaktest.messages.interfaces.PageInterface;
 import uk.co.oaktest.rabbit.RabbitMessage;
 import uk.co.oaktest.rabbit.SimpleProducer;
 import uk.co.oaktest.results.ResponseNode;
+import uk.co.oaktest.utils.UrlConstructor;
 import uk.co.oaktest.variables.Translator;
 
 import java.util.ArrayList;
@@ -21,12 +22,15 @@ public class BrowserTest {
     MessageInterface message;
     ResponseNode rootResponseNode;
     Translator translator;
+    UrlConstructor urlConstructor;
     Container container;
+    String rootUrl;
     final static Logger logger = Logger.getLogger(BrowserTest.class);
 
     public BrowserTest(Container setUpContainer) {
         this.container = setUpContainer;
         this.message = this.container.getMessage();
+        this.rootUrl = message.getUrl();
 
         this.rootResponseNode = new ResponseNode(message.getName());
         this.container.setResponseNode(this.rootResponseNode);
@@ -41,6 +45,9 @@ public class BrowserTest {
                 this.rootResponseNode.addMessage(Status.BASIC_ERROR.getValue(), e.getMessage(), e.toString());
             }
         }
+
+        this.urlConstructor = new UrlConstructor(this.rootUrl);
+        this.container.setUrlConstructor(this.urlConstructor);
     }
 
     public BrowserTest(MessageInterface setUpMessage) {
@@ -55,7 +62,7 @@ public class BrowserTest {
         WebDriver driver = new FirefoxDriver();
         this.container.setDriver(driver);
 
-        driver.get(message.getUrl());
+        driver.get(this.rootUrl);
 
         ArrayList<PageInterface> pages = this.message.getPages();
 

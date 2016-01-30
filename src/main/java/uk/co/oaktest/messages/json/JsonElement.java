@@ -31,7 +31,8 @@ public class JsonElement extends JsonCommon implements ElementInterface {
             throw new MessageException("Element has no identifier");
         }
         if (this.identifierType == null) {
-            throw new MessageException("Element has no identifier type");
+            //throw new MessageException("Element has no identifier type");
+            // IdentifierType can be null because an element might be some sort of browser operation - i.e. 'open' or 'back'
         }
         if (this.type == null) {
             throw new MessageException("Element has no type");

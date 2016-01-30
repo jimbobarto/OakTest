@@ -28,6 +28,11 @@ public class JsonPage extends JsonParent implements PageInterface {
             setExpectedResult(getStringProperty("expectedResults"));
             setExpectedStatusCode(getIntegerProperty("expectedStatusCode"));
         }
+        else {
+            if (this.message.has("uri")) {
+                setUri(getStringProperty("uri"));
+            }
+        }
     }
 
     private String evaluateType() throws MessageException {

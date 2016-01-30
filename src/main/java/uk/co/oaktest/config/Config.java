@@ -12,6 +12,7 @@ public class Config {
 
         Map <String, String> interactionMap = new HashMap<String, String>();
         interactionMap.put("click", "click");
+        interactionMap.put("clickAndWait", "click");
         interactionMap.put("checktext", "checkElementText");
         interactionMap.put("checkText", "checkElementText");
         interactionMap.put("getattribute", "getAttribute");
@@ -31,6 +32,7 @@ public class Config {
         elementMap.put("textbox", "TextBox");
         elementMap.put("paragraph", "Paragraph");
         elementMap.put("header", "Header");
+        elementMap.put("browser", "Browser");
         return elementMap;
     }
 
@@ -43,6 +45,7 @@ public class Config {
         findByMap.put("Id", "ID");
         findByMap.put("ID", "ID");
         findByMap.put("linktext", "LINKTEXT");
+        findByMap.put("link", "LINKTEXT");
         findByMap.put("xpath", "XPATH");
         findByMap.put("class", "CLASS");
 

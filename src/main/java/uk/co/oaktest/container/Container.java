@@ -3,6 +3,7 @@ package uk.co.oaktest.container;
 import org.openqa.selenium.WebDriver;
 import uk.co.oaktest.messages.interfaces.MessageInterface;
 import uk.co.oaktest.results.ResponseNode;
+import uk.co.oaktest.utils.UrlConstructor;
 import uk.co.oaktest.variables.Translator;
 
 public class Container {
@@ -10,6 +11,7 @@ public class Container {
     WebDriver driver;
     ResponseNode responseNode;
     Translator translator;
+    UrlConstructor urlConstructor;
 
     public Container() {
     }
@@ -52,5 +54,14 @@ public class Container {
     public Translator setTranslator(Translator containerTranslator) {
         this.translator = containerTranslator;
         return this.translator;
+    }
+
+    public UrlConstructor getUrlConstructor() {
+        return this.urlConstructor;
+    }
+
+    public UrlConstructor setUrlConstructor(UrlConstructor containerConstructor) {
+        this.urlConstructor = containerConstructor;
+        return this.urlConstructor;
     }
 }

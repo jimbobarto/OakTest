@@ -1,0 +1,1 @@
+{"name":"test1","url":"http://www.bbc.co.uk/","pages":[{"name":"1","elements":[{"interaction":"clickAndWait","type":"generic","identifierType":"link","identifier":"News","name":"1_0"},{"interaction":"clickAndWait","type":"generic","identifierType":"css","identifier":"span.title-link__title-text","name":"1_1"}],"uri":"/sport/0/"}]}
