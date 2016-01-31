@@ -77,7 +77,6 @@ public class BrowserTest {
 
                 pageResponseNode.end();
             }
-            driver.close();
         }
         catch (Exception e) {
             this.rootResponseNode.addMessage(Status.BASIC_ERROR.getValue(), e.getMessage(), e.toString());
@@ -85,6 +84,7 @@ public class BrowserTest {
         finally {
             this.rootResponseNode.end();
             publishResults();
+            driver.close();
         }
 
         return this.rootResponseNode.getStatus();
