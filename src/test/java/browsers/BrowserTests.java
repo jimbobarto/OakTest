@@ -41,7 +41,14 @@ public class BrowserTests {
         GetFileContents fileGetter = new GetFileContents();
         String xmlMessage = fileGetter.getTestMessage("src/test/resources/testMessage.xml");
 
-        MessageInterface testMessage = new XmlMessage(xmlMessage);
+        MessageInterface testMessage;
+        try {
+            testMessage = new XmlMessage(xmlMessage);
+        }
+        catch (MessageException xmlException) {
+            System.out.println(xmlException.getMessage());
+            return;
+        }
 
         BrowserTest browser = new BrowserTest(new Container(testMessage));
         browser.test();
@@ -175,6 +182,24 @@ public class BrowserTests {
     public void formatterTestRuns() {
         GetFileContents fileGetter = new GetFileContents();
         String jsonDefinition = fileGetter.getTestMessage("src/test/resources/formatterExample.json");
+
+        MessageInterface testMessage;
+        try {
+            testMessage = new JsonMessage(jsonDefinition);
+        }
+        catch (MessageException jsonException) {
+            System.out.println(jsonException.getMessage());
+            return;
+        }
+
+        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        browser.test();
+    }
+
+    @Test
+    public void formatterTestRunComplex() {
+        GetFileContents fileGetter = new GetFileContents();
+        String jsonDefinition = fileGetter.getTestMessage("src/test/resources/formatterExampleAviva.json");
 
         MessageInterface testMessage;
         try {

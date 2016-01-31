@@ -29,13 +29,18 @@ public class TestDefinition {
             type = "JSON";
         }
         else {
-            message = new XmlMessage(testDefinition);
-            if (message.isValid()) {
-                System.out.println("Valid XML");
-                type = "XML";
+            try {
+                message = new XmlMessage(testDefinition);
+                if (message.isValid()) {
+                    System.out.println("Valid XML");
+                    type = "XML";
+                } else {
+                    System.out.println("Invalid everything :(");
+                }
             }
-            else {
-                System.out.println("Invalid everything :(");
+            catch (MessageException xmlException) {
+                System.out.println(xmlException.getMessage());
+                return;
             }
         }
     }
@@ -56,9 +61,15 @@ public class TestDefinition {
             }
         }
         else if (testType == "xml") {
-            MessageInterface message = new XmlMessage(testDefinition);
-            if (message.isValid()) {
-                type = "XML";
+            try {
+                MessageInterface message = new XmlMessage(testDefinition);
+                if (message.isValid()) {
+                    type = "XML";
+                }
+            }
+            catch (MessageException xmlException) {
+                System.out.println(xmlException.getMessage());
+                return;
             }
         }
         else {

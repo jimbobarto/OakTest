@@ -38,7 +38,15 @@ public class MessageTests {
     public void validXmlShouldCreateMessage() {
         String xmlMessage = new GetFileContents().getTestMessage("src/test/resources/testMessage.xml");
 
-        MessageInterface testMessage = new XmlMessage(xmlMessage);
+        MessageInterface testMessage;
+        try {
+            testMessage = new XmlMessage(xmlMessage);
+        }
+        catch (MessageException xmlException) {
+            System.out.println(xmlException.getMessage());
+            return;
+        }
+
         // assert statements
         assertEquals("Number of pages in the test message should be 2", 2, testMessage.getPages().size());
     }

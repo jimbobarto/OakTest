@@ -1,5 +1,7 @@
 package uk.co.oaktest.messages.interfaces;
 
+import uk.co.oaktest.messages.MessageException;
+
 /**
  * Created by jamesbartlett on 05/10/15.
  */
@@ -21,6 +23,8 @@ public interface ElementInterface {
 
     public String setIdentifierType(String identifierType);
 
+    public String setSelectBy(String selectBy) throws MessageException;
+
 
 
     public Integer getIndex();
@@ -40,4 +44,6 @@ public interface ElementInterface {
     public String getIdentifierType();
 
     public String getText();
+
+    public String getSelectBy();
 }

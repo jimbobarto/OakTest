@@ -16,7 +16,7 @@ public class XmlMessage extends XmlParent implements MessageInterface {
     String testDefinition;
     String url;
 
-    public XmlMessage(String givenTestDefinition) {
+    public XmlMessage(String givenTestDefinition) throws MessageException {
         super(givenTestDefinition);
         testDefinition = givenTestDefinition;
 
@@ -50,7 +50,7 @@ public class XmlMessage extends XmlParent implements MessageInterface {
         return mapHasElements(this.variables);
     }
 
-    public Node convertDefinitionToMessage() throws Error {
+    public Node convertDefinitionToMessage() throws MessageException {
         try {
             message = parseDocument();
         }
@@ -84,20 +84,15 @@ public class XmlMessage extends XmlParent implements MessageInterface {
         return message;
     }
 
-    protected ArrayList<XmlPage> getPages(Node parentElement) {
+    protected ArrayList<XmlPage> getPages(Node parentElement) throws MessageException {
         Node pagesNode = getChild(parentElement, "pages");
         if (pagesNode != null) {
-            try {
-                ArrayList<Node> grandchildren = getGrandchildren(pagesNode, "page");
+            ArrayList<Node> grandchildren = getGrandchildren(pagesNode, "page");
 
-                for (int i = 0; i < grandchildren.size(); i++) {
-                    XmlPage currentPage = new XmlPage(grandchildren.get(i));
+            for (int i = 0; i < grandchildren.size(); i++) {
+                XmlPage currentPage = new XmlPage(grandchildren.get(i));
 
-                    pages.add(currentPage);
-                }
-            }
-            catch (Exception ex) {
-                throw new Error(ex);
+                pages.add(currentPage);
             }
         }
 

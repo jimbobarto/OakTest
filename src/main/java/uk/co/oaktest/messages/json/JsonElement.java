@@ -19,6 +19,7 @@ public class JsonElement extends JsonCommon implements ElementInterface {
             setText(getStringProperty("text"));
             setValue(getStringProperty("value"));
             setTimeout(getIntegerProperty("timeout"));
+            setSelectBy(getStringProperty("selectBy"));
         }
         catch (MessageException msgEx) {
             throw msgEx;

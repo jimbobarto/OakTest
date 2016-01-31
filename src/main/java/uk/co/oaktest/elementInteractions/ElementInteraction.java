@@ -56,7 +56,7 @@ public class ElementInteraction {
         this.timer = new TestTimer();
     }
 
-    private Integer setTimeout() {
+    public Integer setTimeout() {
         Integer messageTimeout = this.setUpMessage.getTimeout();
         Integer timeout;
         if (messageTimeout != null) {
@@ -147,7 +147,7 @@ public class ElementInteraction {
         }
     }
 
-    private String getIdentifierType() {
+    public String getIdentifierType() {
         HashMap idTypes = new HashMap(Config.findByTypes());
         String identifierType = (String)idTypes.get(setUpMessage.getIdentifierType());
 
@@ -211,7 +211,7 @@ public class ElementInteraction {
         }
     }
 
-    private Boolean elementIsVisible(By identifier) {
+    public Boolean elementIsVisible(By identifier) {
         WebDriverWait wait = new WebDriverWait(this.driver, this.timeoutInSeconds);
         try {
             wait.until(ExpectedConditions.visibilityOfElementLocated(identifier));
@@ -223,7 +223,7 @@ public class ElementInteraction {
         return true;
     }
 
-    private Boolean elementIsClickable(By identifier) {
+    public Boolean elementIsClickable(By identifier) {
         WebDriverWait wait = new WebDriverWait(this.driver, this.timeoutInSeconds);
         try {
             wait.until(ExpectedConditions.elementToBeClickable(identifier));
@@ -235,20 +235,20 @@ public class ElementInteraction {
         return true;
     }
 
-    private void startTimer(Integer status) {
+    public void startTimer(Integer status) {
         this.timer.startTimer();
         responseNode.addMessage(status, this.timer.getFormattedStartTime());
     }
 
-    private void startTimerFind() {
+    public void startTimerFind() {
         this.startTimer(Status.TIMER_STARTED_FIND.getValue());
     }
 
-    private void startTimerInteract() {
+    public void startTimerInteract() {
         this.startTimer(Status.TIMER_STARTED_INTERACT.getValue());
     }
 
-    private void stopTimer(Integer timerStatus, Integer elapsedStatus) {
+    public void stopTimer(Integer timerStatus, Integer elapsedStatus) {
         this.timer.stopTimer();
         responseNode.addMessage(timerStatus, this.timer.getFormattedFinishTime());
 
@@ -256,11 +256,11 @@ public class ElementInteraction {
         responseNode.addMessage(elapsedStatus, String.valueOf(elapsedTime));
     }
 
-    private void stopTimerFind() {
+    public void stopTimerFind() {
         this.stopTimer(Status.TIMER_FINISHED_FIND.getValue(), Status.ELAPSED_TIME_FIND.getValue());
     }
 
-    private void stopTimerInteract() {
+    public void stopTimerInteract() {
         this.stopTimer(Status.TIMER_FINISHED_INTERACT.getValue(), Status.ELAPSED_TIME_INTERACT.getValue());
     }
 }

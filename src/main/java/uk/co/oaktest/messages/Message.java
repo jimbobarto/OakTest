@@ -32,7 +32,15 @@ public class Message {
             type = "JSON";
         }
         else {
-            XmlMessage xmlMessage = new XmlMessage(testDefinition);
+            XmlMessage xmlMessage;
+            try {
+                xmlMessage = new XmlMessage(testDefinition);
+            }
+            catch (MessageException xmlException) {
+                System.out.println(xmlException.getMessage());
+                return;
+            }
+
             if (xmlMessage.isValid()) {
                 System.out.println("Valid XML");
                 type = "XML";

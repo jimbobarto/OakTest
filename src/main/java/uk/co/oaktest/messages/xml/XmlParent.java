@@ -2,6 +2,7 @@ package uk.co.oaktest.messages.xml;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import uk.co.oaktest.messages.MessageException;
 
 import java.util.ArrayList;
 
@@ -12,7 +13,7 @@ public class XmlParent extends XmlNode {
         super(givenTestDefinition);
     }
 
-    public XmlParent(Node givenTestDefinition) {
+    public XmlParent(Node givenTestDefinition) throws MessageException {
         super(givenTestDefinition);
 
         Node elementsNode = getChild(message, "elements");

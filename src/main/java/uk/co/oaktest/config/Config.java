@@ -18,6 +18,8 @@ public class Config {
         interactionMap.put("getattribute", "getAttribute");
         interactionMap.put("checkElementText", "checkElementText");
         interactionMap.put("typevalue", "typeValue");
+        interactionMap.put("type", "typeValue");
+        interactionMap.put("select", "select");
 
         return interactionMap;
     }
@@ -33,6 +35,7 @@ public class Config {
         elementMap.put("paragraph", "Paragraph");
         elementMap.put("header", "Header");
         elementMap.put("browser", "Browser");
+        elementMap.put("select", "Select");
         return elementMap;
     }
 

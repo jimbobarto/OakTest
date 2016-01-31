@@ -1,6 +1,7 @@
 package uk.co.oaktest.messages.xml;
 
 import org.w3c.dom.Node;
+import uk.co.oaktest.messages.MessageException;
 import uk.co.oaktest.messages.interfaces.PageInterface;
 
 /**
@@ -16,7 +17,7 @@ public class XmlPage extends XmlParent implements PageInterface {
     String expectedResults;
     int expectedStatusCode;
 
-    public XmlPage(Node pageDefinition) {
+    public XmlPage(Node pageDefinition) throws MessageException {
         super(pageDefinition);
     }
 

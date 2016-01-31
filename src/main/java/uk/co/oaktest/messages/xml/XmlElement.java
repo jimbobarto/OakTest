@@ -3,6 +3,7 @@ package uk.co.oaktest.messages.xml;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import uk.co.oaktest.messages.GenericProperties;
+import uk.co.oaktest.messages.MessageException;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
 
 
@@ -11,7 +12,7 @@ public class XmlElement extends GenericProperties implements ElementInterface {
     Node elementXml;
     XmlNode xmlNode;
 
-    public XmlElement(Node elementDefinition) {
+    public XmlElement(Node elementDefinition) throws MessageException {
         setDefinition(elementDefinition);
 
         NamedNodeMap attributes = this.elementXml.getAttributes();
@@ -21,7 +22,7 @@ public class XmlElement extends GenericProperties implements ElementInterface {
         getProperties(attributes);
     }
 
-    private void getProperties(NamedNodeMap attributes) {
+    private void getProperties(NamedNodeMap attributes) throws MessageException {
         if (attributes.getNamedItem("name") != null) {
             setName(attributes.getNamedItem("name").getNodeValue());
         }
@@ -39,9 +40,10 @@ public class XmlElement extends GenericProperties implements ElementInterface {
         setInteraction(interaction);
         String value = xmlNode.getChildStringValue("value");
         setValue(value);
-        //String text = xmlNode.getChildStringValue("text");
         Integer timeout = xmlNode.getChildIntegerValue("timeout");
         setTimeout(timeout);
+        String selectBy = xmlNode.getChildStringValue("selectBy");
+        setSelectBy(selectBy);
     }
 
     public Node setDefinition(Node newDefinition) {

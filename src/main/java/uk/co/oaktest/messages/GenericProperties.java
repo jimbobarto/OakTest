@@ -1,6 +1,7 @@
 package uk.co.oaktest.messages;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 public class GenericProperties {
@@ -12,6 +13,7 @@ public class GenericProperties {
     public String name;
     public String value;
     public Integer timeout;
+    public String selectBy;
     public String verb;
     public String text;
     public String uri;
@@ -46,6 +48,8 @@ public class GenericProperties {
     public String getText() {return this.text;}
 
     public String getValue() {return this.value;}
+
+    public String getSelectBy() {return this.selectBy;}
 
     public String getInteraction() {
         return this.interaction;
@@ -116,6 +120,20 @@ public class GenericProperties {
     public Integer setTimeout(Integer newTimeout) {
         this.timeout = newTimeout;
         return this.timeout;
+    }
+
+    public String setSelectBy(String newSelectBy) throws MessageException {
+        if (newSelectBy != null) {
+            ArrayList<String> validSelectBy = new ArrayList<String>(Arrays.asList("value", "label"));
+            if (validSelectBy.contains(newSelectBy)) {
+                this.selectBy = newSelectBy;
+                return this.selectBy;
+            } else {
+                throw new MessageException("selectBy of '" + newSelectBy + "' is not valid");
+            }
+        }
+
+        return this.selectBy;
     }
 
     public String setVerb(String newVerb) {
