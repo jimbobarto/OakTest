@@ -43,7 +43,9 @@ public class XmlElement extends GenericProperties implements ElementInterface {
         Integer timeout = xmlNode.getChildIntegerValue("timeout");
         setTimeout(timeout);
         String selectBy = xmlNode.getChildStringValue("selectBy");
-        setSelectBy(selectBy);
+        if (!selectBy.equals("")) {
+            setSelectBy(selectBy);
+        }
     }
 
     public Node setDefinition(Node newDefinition) {

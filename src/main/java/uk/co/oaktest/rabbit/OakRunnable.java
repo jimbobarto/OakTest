@@ -1,7 +1,9 @@
 package uk.co.oaktest.rabbit;
 
+import org.apache.log4j.Logger;
 import uk.co.oaktest.browser.BrowserTest;
 import uk.co.oaktest.container.Container;
+import uk.co.oaktest.messages.MessageFactory;
 import uk.co.oaktest.messages.interfaces.MessageInterface;
 import uk.co.oaktest.messages.MessageException;
 import uk.co.oaktest.messages.json.JsonMessage;
@@ -10,6 +12,7 @@ import java.io.UnsupportedEncodingException;
 
 public class OakRunnable implements Runnable {
     String rabbitMessage;
+    final static Logger logger = Logger.getLogger(OakRunnable.class);
 
     public OakRunnable(byte[] byteMessage) {
         String message;
@@ -27,12 +30,9 @@ public class OakRunnable implements Runnable {
     }
 
     public void run() {
-        MessageInterface publishedTestMessage;
-        try {
-            publishedTestMessage = new JsonMessage(this.rabbitMessage);
-        }
-        catch (MessageException jsonException) {
-            System.out.println(jsonException.getMessage());
+        MessageInterface publishedTestMessage = MessageFactory.createMessage(this.rabbitMessage);
+        if (publishedTestMessage == null) {
+            logger.error("Rabbit message could not be converted into a test: "+ this.rabbitMessage);
             return;
         }
 

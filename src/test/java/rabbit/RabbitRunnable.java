@@ -3,6 +3,7 @@ package rabbit;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import org.junit.Assert;
 import org.junit.Test;
 import uk.co.oaktest.constants.Queues;
 import uk.co.oaktest.fileContents.GetFileContents;
@@ -18,7 +19,7 @@ public class RabbitRunnable {
 
     @Test
     public void messageShouldPublishAndBeConsumedAsRunnable() {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             GetFileContents fileGetter = new GetFileContents();
             String jsonMessage = fileGetter.getTestMessage("src/test/resources/testMessage.json");
 
@@ -39,14 +40,16 @@ public class RabbitRunnable {
             OakConsumer newConsumer = new OakConsumer(executor, ch, Queues.TESTS.getValue());
         }
         catch (Exception e) {
-            throw new Error(e);
+            Assert.fail("Consumer error: " + e.getMessage());
+            return;
         }
 
         try {
             Thread.sleep(10000);
         }
         catch (Exception e) {
-            throw new Error(e);
+            Assert.fail("Sleep error: " + e.getMessage());
+            return;
         }
 
         executor.shutdown();
@@ -55,9 +58,11 @@ public class RabbitRunnable {
             executor.awaitTermination(10, TimeUnit.SECONDS);
         }
         catch (InterruptedException e) {
-            throw new Error(e);
+            Assert.fail("Termination error: " + e.getMessage());
+            return;
         }
-        System.out.println("Finished all threads");
+
+        Assert.assertTrue(true);
 
     }
 
