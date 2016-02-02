@@ -15,6 +15,7 @@ public class XmlMessage extends XmlParent implements MessageInterface {
     Map<String, String> variables;
     String testDefinition;
     String url;
+    String implementation;
 
     public XmlMessage(String givenTestDefinition) throws MessageException {
         super(givenTestDefinition);
@@ -32,6 +33,15 @@ public class XmlMessage extends XmlParent implements MessageInterface {
     public String setUrl(String newUrl) {
         this.url = newUrl;
         return url;
+    }
+
+    public String getImplementation() {
+        return this.implementation;
+    }
+
+    public String setImplementation(String newImplementation) {
+        this.implementation = newImplementation;
+        return this.implementation;
     }
 
     public ArrayList getPages() {
@@ -73,8 +83,12 @@ public class XmlMessage extends XmlParent implements MessageInterface {
         }
 
         String url = getChildStringValue("url");
-        if (url != "") {
+        if (!url.equals("")) {
             setUrl(url);
+        }
+        String implementation = getChildStringValue("implementation");
+        if (!implementation.equals("")) {
+            setImplementation(implementation);
         }
         NamedNodeMap attributes = message.getAttributes();
         if (attributes.getNamedItem("name") != null) {

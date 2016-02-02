@@ -48,6 +48,8 @@ public class BrowserTest {
 
         this.urlConstructor = new UrlConstructor(this.rootUrl);
         this.container.setUrlConstructor(this.urlConstructor);
+
+        //TODO: ability to set a status that sets when a test stops (e.g. if a status is over 399 then the test stops), and not just rely on a default
     }
 
     public BrowserTest(MessageInterface setUpMessage) {
@@ -73,15 +75,21 @@ public class BrowserTest {
 
                 Page page = new Page(pageMessage, pageResponseNode, this.container);
 
-                page.test();
+                Integer pageResult = page.test();
 
                 pageResponseNode.end();
+
+                //TODO: remove this hard-coded default!!!
+                if (pageResult > 499) {
+                    break;
+                }
             }
         }
         catch (Exception e) {
             this.rootResponseNode.addMessage(Status.BASIC_ERROR.getValue(), e.getMessage(), e.toString());
         }
         finally {
+            //TODO: we must always make sure Rabbit is up!
             this.rootResponseNode.end();
             publishResults();
             driver.close();

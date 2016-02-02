@@ -12,12 +12,16 @@ public class Container {
     ResponseNode responseNode;
     Translator translator;
     UrlConstructor urlConstructor;
+    String implementation;
 
     public Container() {
     }
 
     public Container(MessageInterface containerMessage) {
         this.message = containerMessage;
+        if (this.message.getImplementation() != null) {
+            setImplementation(this.message.getImplementation());
+        }
     }
 
     public MessageInterface getMessage() {
@@ -63,5 +67,14 @@ public class Container {
     public UrlConstructor setUrlConstructor(UrlConstructor containerConstructor) {
         this.urlConstructor = containerConstructor;
         return this.urlConstructor;
+    }
+
+    public String getImplementation() {
+        return this.implementation;
+    }
+
+    public String setImplementation(String newImplementation) {
+        this.implementation = newImplementation;
+        return this.implementation;
     }
 }

@@ -25,17 +25,17 @@ import uk.co.oaktest.variables.Translator;
  */
 public class ElementInteraction {
 
-    WebDriver driver;
-    ElementInterface setUpMessage;
-    ResponseNode responseNode;
-    Container container;
-    Translator translator;
-    String identifierType;
-    String identifier;
-    String type;
-    Integer timeoutInSeconds;
-    By byIdentifier;
-    TestTimer timer;
+    public WebDriver driver;
+    public ElementInterface setUpMessage;
+    public ResponseNode responseNode;
+    public Container container;
+    public Translator translator;
+    public String identifierType;
+    public String identifier;
+    public String type;
+    public Integer timeoutInSeconds;
+    public By byIdentifier;
+    public TestTimer timer;
 
 
     public ElementInteraction(ElementInterface message, ResponseNode elementResponseNode, Container elementContainer) {

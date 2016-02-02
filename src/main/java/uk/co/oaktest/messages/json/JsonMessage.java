@@ -18,6 +18,7 @@ public class JsonMessage extends JsonParent implements MessageInterface {
     String url;
     String name;
     String type;
+    String implementation;
 
     public JsonMessage(String givenTestDefinition) throws MessageException {
         super(givenTestDefinition);
@@ -44,6 +45,15 @@ public class JsonMessage extends JsonParent implements MessageInterface {
     public String setType(String newType) {
         this.type = newType;
         return this.type;
+    }
+
+    public String getImplementation() {
+        return this.implementation;
+    }
+
+    public String setImplementation(String newImplementation) {
+        this.implementation = newImplementation;
+        return this.implementation;
     }
 
     public ArrayList getPages() {
@@ -111,6 +121,15 @@ public class JsonMessage extends JsonParent implements MessageInterface {
         }
         else {
             throw new MessageException("Message has no Name");
+        }
+
+        if (message.has("implementation")) {
+            try {
+                setImplementation(message.getString("implementation"));
+            }
+            catch (JSONException ex) {
+                throw new MessageException("Could not set message implementation", ex);
+            }
         }
 
         this.variables = getVariables(message);

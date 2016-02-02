@@ -3,6 +3,7 @@ package browsers;
 import org.json.JSONException;
 import org.json.JSONObject;
 import uk.co.oaktest.constants.Queues;
+import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.container.Container;
 import uk.co.oaktest.fileContents.GetFileContents;
 import org.junit.Test;
@@ -213,4 +214,51 @@ public class BrowserTests {
         BrowserTest browser = new BrowserTest(new Container(testMessage));
         browser.test();
     }
+
+    @Test
+    public void implementationShouldChangeBehaviour() {
+        GetFileContents fileGetter = new GetFileContents();
+        String jsonDefinition = fileGetter.getTestMessage("src/test/resources/implementationExample.json");
+
+        MessageInterface testMessage;
+        try {
+            testMessage = new JsonMessage(jsonDefinition);
+        }
+        catch (MessageException jsonException) {
+            System.out.println(jsonException.getMessage());
+            return;
+        }
+
+        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        browser.test();
+
+
+        ResponseNode node = browser.getResponseNode();
+
+        assertEquals(Status.TEXT_CHECK_WARNING.getValue(), node.getStatus(), 0);
+    }
+
+    @Test
+    public void missingImplementationShouldFallBackGracefully() {
+        GetFileContents fileGetter = new GetFileContents();
+        String jsonDefinition = fileGetter.getTestMessage("src/test/resources/missingImplementationExample.json");
+
+        MessageInterface testMessage;
+        try {
+            testMessage = new JsonMessage(jsonDefinition);
+        }
+        catch (MessageException jsonException) {
+            System.out.println(jsonException.getMessage());
+            return;
+        }
+
+        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        browser.test();
+
+
+        ResponseNode node = browser.getResponseNode();
+
+        assertEquals(Status.UNKNOWN_IMPLEMENTATION.getValue(), node.getStatus(), 0);
+    }
+
 }

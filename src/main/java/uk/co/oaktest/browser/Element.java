@@ -27,10 +27,11 @@ public class Element {
         this.container = elementContainer;
     }
 
-    public String test() {
+    public Integer test() {
         String identifier = this.message.getIdentifier();
         String type = this.message.getType();
         String interaction = this.message.getInteraction();
+        String implementation = this.container.getImplementation();
 
         //Get the maps for classes and methods
         HashMap interactionTypes = new HashMap(Config.interactionTypes());
@@ -40,17 +41,12 @@ public class Element {
         String interactionType=(String)interactionTypes.get(interaction);
         String elementType=(String)elementTypes.get(type);
 
-        Class<?> runtimeClass;
+        Class<?> runtimeClass = getRuntimeClass(implementation, elementType, type);
+        if (runtimeClass == null) {
+            return this.elementNode.getStatus();
+        }
+
         Object classInstance;
-
-        try {
-            runtimeClass = Class.forName("uk.co.oaktest.elementInteractions." + elementType);
-        }
-        catch (ClassNotFoundException exception) {
-            runtimeClass = uk.co.oaktest.elementInteractions.BaseElement.class;
-            this.elementNode.addMessage(Status.UNKNOWN_ELEMENT.getValue(), "Element type '" + type + "' unrecognised");
-        }
-
         try {
             Constructor<?> constructor = runtimeClass.getConstructor(ElementInterface.class, ResponseNode.class, Container.class);
             classInstance = constructor.newInstance(this.message, this.elementNode, this.container);
@@ -83,6 +79,60 @@ public class Element {
 
         }
 
-        return "Hello";
+        return this.elementNode.getStatus();
+    }
+
+    private Class<?> checkImplementation(String implementationName, String elementType) {
+        Class<?> runtimeClass = null;
+        try {
+            runtimeClass = Class.forName("uk.co.oaktest.elementInteractions.implementations." + implementationName + "." + elementType);
+        }
+        catch (ClassNotFoundException e) {
+            return null;
+        }
+
+        return runtimeClass;
+    }
+
+    private Class<?> getClass(String classPath) {
+        Class<?> runtimeClass = null;
+        try {
+            runtimeClass = Class.forName(classPath);
+        }
+        catch (ClassNotFoundException e) {
+            return null;
+        }
+
+        return runtimeClass;
+    }
+
+    private Class<?> checkClass(String classPath, Integer missingClassStatus, String missingClassMessage) {
+        Class<?> runtimeClass = getClass(classPath);
+        if (runtimeClass == null) {
+            this.elementNode.addMessage(missingClassStatus, missingClassMessage);
+        }
+
+        return runtimeClass;
+    }
+
+    private Class<?> getRuntimeClass(String implementationName, String elementType, String type) {
+        Class<?> runtimeClass = null;
+        if (implementationName != null) {
+            runtimeClass = checkClass("uk.co.oaktest.elementInteractions.implementations." + implementationName + "." + elementType, Status.UNKNOWN_IMPLEMENTATION.getValue(), "Element type '" + type + "' in implementation '" + implementationName + "' was not found");
+            if (runtimeClass != null) {
+                return runtimeClass;
+            }
+        }
+        runtimeClass = checkClass("uk.co.oaktest.elementInteractions." + elementType, Status.UNKNOWN_ELEMENT.getValue(), "Element type '" + type + "' unrecognised");
+        if (runtimeClass != null) {
+            return runtimeClass;
+        }
+
+        runtimeClass = checkClass("uk.co.oaktest.elementInteractions.BaseElement", Status.BASE_ELEMENT_NOT_FOUND.getValue(), "Base element not found!");
+        if (runtimeClass != null) {
+            return runtimeClass;
+        }
+
+        return runtimeClass;
     }
 }

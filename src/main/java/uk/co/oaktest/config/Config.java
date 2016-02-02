@@ -36,6 +36,7 @@ public class Config {
         elementMap.put("header", "Header");
         elementMap.put("browser", "Browser");
         elementMap.put("select", "Select");
+        elementMap.put("generic", "BaseElement");
         return elementMap;
     }
 

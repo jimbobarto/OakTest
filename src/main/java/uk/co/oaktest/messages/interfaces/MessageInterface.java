@@ -19,6 +19,10 @@ public interface MessageInterface {
 
     public String setType(String newName);
 
+    public String getImplementation();
+
+    public String setImplementation(String newImplementation);
+
     public boolean isValid();
 
     public ArrayList getPages();

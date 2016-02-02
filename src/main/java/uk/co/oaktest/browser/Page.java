@@ -24,7 +24,7 @@ public class Page {
         this.container = pageContainer;
     }
 
-    public String test() {
+    public Integer test() {
         String pageUri = this.message.getUri();
         if (pageUri != null) {
             WebDriver driver = this.container.getDriver();
@@ -40,11 +40,14 @@ public class Page {
             ResponseNode elementResponseNode = this.pageNode.createChildNode(elementMessage.getName());
 
             Element element = new Element(elementMessage, elementResponseNode, this.container);
-            element.test();
-
+            Integer elementResult = element.test();
             elementResponseNode.end();
+
+            if (elementResult > 499) {
+                return this.pageNode.getStatus();
+            }
         }
 
-        return "Hello";
+        return this.pageNode.getStatus();
     }
 }
