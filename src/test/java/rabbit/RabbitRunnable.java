@@ -19,6 +19,7 @@ public class RabbitRunnable {
 
     @Test
     public void messageShouldPublishAndBeConsumedAsRunnable() {
+        //TODO: make this test better/more meaningful
         for (int i = 0; i < 3; i++) {
             GetFileContents fileGetter = new GetFileContents();
             String jsonMessage = fileGetter.getTestMessage("src/test/resources/testMessage.json");
