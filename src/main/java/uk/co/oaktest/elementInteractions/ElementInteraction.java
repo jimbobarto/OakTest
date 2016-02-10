@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import uk.co.oaktest.config.Config;
 import uk.co.oaktest.constants.Selenium;
 import uk.co.oaktest.constants.Status;
-import uk.co.oaktest.container.Container;
+import uk.co.oaktest.containers.TestContainer;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.results.ResponseNode;
 
@@ -28,7 +28,7 @@ public class ElementInteraction {
     public WebDriver driver;
     public ElementInterface setUpMessage;
     public ResponseNode responseNode;
-    public Container container;
+    public TestContainer container;
     public Translator translator;
     public String identifierType;
     public String identifier;
@@ -38,7 +38,7 @@ public class ElementInteraction {
     public TestTimer timer;
 
 
-    public ElementInteraction(ElementInterface message, ResponseNode elementResponseNode, Container elementContainer) {
+    public ElementInteraction(ElementInterface message, ResponseNode elementResponseNode, TestContainer elementContainer) {
         this.setUpMessage = message;
         this.responseNode = elementResponseNode;
         this.container = elementContainer;

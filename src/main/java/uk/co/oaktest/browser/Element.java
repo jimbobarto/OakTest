@@ -1,9 +1,8 @@
 package uk.co.oaktest.browser;
 
-import org.openqa.selenium.WebDriver;
 import uk.co.oaktest.config.Config;
 import uk.co.oaktest.constants.Status;
-import uk.co.oaktest.container.Container;
+import uk.co.oaktest.containers.TestContainer;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.results.ResponseNode;
 import uk.co.oaktest.variables.Translator;
@@ -19,9 +18,9 @@ public class Element {
     ElementInterface message;
     ResponseNode elementNode;
     Translator translator;
-    Container container;
+    TestContainer container;
 
-    public Element (ElementInterface setUpMessage, ResponseNode elementResponseNode, Container elementContainer) {
+    public Element (ElementInterface setUpMessage, ResponseNode elementResponseNode, TestContainer elementContainer) {
         this.message = setUpMessage;
         this.elementNode = elementResponseNode;
         this.container = elementContainer;
@@ -48,7 +47,7 @@ public class Element {
 
         Object classInstance;
         try {
-            Constructor<?> constructor = runtimeClass.getConstructor(ElementInterface.class, ResponseNode.class, Container.class);
+            Constructor<?> constructor = runtimeClass.getConstructor(ElementInterface.class, ResponseNode.class, TestContainer.class);
             classInstance = constructor.newInstance(this.message, this.elementNode, this.container);
         }
         catch(Exception getClassException) {

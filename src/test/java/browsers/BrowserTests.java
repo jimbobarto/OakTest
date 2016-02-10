@@ -2,9 +2,10 @@ package browsers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Assert;
 import uk.co.oaktest.constants.Queues;
 import uk.co.oaktest.constants.Status;
-import uk.co.oaktest.container.Container;
+import uk.co.oaktest.containers.TestContainer;
 import uk.co.oaktest.fileContents.GetFileContents;
 import org.junit.Test;
 import uk.co.oaktest.browser.BrowserTest;
@@ -33,7 +34,7 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        BrowserTest browser = new BrowserTest(new TestContainer(testMessage));
         browser.test();
     }
 
@@ -51,7 +52,7 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        BrowserTest browser = new BrowserTest(new TestContainer(testMessage));
         browser.test();
     }
 
@@ -69,7 +70,7 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        BrowserTest browser = new BrowserTest(new TestContainer(testMessage));
         browser.test();
 
 
@@ -87,8 +88,7 @@ public class BrowserTests {
             reportMessage = report.toString(3);
         }
         catch (JSONException ex) {
-            //TODO something here with the exception
-            System.out.println("Badness");
+            Assert.fail("We hit a problem with the JSON message: " + ex.getMessage());
         }
 
         RabbitMessage rabbitMessage = new RabbitMessage("amqp://localhost", "", Queues.RESULTS.getValue());
@@ -110,7 +110,7 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        BrowserTest browser = new BrowserTest(new TestContainer(testMessage));
         browser.test();
         ResponseNode node = browser.getResponseNode();
 
@@ -133,7 +133,7 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        BrowserTest browser = new BrowserTest(new TestContainer(testMessage));
         browser.test();
         ResponseNode node = browser.getResponseNode();
 
@@ -157,7 +157,7 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        BrowserTest browser = new BrowserTest(new TestContainer(testMessage));
         browser.test();
     }
 
@@ -175,7 +175,7 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        BrowserTest browser = new BrowserTest(new TestContainer(testMessage));
         browser.test();
     }
 
@@ -193,7 +193,7 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        BrowserTest browser = new BrowserTest(new TestContainer(testMessage));
         browser.test();
     }
 
@@ -211,7 +211,7 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        BrowserTest browser = new BrowserTest(new TestContainer(testMessage));
         browser.test();
     }
 
@@ -229,7 +229,7 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        BrowserTest browser = new BrowserTest(new TestContainer(testMessage));
         browser.test();
 
 
@@ -252,7 +252,7 @@ public class BrowserTests {
             return;
         }
 
-        BrowserTest browser = new BrowserTest(new Container(testMessage));
+        BrowserTest browser = new BrowserTest(new TestContainer(testMessage));
         browser.test();
 
 

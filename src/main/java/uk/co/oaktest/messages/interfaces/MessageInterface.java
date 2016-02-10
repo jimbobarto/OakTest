@@ -23,6 +23,10 @@ public interface MessageInterface {
 
     public String setImplementation(String newImplementation);
 
+    public Integer getScreenshotSetting();
+
+    public Integer setScreenshotSetting(Integer screenshotSetting);
+
     public boolean isValid();
 
     public ArrayList getPages();

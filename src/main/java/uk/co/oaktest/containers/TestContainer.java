@@ -1,4 +1,4 @@
-package uk.co.oaktest.container;
+package uk.co.oaktest.containers;
 
 import org.openqa.selenium.WebDriver;
 import uk.co.oaktest.messages.interfaces.MessageInterface;
@@ -6,7 +6,7 @@ import uk.co.oaktest.results.ResponseNode;
 import uk.co.oaktest.utils.UrlConstructor;
 import uk.co.oaktest.variables.Translator;
 
-public class Container {
+public class TestContainer {
     MessageInterface message;
     WebDriver driver;
     ResponseNode responseNode;
@@ -14,10 +14,10 @@ public class Container {
     UrlConstructor urlConstructor;
     String implementation;
 
-    public Container() {
+    public TestContainer() {
     }
 
-    public Container(MessageInterface containerMessage) {
+    public TestContainer(MessageInterface containerMessage) {
         this.message = containerMessage;
         if (this.message.getImplementation() != null) {
             setImplementation(this.message.getImplementation());

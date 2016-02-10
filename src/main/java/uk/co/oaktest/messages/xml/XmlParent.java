@@ -1,5 +1,6 @@
 package uk.co.oaktest.messages.xml;
 
+import org.json.JSONException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import uk.co.oaktest.messages.MessageException;
@@ -16,10 +17,23 @@ public class XmlParent extends XmlNode {
     public XmlParent(Node givenTestDefinition) throws MessageException {
         super(givenTestDefinition);
 
+        setScreenshotSetting(getXmlScreenshotSetting());
+
         Node elementsNode = getChild(message, "elements");
         if (elementsNode != null) {
             getElements(elementsNode);
         }
+    }
+
+    public Integer getXmlScreenshotSetting() {
+        Integer xmlScreenshotSetting;
+        Integer parentScreenshotSetting = 0;
+        Node parentScreenshotSettingNode = getChild(message, "parentScreenshotSetting");
+        if (parentScreenshotSettingNode != null) {
+            parentScreenshotSetting = Integer.parseInt(parentScreenshotSettingNode.getTextContent());
+        }
+
+        return calculateScreenshotSetting(parentScreenshotSetting);
     }
 
     public ArrayList<Node> getGrandchildren(Node parentNode, String childName) {

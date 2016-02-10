@@ -43,4 +43,7 @@ public interface PageInterface {
 
     public Integer setExpectedStatusCode(int newStatusCode);
 
+    public Integer getScreenshotSetting();
+
+    public Integer setScreenshotSetting(Integer screenshotSetting);
 }

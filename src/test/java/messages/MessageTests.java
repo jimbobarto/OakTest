@@ -55,14 +55,14 @@ public class MessageTests {
     public void jsonWithNoNameShouldError() {
         String messageWithNoName = new GetFileContents().getTestMessage("src/test/resources/testMessageNoName.json");
 
-        assertEquals("Missing name should be highlighted", "Message has no Name", getExpectedExceptionMessageFromMessage(messageWithNoName));
+        assertEquals("Missing name should be highlighted", "Message has no name", getExpectedExceptionMessageFromMessage(messageWithNoName));
     }
 
     @Test
     public void jsonWithNoUrlShouldError() {
         String messageWithNoUrl = new GetFileContents().getTestMessage("src/test/resources/testMessageNoUrl.json");
 
-        assertEquals("Missing URL should be highlighted", "Message has no URL", getExpectedExceptionMessageFromMessage(messageWithNoUrl));
+        assertEquals("Missing URL should be highlighted", "Message has no url", getExpectedExceptionMessageFromMessage(messageWithNoUrl));
     }
 
     @Test

@@ -3,7 +3,7 @@ package uk.co.oaktest.elementInteractions.implementations.example;
 
 import org.openqa.selenium.WebElement;
 import uk.co.oaktest.constants.Status;
-import uk.co.oaktest.container.Container;
+import uk.co.oaktest.containers.TestContainer;
 import uk.co.oaktest.elementInteractions.BaseElement;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.results.ResponseNode;
@@ -13,7 +13,7 @@ import uk.co.oaktest.results.ResponseNode;
  */
 public class Link extends BaseElement {
 
-    public Link(ElementInterface message, ResponseNode elementResponseNode, Container elementContainer) {
+    public Link(ElementInterface message, ResponseNode elementResponseNode, TestContainer elementContainer) {
         super(message, elementResponseNode, elementContainer);
     }
 

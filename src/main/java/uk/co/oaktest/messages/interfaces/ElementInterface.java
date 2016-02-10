@@ -25,6 +25,8 @@ public interface ElementInterface {
 
     public String setSelectBy(String selectBy) throws MessageException;
 
+    public Integer setScreenshotSetting(Integer screenshotSetting);
+
 
 
     public Integer getIndex();
@@ -46,4 +48,6 @@ public interface ElementInterface {
     public String getText();
 
     public String getSelectBy();
+
+    public Integer getScreenshotSetting();
 }

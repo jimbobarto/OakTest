@@ -1,7 +1,7 @@
 package uk.co.oaktest.browser;
 
 import org.openqa.selenium.WebDriver;
-import uk.co.oaktest.container.Container;
+import uk.co.oaktest.containers.TestContainer;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.messages.interfaces.PageInterface;
 import uk.co.oaktest.results.ResponseNode;
@@ -16,9 +16,9 @@ import java.util.Iterator;
 public class Page {
     PageInterface message;
     ResponseNode pageNode;
-    Container container;
+    TestContainer container;
 
-    public Page (PageInterface pageMessage, ResponseNode pageResponseNode, Container pageContainer) {
+    public Page (PageInterface pageMessage, ResponseNode pageResponseNode, TestContainer pageContainer) {
         this.message = pageMessage;
         this.pageNode = pageResponseNode;
         this.container = pageContainer;

@@ -2,6 +2,7 @@ package uk.co.oaktest.messages.json;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import uk.co.oaktest.containers.MessageContainer;
 import uk.co.oaktest.messages.MessageException;
 import uk.co.oaktest.messages.interfaces.PageInterface;
 
@@ -18,6 +19,19 @@ public class JsonPage extends JsonParent implements PageInterface {
     public JsonPage(JSONObject pageDefinition) throws MessageException {
         super(pageDefinition);
 
+        setPage();
+    }
+
+    public JsonPage(JSONObject pageDefinition, MessageContainer messageContainer) throws MessageException {
+        super(pageDefinition, messageContainer);
+
+        setPage();
+        if (!this.type.equals("api")) {
+            setScreenshotSetting(calculateScreenshotSetting(messageContainer.getParentShotSetting()));
+        }
+    }
+
+    private void setPage() throws MessageException {
         setType(evaluateType());
 
         if (this.type.equals("api")) {
@@ -32,6 +46,7 @@ public class JsonPage extends JsonParent implements PageInterface {
             if (this.message.has("uri")) {
                 setUri(getStringProperty("uri"));
             }
+            setScreenshotSetting(getIntegerProperty("screenshotSetting"));
         }
     }
 
@@ -131,5 +146,4 @@ public class JsonPage extends JsonParent implements PageInterface {
         this.expectedStatusCode = newExpectedStatusCode;
         return this.expectedStatusCode;
     }
-
 }

@@ -5,7 +5,7 @@ import org.json.JSONException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import uk.co.oaktest.constants.Queues;
 import uk.co.oaktest.constants.Status;
-import uk.co.oaktest.container.Container;
+import uk.co.oaktest.containers.TestContainer;
 import uk.co.oaktest.messages.interfaces.MessageInterface;
 import org.openqa.selenium.WebDriver;
 import uk.co.oaktest.messages.interfaces.PageInterface;
@@ -23,11 +23,11 @@ public class BrowserTest {
     ResponseNode rootResponseNode;
     Translator translator;
     UrlConstructor urlConstructor;
-    Container container;
+    TestContainer container;
     String rootUrl;
     final static Logger logger = Logger.getLogger(BrowserTest.class);
 
-    public BrowserTest(Container setUpContainer) {
+    public BrowserTest(TestContainer setUpContainer) {
         this.container = setUpContainer;
         this.message = this.container.getMessage();
         this.rootUrl = message.getUrl();
@@ -53,7 +53,7 @@ public class BrowserTest {
     }
 
     public BrowserTest(MessageInterface setUpMessage) {
-        this(new Container(setUpMessage));
+        this(new TestContainer(setUpMessage));
     }
 
     public ResponseNode getResponseNode() {
