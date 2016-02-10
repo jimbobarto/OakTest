@@ -79,7 +79,7 @@ public class XmlMessage extends XmlParent implements MessageInterface {
             //elements = getElements(message);
         }
         else if (hasElements() && hasPages()) {
-            throw new Error("Message has both pages and elements at the top level");
+            throw new MessageException("Message has both pages and elements at the top level");
         }
 
         String url = getChildStringValue("url");
