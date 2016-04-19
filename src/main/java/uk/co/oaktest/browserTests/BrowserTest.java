@@ -1,4 +1,4 @@
-package uk.co.oaktest.browser;
+package uk.co.oaktest.browserTests;
 
 import org.apache.log4j.Logger;
 import org.json.JSONException;

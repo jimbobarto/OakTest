@@ -1,4 +1,4 @@
-package uk.co.oaktest.api;
+package uk.co.oaktest.apiTests;
 
 import uk.co.oaktest.messages.interfaces.MessageInterface;
 import uk.co.oaktest.messages.interfaces.PageInterface;

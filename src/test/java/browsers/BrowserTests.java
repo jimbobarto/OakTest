@@ -7,7 +7,7 @@ import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.container.Container;
 import uk.co.oaktest.fileContents.GetFileContents;
 import org.junit.Test;
-import uk.co.oaktest.browser.BrowserTest;
+import uk.co.oaktest.browserTests.BrowserTest;
 import uk.co.oaktest.messages.interfaces.MessageInterface;
 import uk.co.oaktest.messages.MessageException;
 import uk.co.oaktest.messages.json.JsonMessage;

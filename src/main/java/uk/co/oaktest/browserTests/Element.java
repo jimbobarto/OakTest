@@ -1,4 +1,4 @@
-package uk.co.oaktest.browser;
+package uk.co.oaktest.browserTests;
 
 import org.openqa.selenium.WebDriver;
 import uk.co.oaktest.config.Config;

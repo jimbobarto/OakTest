@@ -1,7 +1,7 @@
 package uk.co.oaktest.rabbit;
 
 import org.apache.log4j.Logger;
-import uk.co.oaktest.browser.BrowserTest;
+import uk.co.oaktest.browserTests.BrowserTest;
 import uk.co.oaktest.container.Container;
 import uk.co.oaktest.messages.MessageFactory;
 import uk.co.oaktest.messages.interfaces.MessageInterface;

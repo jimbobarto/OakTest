@@ -4,7 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
-import uk.co.oaktest.browser.BrowserTest;
+import uk.co.oaktest.browserTests.BrowserTest;
 import uk.co.oaktest.constants.Queues;
 import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.container.Container;

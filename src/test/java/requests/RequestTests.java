@@ -2,7 +2,7 @@ package requests;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import uk.co.oaktest.api.ApiTest;
+import uk.co.oaktest.apiTests.ApiTest;
 import uk.co.oaktest.fileContents.GetFileContents;
 import uk.co.oaktest.messages.MessageException;
 import uk.co.oaktest.messages.interfaces.MessageInterface;
