@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.internal.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 
 public class Message {
@@ -16,6 +17,7 @@ public class Message {
     @JsonProperty
     private String url;
 
+    @Valid
     @JsonProperty
     private ArrayList<Page> pages;
 
