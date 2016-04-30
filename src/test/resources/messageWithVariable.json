@@ -1,9 +1,13 @@
 {
   "url": "http://www.bbc.co.uk/news/",
   "name": "Example test",
-  "variables": {
-    "suffix": "sport/"
-  },
+  "variables": [
+    {
+      "name": "suffix",
+      "type": "string",
+      "value": "sport/"
+    }
+  ],
   "pages": [
     {
       "name": "1",

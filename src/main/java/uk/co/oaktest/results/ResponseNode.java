@@ -1,5 +1,7 @@
 package uk.co.oaktest.results;
 
+
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -9,6 +11,7 @@ import uk.co.oaktest.constants.Status;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class ResponseNode {
     final static Logger logger = Logger.getLogger(ResponseNode.class);
@@ -176,6 +179,14 @@ public class ResponseNode {
 
     public Integer getStatus() {
         return this.nodeStatus;
+    }
+
+    public ArrayList<Integer> getStatuses() {
+        ArrayList<Integer> statuses = new ArrayList<>();
+        for (ResponseMessage responseMessage : this.responseMessages) {
+            statuses.add(responseMessage.getStatus());
+        }
+        return statuses;
     }
 
     public void end() {

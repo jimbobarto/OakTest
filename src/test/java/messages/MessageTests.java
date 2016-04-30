@@ -55,14 +55,14 @@ public class MessageTests {
     public void jsonWithNoNameShouldError() {
         String messageWithNoName = new GetFileContents().getTestMessage("src/test/resources/testMessageNoName.json");
 
-        assertEquals("Missing name should be highlighted", "Message has no Name", getExpectedExceptionMessageFromMessage(messageWithNoName));
+        assertEquals("Missing name should be highlighted", "TestMessage has no Name", getExpectedExceptionMessageFromMessage(messageWithNoName));
     }
 
     @Test
     public void jsonWithNoUrlShouldError() {
         String messageWithNoUrl = new GetFileContents().getTestMessage("src/test/resources/testMessageNoUrl.json");
 
-        assertEquals("Missing URL should be highlighted", "Message has no URL", getExpectedExceptionMessageFromMessage(messageWithNoUrl));
+        assertEquals("Missing URL should be highlighted", "TestMessage has no URL", getExpectedExceptionMessageFromMessage(messageWithNoUrl));
     }
 
     @Test
@@ -83,35 +83,35 @@ public class MessageTests {
     public void jsonWithNoElementName() {
         String messageWithNoElementName = new GetFileContents().getTestMessage("src/test/resources/testMessageNoElementName.json");
 
-        assertEquals("Missing element name should be highlighted", "Element has no name", getExpectedExceptionMessageFromMessage(messageWithNoElementName));
+        assertEquals("Missing element name should be highlighted", "ElementMessage has no name", getExpectedExceptionMessageFromMessage(messageWithNoElementName));
     }
 
     @Test
     public void jsonWithNoElementIdentifier() {
         String messageWithNoElementIdentifier = new GetFileContents().getTestMessage("src/test/resources/testMessageNoElementIdentifier.json");
 
-        assertEquals("Missing element identifier should be highlighted", "Element has no identifier", getExpectedExceptionMessageFromMessage(messageWithNoElementIdentifier));
+        assertEquals("Missing element identifier should be highlighted", "ElementMessage has no identifier", getExpectedExceptionMessageFromMessage(messageWithNoElementIdentifier));
     }
 
     @Test
     public void jsonWithNoElementIdentifierType() {
         String messageWithNoElementIdentifierType = new GetFileContents().getTestMessage("src/test/resources/testMessageNoElementIdentifierType.json");
 
-        assertEquals("Missing element identifier type should be highlighted", "Element has no identifier type", getExpectedExceptionMessageFromMessage(messageWithNoElementIdentifierType));
+        assertEquals("Missing element identifier type should be highlighted", "ElementMessage has no identifier type", getExpectedExceptionMessageFromMessage(messageWithNoElementIdentifierType));
     }
 
     @Test
     public void jsonWithNoElementType() {
         String messageWithNoElementType = new GetFileContents().getTestMessage("src/test/resources/testMessageNoElementType.json");
 
-        assertEquals("Missing element type should be highlighted", "Element has no type", getExpectedExceptionMessageFromMessage(messageWithNoElementType));
+        assertEquals("Missing element type should be highlighted", "ElementMessage has no type", getExpectedExceptionMessageFromMessage(messageWithNoElementType));
     }
 
     @Test
     public void jsonWithNoElementInteraction() {
         String messageWithNoElementInteraction = new GetFileContents().getTestMessage("src/test/resources/testMessageNoElementInteraction.json");
 
-        assertEquals("Missing element interaction should be highlighted", "Element has no interaction", getExpectedExceptionMessageFromMessage(messageWithNoElementInteraction));
+        assertEquals("Missing element interaction should be highlighted", "ElementMessage has no interaction", getExpectedExceptionMessageFromMessage(messageWithNoElementInteraction));
     }
 
     private String getExpectedExceptionMessageFromMessage(String message) {
