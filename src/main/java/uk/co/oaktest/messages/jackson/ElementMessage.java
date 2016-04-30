@@ -31,7 +31,7 @@ public class ElementMessage {
     private String value;
 
     @JsonProperty
-    private long timeout;
+    private Integer timeout;
 
     @JsonProperty
     private String selectBy;
@@ -68,7 +68,7 @@ public class ElementMessage {
         return this.interaction;
     }
 
-    public long getTimeout() {
+    public Integer getTimeout() {
         return this.timeout;
     }
 
@@ -89,7 +89,7 @@ public class ElementMessage {
         return this.name;
     }
 
-    public long setTimeout(long timeout) {
+    public Integer setTimeout(Integer timeout) {
         this.timeout = timeout;
         return this.timeout;
     }

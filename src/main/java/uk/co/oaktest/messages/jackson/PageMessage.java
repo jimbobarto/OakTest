@@ -40,7 +40,7 @@ public class PageMessage {
     @Valid
     @NotEmpty
     @JsonProperty
-    private ArrayList<ElementMessage> elementMessages;
+    private ArrayList<ElementMessage> elements;
 
     public PageMessage() {
 
@@ -49,7 +49,7 @@ public class PageMessage {
     public PageMessage(String name, String type, ArrayList<ElementMessage> elementMessages) {
         this.name = name;
         this.type = type;
-        this.elementMessages = elementMessages;
+        this.elements = elementMessages;
     }
 
     public PageMessage(String name, String type, String verb, String headers, String payload, String expectedResults, long expectedStatusCode) {
@@ -74,8 +74,8 @@ public class PageMessage {
         return this.name;
     }
 
-    public ArrayList<ElementMessage> getElementMessages() {
-        return this.elementMessages;
+    public ArrayList<ElementMessage> getElements() {
+        return this.elements;
     }
 
     public String getVerb() {

@@ -13,6 +13,7 @@ import uk.co.oaktest.constants.Selenium;
 import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.container.Container;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
+import uk.co.oaktest.messages.jackson.ElementMessage;
 import uk.co.oaktest.results.ResponseNode;
 
 import java.util.HashMap;
@@ -26,7 +27,7 @@ import uk.co.oaktest.variables.Translator;
 public class ElementInteraction {
 
     public WebDriver driver;
-    public ElementInterface setUpMessage;
+    public ElementMessage setUpMessage;
     public ResponseNode responseNode;
     public Container container;
     public Translator translator;
@@ -38,7 +39,7 @@ public class ElementInteraction {
     public TestTimer timer;
 
 
-    public ElementInteraction(ElementInterface message, ResponseNode elementResponseNode, Container elementContainer) {
+    public ElementInteraction(ElementMessage message, ResponseNode elementResponseNode, Container elementContainer) {
         this.setUpMessage = message;
         this.responseNode = elementResponseNode;
         this.container = elementContainer;
@@ -51,6 +52,7 @@ public class ElementInteraction {
         this.timeoutInSeconds = setTimeout();
 
         this.identifier = this.translator.translate(setUpMessage.getIdentifier());
+        responseNode.addMessage(Status.ACTUAL_IDENTIFIER.getValue(), this.identifier);
 
         //TODO: initialize the Timer at a higher level...
         this.timer = new TestTimer();
@@ -139,12 +141,7 @@ public class ElementInteraction {
 
         WebElement targetElement = findMyElement();
 
-        if(targetElement != null ) {
-
-            return true;
-        } else {
-            return false;
-        }
+        return targetElement != null;
     }
 
     public String getIdentifierType() {

@@ -1,13 +1,13 @@
 package uk.co.oaktest.container;
 
 import org.openqa.selenium.WebDriver;
-import uk.co.oaktest.messages.interfaces.MessageInterface;
+import uk.co.oaktest.messages.jackson.TestMessage;
 import uk.co.oaktest.results.ResponseNode;
 import uk.co.oaktest.utils.UrlConstructor;
 import uk.co.oaktest.variables.Translator;
 
 public class Container {
-    MessageInterface message;
+    TestMessage testMessage;
     WebDriver driver;
     ResponseNode responseNode;
     Translator translator;
@@ -17,20 +17,20 @@ public class Container {
     public Container() {
     }
 
-    public Container(MessageInterface containerMessage) {
-        this.message = containerMessage;
-        if (this.message.getImplementation() != null) {
-            setImplementation(this.message.getImplementation());
+    public Container(TestMessage containerTestMessage) {
+        this.testMessage = containerTestMessage;
+        if (this.testMessage.getImplementation() != null) {
+            setImplementation(this.testMessage.getImplementation());
         }
     }
 
-    public MessageInterface getMessage() {
-        return this.message;
+    public TestMessage getTestMessage() {
+        return this.testMessage;
     }
 
-    public MessageInterface setMessage(MessageInterface containerMessage) {
-        this.message = containerMessage;
-        return this.message;
+    public TestMessage setMessage(TestMessage containerTestMessage) {
+        this.testMessage = containerTestMessage;
+        return this.testMessage;
     }
 
     public WebDriver getDriver() {

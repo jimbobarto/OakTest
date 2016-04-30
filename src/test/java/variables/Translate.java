@@ -1,8 +1,10 @@
 package variables;
 
 import org.junit.Test;
+import uk.co.oaktest.messages.jackson.Variable;
 import uk.co.oaktest.variables.Translator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,9 +17,9 @@ public class Translate {
 
     @Test
     public void translateSimpleVariable() {
-        Map<String, String> variables = new HashMap<String, String>();
-        variables.put("variable", "new value");
-        variables.put("variablePath", "{\"name\": \"found it\"}");
+        ArrayList<Variable> variables = new ArrayList<>();
+        variables.add(new Variable("variable", "string", "new value"));
+        variables.add(new Variable("variablePath", "string", "{\"name\": \"found it\"}"));
         String testString = "${variable}";
         String testPath = "${variablePath.name}";
 

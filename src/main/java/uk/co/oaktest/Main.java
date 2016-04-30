@@ -13,7 +13,7 @@ import uk.co.oaktest.rabbit.OakConsumer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Main extends Application<HelloWorldConfiguration> {
+public class Main extends Application<TestConfiguration> {
 
     private static final int NTHREDS = 10;
 
@@ -41,27 +41,19 @@ public class Main extends Application<HelloWorldConfiguration> {
     }
 
     @Override
-    public void initialize(Bootstrap<HelloWorldConfiguration> bootstrap) {
+    public void initialize(Bootstrap<TestConfiguration> bootstrap) {
         // nothing to do yet
     }
 
     @Override
-    public void run(HelloWorldConfiguration configuration,
+    public void run(TestConfiguration configuration,
                     Environment environment) {
-        final HelloWorldResource resource = new HelloWorldResource(
-                configuration.getTemplate(),
-                configuration.getDefaultName()
-        );
-        final OakTestResource oakResource = new OakTestResource(
-        );
         final TestResource testResource = new TestResource(
         );
         final TemplateHealthCheck healthCheck =
                 new TemplateHealthCheck(configuration.getTemplate());
 
         environment.healthChecks().register("template", healthCheck);
-        environment.jersey().register(resource);
-        environment.jersey().register(oakResource);
         environment.jersey().register(testResource);
     }
 

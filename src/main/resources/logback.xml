@@ -1,3 +1,5 @@
+<!-- This added simply to remove the mental logging from (I think) Dropwizard, whcih I guess include Logback -->
+<!-- http://stackoverflow.com/questions/4915414/disable-httpclient-logging/8936580#8936580 -->
 <configuration debug="false">
     <!-- definition of appender STDOUT -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -6,7 +8,7 @@
         </encoder>
     </appender>
 
-    <root level="ERROR">
+    <root level="INFO">
         <!-- appender referenced after it is defined -->
         <appender-ref ref="STDOUT"/>
     </root>

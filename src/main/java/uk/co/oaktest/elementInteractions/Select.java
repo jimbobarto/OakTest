@@ -5,11 +5,12 @@ import org.openqa.selenium.WebElement;
 import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.container.Container;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
+import uk.co.oaktest.messages.jackson.ElementMessage;
 import uk.co.oaktest.results.ResponseNode;
 
 public class Select extends BaseElement{
 
-    public Select (ElementInterface message, ResponseNode elementResponseNode, Container elementContainer) {
+    public Select (ElementMessage message, ResponseNode elementResponseNode, Container elementContainer) {
         super(message, elementResponseNode, elementContainer);
     }
 

@@ -1,12 +1,10 @@
 package uk.co.oaktest.rabbit;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import uk.co.oaktest.browserTests.BrowserTest;
 import uk.co.oaktest.container.Container;
-import uk.co.oaktest.messages.MessageFactory;
-import uk.co.oaktest.messages.interfaces.MessageInterface;
-import uk.co.oaktest.messages.MessageException;
-import uk.co.oaktest.messages.json.JsonMessage;
+import uk.co.oaktest.messages.jackson.TestMessage;
 
 import java.io.UnsupportedEncodingException;
 
@@ -30,9 +28,13 @@ public class OakRunnable implements Runnable {
     }
 
     public void run() {
-        MessageInterface publishedTestMessage = MessageFactory.createMessage(this.rabbitMessage);
-        if (publishedTestMessage == null) {
-            logger.error("Rabbit message could not be converted into a test: "+ this.rabbitMessage);
+        ObjectMapper mapper = new ObjectMapper();
+        TestMessage publishedTestMessage;
+        try {
+            publishedTestMessage = mapper.readValue(this.rabbitMessage, TestMessage.class);
+        }
+        catch (Exception messageException) {
+            logger.error("Rabbit message could not be converted into a test: "+ messageException.getMessage());
             return;
         }
 

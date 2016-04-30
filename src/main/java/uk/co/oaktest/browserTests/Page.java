@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import uk.co.oaktest.container.Container;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.messages.interfaces.PageInterface;
+import uk.co.oaktest.messages.jackson.ElementMessage;
+import uk.co.oaktest.messages.jackson.PageMessage;
 import uk.co.oaktest.results.ResponseNode;
 import uk.co.oaktest.utils.UrlConstructor;
 
@@ -14,18 +16,18 @@ import java.util.Iterator;
  * Created by jamesbartlett on 30/11/15.
  */
 public class Page {
-    PageInterface message;
+    PageMessage message;
     ResponseNode pageNode;
     Container container;
 
-    public Page (PageInterface pageMessage, ResponseNode pageResponseNode, Container pageContainer) {
+    public Page (PageMessage pageMessage, ResponseNode pageResponseNode, Container pageContainer) {
         this.message = pageMessage;
         this.pageNode = pageResponseNode;
         this.container = pageContainer;
     }
 
     public Integer test() {
-        String pageUri = this.message.getUri();
+        String pageUri = this.message.getUrl();
         if (pageUri != null) {
             WebDriver driver = this.container.getDriver();
             if (!pageUri.startsWith("http")) {
@@ -34,9 +36,9 @@ public class Page {
             }
             driver.get(pageUri);
         }
-        ArrayList<ElementInterface> elements = this.message.getElements();
-        for (Iterator<ElementInterface> elementIterator = elements.iterator(); elementIterator.hasNext(); ) {
-            ElementInterface elementMessage = elementIterator.next();
+        ArrayList<ElementMessage> elements = this.message.getElements();
+        for (Iterator<ElementMessage> elementIterator = elements.iterator(); elementIterator.hasNext(); ) {
+            ElementMessage elementMessage = elementIterator.next();
             ResponseNode elementResponseNode = this.pageNode.createChildNode(elementMessage.getName());
 
             Element element = new Element(elementMessage, elementResponseNode, this.container);

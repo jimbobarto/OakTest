@@ -5,6 +5,7 @@ import uk.co.oaktest.config.Config;
 import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.container.Container;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
+import uk.co.oaktest.messages.jackson.ElementMessage;
 import uk.co.oaktest.results.ResponseNode;
 import uk.co.oaktest.variables.Translator;
 
@@ -16,12 +17,12 @@ import java.util.*;
  * Created by jamesbartlett on 30/11/15.
  */
 public class Element {
-    ElementInterface message;
+    ElementMessage message;
     ResponseNode elementNode;
     Translator translator;
     Container container;
 
-    public Element (ElementInterface setUpMessage, ResponseNode elementResponseNode, Container elementContainer) {
+    public Element (ElementMessage setUpMessage, ResponseNode elementResponseNode, Container elementContainer) {
         this.message = setUpMessage;
         this.elementNode = elementResponseNode;
         this.container = elementContainer;
@@ -48,7 +49,7 @@ public class Element {
 
         Object classInstance;
         try {
-            Constructor<?> constructor = runtimeClass.getConstructor(ElementInterface.class, ResponseNode.class, Container.class);
+            Constructor<?> constructor = runtimeClass.getConstructor(ElementMessage.class, ResponseNode.class, Container.class);
             classInstance = constructor.newInstance(this.message, this.elementNode, this.container);
         }
         catch(Exception getClassException) {
@@ -118,12 +119,12 @@ public class Element {
     private Class<?> getRuntimeClass(String implementationName, String elementType, String type) {
         Class<?> runtimeClass = null;
         if (implementationName != null) {
-            runtimeClass = checkClass("uk.co.oaktest.elementInteractions.implementations." + implementationName + "." + elementType, Status.UNKNOWN_IMPLEMENTATION.getValue(), "Element type '" + type + "' in implementation '" + implementationName + "' was not found");
+            runtimeClass = checkClass("uk.co.oaktest.elementInteractions.implementations." + implementationName + "." + elementType, Status.UNKNOWN_IMPLEMENTATION.getValue(), "ElementMessage type '" + type + "' in implementation '" + implementationName + "' was not found");
             if (runtimeClass != null) {
                 return runtimeClass;
             }
         }
-        runtimeClass = checkClass("uk.co.oaktest.elementInteractions." + elementType, Status.UNKNOWN_ELEMENT.getValue(), "Element type '" + type + "' unrecognised");
+        runtimeClass = checkClass("uk.co.oaktest.elementInteractions." + elementType, Status.UNKNOWN_ELEMENT.getValue(), "ElementMessage type '" + type + "' unrecognised");
         if (runtimeClass != null) {
             return runtimeClass;
         }

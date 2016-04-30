@@ -18,20 +18,21 @@ public class TestMessage {
 
     @Valid
     @JsonProperty
-    private ArrayList<PageMessage> pageMessages;
+    private ArrayList<PageMessage> pages;
 
     private String name;
 
     private String implementation;
 
     public TestMessage() {
-
+        this.variables = new ArrayList<>();
     }
 
     public TestMessage(String name, String url, ArrayList<PageMessage> pageMessages) {
         this.name = name;
         this.url = url;
-        this.pageMessages = pageMessages;
+        this.pages = pageMessages;
+        this.variables = new ArrayList<>();
     }
 
     public String getName() {
@@ -42,8 +43,8 @@ public class TestMessage {
         return this.url;
     }
 
-    public ArrayList<PageMessage> getPageMessages() {
-        return this.pageMessages;
+    public ArrayList<PageMessage> getPages() {
+        return this.pages;
     }
 
     public ArrayList<Variable> getVariables() {

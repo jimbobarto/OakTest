@@ -1,7 +1,9 @@
 package uk.co.oaktest.variables;
 
 import com.jayway.jsonpath.JsonPath;
+import uk.co.oaktest.messages.jackson.Variable;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,24 +13,24 @@ import java.util.regex.Pattern;
  */
 public class Translator {
 
-    Map<String, String> existingVariables;
+    ArrayList<Variable> existingVariables;
 
     public Translator() {
     }
 
-    public Translator(Map variables) {
+    public Translator(ArrayList<Variable> variables) {
         this.existingVariables = variables;
     }
 
-    public void initialiseVariables(Map variables) throws Exception{
+    public void initialiseVariables(ArrayList<Variable> variables) throws Exception{
         if (this.existingVariables != null) {
             throw new Exception("Cannot initialise variables when they already exist");
         }
         this.existingVariables = variables;
     }
 
-    public Map<String, String> addVariable(String variableKey, String variableValue) {
-        this.existingVariables.put(variableKey, variableValue);
+    public ArrayList<Variable> addVariable(String variableKey, String variableType, String variableValue) {
+        this.existingVariables.add(new Variable(variableKey, variableType, variableValue));
         return this.existingVariables;
     }
 
@@ -73,9 +75,9 @@ public class Translator {
     }
 
     private String getVariable(String variableName) {
-        for (Map.Entry<String, String> entry : this.existingVariables.entrySet()) {
-            if (entry.getKey().equals(variableName)) {
-                return entry.getValue();
+        for (Variable variable: this.existingVariables) {
+            if (variable.getName().equals(variableName)) {
+                return variable.getValue();
             }
         }
 
