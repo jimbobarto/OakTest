@@ -9,7 +9,7 @@ import uk.co.oaktest.messages.jackson.TestMessage;
 import java.io.UnsupportedEncodingException;
 
 public class OakRunnable implements Runnable {
-    String rabbitMessage;
+    TestMessage rabbitMessage;
     final static Logger logger = Logger.getLogger(OakRunnable.class);
 
     public OakRunnable(byte[] byteMessage) {
@@ -20,25 +20,33 @@ public class OakRunnable implements Runnable {
         catch (UnsupportedEncodingException e) {
             throw new Error(e);
         }
-        this.rabbitMessage = message;
+        this.rabbitMessage = getMessages(message);
     }
 
     public OakRunnable(String newMessage) {
+        this.rabbitMessage = getMessages(newMessage);
+    }
+
+    public OakRunnable(TestMessage newMessage) {
         this.rabbitMessage = newMessage;
     }
 
-    public void run() {
+    private TestMessage getMessages(String message) {
         ObjectMapper mapper = new ObjectMapper();
-        TestMessage publishedTestMessage;
+        TestMessage testMessage;
         try {
-            publishedTestMessage = mapper.readValue(this.rabbitMessage, TestMessage.class);
+            testMessage = mapper.readValue(message, TestMessage.class);
         }
         catch (Exception messageException) {
-            logger.error("Rabbit message could not be converted into a test: "+ messageException.getMessage());
-            return;
+            logger.error("Message could not be converted into a test: "+ messageException.getMessage());
+            return null;
         }
 
-        Container container = new Container(publishedTestMessage);
+        return testMessage;
+    }
+
+    public void run() {
+        Container container = new Container(this.rabbitMessage);
 
         BrowserTest browser = new BrowserTest(container);
         browser.test();

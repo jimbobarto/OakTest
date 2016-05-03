@@ -10,16 +10,18 @@ import uk.co.oaktest.api.*;
 import uk.co.oaktest.constants.Queues;
 import uk.co.oaktest.rabbit.OakConsumer;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 public class Main extends Application<TestConfiguration> {
 
-    private static final int NTHREDS = 10;
+    private static final int NTHREDS = 2;
+    private static final int MAXTHREDS = 4;
+    private static ThreadPoolExecutor executor;
 
     public static void main(String[] args) throws Exception {
+        executor = new ThreadPoolExecutor(NTHREDS, MAXTHREDS, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue());
         new Main().run(args);
-        ExecutorService executor = Executors.newFixedThreadPool(5);
+        //ExecutorService executor = Executors.newFixedThreadPool(5);
         try {
             ConnectionFactory cfconn = new ConnectionFactory();
             cfconn.setUri("amqp://localhost");
@@ -48,13 +50,13 @@ public class Main extends Application<TestConfiguration> {
     @Override
     public void run(TestConfiguration configuration,
                     Environment environment) {
-        final TestResource testResource = new TestResource(
-        );
-        final TemplateHealthCheck healthCheck =
-                new TemplateHealthCheck(configuration.getTemplate());
+        final RunTest runTest = new RunTest(executor);
+        final ThreadStatus status = new ThreadStatus(executor);
+        final TemplateHealthCheck healthCheck = new TemplateHealthCheck(configuration.getTemplate());
 
         environment.healthChecks().register("template", healthCheck);
-        environment.jersey().register(testResource);
+        environment.jersey().register(runTest);
+        environment.jersey().register(status);
     }
 
 }
