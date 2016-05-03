@@ -1,9 +1,11 @@
 {
   "url": "http://www.amazon.co.uk/",
   "name": "Check text example",
+  "screenshotSetting": 100,
   "pages": [
     {
       "name": "Do Stuff",
+      "screenshotSetting": 300,
       "elements": [
         {
           "name": "Amazon search field",
@@ -13,6 +15,7 @@
           "interaction": "typevalue",
           "value": "something random",
           "text": "",
+          "screenshotSetting": 200,
           "timeout": 10
         },
         {
@@ -23,6 +26,7 @@
           "interaction": "click",
           "value": "",
           "text": "",
+          "screenshotSetting": 400,
           "timeout": 15
         },
         {
@@ -33,12 +37,14 @@
           "interaction": "click",
           "value": "",
           "text": "",
+          "screenshotSetting": 100,
           "timeout": 15
         }
       ]
     },
     {
       "name": "Get the objects text",
+      "screenshotSetting": 200,
       "elements": [
         {
           "name": "header object",
@@ -48,6 +54,7 @@
           "interaction": "checktext",
           "value": "",
           "text": "Something Random",
+          "screenshotSetting": 500,
           "timeout": 10
         },
         {
@@ -58,6 +65,7 @@
           "interaction": "checktext",
           "value": "",
           "text": "somethiNg rAndOm",
+          "screenshotSetting": 100,
           "timeout": 10
         },
         {

@@ -1,11 +1,14 @@
 package uk.co.oaktest.messages.json;
 
+import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import uk.co.oaktest.containers.MessageContainer;
 import uk.co.oaktest.messages.MessageException;
 import uk.co.oaktest.messages.interfaces.MessageInterface;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,14 +22,46 @@ public class JsonMessage extends JsonParent implements MessageInterface {
     String name;
     String type;
     String implementation;
+    MessageContainer messageContainer;
+    final static Logger logger = Logger.getLogger(JsonMessage.class);
 
     public JsonMessage(String givenTestDefinition) throws MessageException {
         super(givenTestDefinition);
 
         if ( isValid() ) {
             // TODO: construct message
+            this.messageContainer = new MessageContainer();
             convertDefinitionToMessage();
         }
+    }
+
+    public String setStringField(String fieldName, String fieldValue) throws MessageException {
+        try {
+            Field field = getClass().getDeclaredField(fieldName);
+            field.set(this, fieldValue);
+            return fieldValue;
+        }
+        catch (IllegalAccessException illegalAccess) {
+            throw new MessageException("You are not allowed to access the '" + fieldName + "' field", illegalAccess);
+        }
+        catch (NoSuchFieldException noField) {
+            throw new MessageException("'" + fieldName + "' field does not exist", noField);
+        }
+    }
+
+    public String setStringFieldFromMessage(String fieldName, boolean requiredField) throws MessageException {
+        try {
+            if (this.message.has(fieldName)) {
+                return setStringField(fieldName, this.message.getString(fieldName));
+            } else if (requiredField) {
+                throw new MessageException("Message has no " + fieldName);
+            }
+        }
+        catch (JSONException json) {
+            throw new MessageException("Error getting '" + fieldName + "' from message", json);
+        }
+
+        return null;
     }
 
     public String getUrl() {
@@ -88,6 +123,19 @@ public class JsonMessage extends JsonParent implements MessageInterface {
             throw new MessageException("Invalid JSON message", ex);
         }
 
+        if (message.has("screenshotSetting")) {
+            try {
+                setScreenshotSetting(message.getInt("screenshotSetting"));
+            }
+            catch (JSONException ex) {
+                throw new MessageException("Could not set message screenshot setting", ex);
+            }
+        }
+        else {
+            setScreenshotSetting(0);
+        }
+        this.messageContainer.setParentShotSetting(getScreenshotSetting());
+
         if (message.has("pages") && !message.has("elements")) {
             //JSONArray pages = message.get("pages");
             pages = getPages(message);
@@ -99,38 +147,17 @@ public class JsonMessage extends JsonParent implements MessageInterface {
             throw new MessageException("Message has both pages and elements at the top level");
         }
 
-        if (message.has("url")) {
-            try {
-                setUrl(message.getString("url"));
-            }
-            catch (JSONException ex) {
-                throw new MessageException("Could not set message URL", ex);
-            }
-        }
-        else {
-            throw new MessageException("Message has no URL");
-        }
-
+        setStringFieldFromMessage("url", true);
+        //setStringFieldFromMessage("name", true);
+        setStringFieldFromMessage("implementation", false);
         if (message.has("name")) {
             try {
                 setName(message.getString("name"));
-            }
-            catch (JSONException ex) {
+            } catch (JSONException ex) {
                 throw new MessageException("Could not set message name", ex);
             }
         }
-        else {
-            throw new MessageException("Message has no Name");
-        }
 
-        if (message.has("implementation")) {
-            try {
-                setImplementation(message.getString("implementation"));
-            }
-            catch (JSONException ex) {
-                throw new MessageException("Could not set message implementation", ex);
-            }
-        }
 
         this.variables = getVariables(message);
 
@@ -147,8 +174,9 @@ public class JsonMessage extends JsonParent implements MessageInterface {
 
                 for (int i = 0; i < pageDefinitions.length(); i++) {
                     JSONObject currentPageDefinition = pageDefinitions.getJSONObject(i);
-                    JsonPage currentPage = new JsonPage(currentPageDefinition);
 
+                    this.messageContainer.setParentShotSetting(getScreenshotSetting());
+                    JsonPage currentPage = new JsonPage(currentPageDefinition, this.messageContainer);
                     newArray.add(currentPage);
                 }
 

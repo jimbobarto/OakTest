@@ -3,7 +3,7 @@ package uk.co.oaktest.elementInteractions.implementations.example;
 
 import org.openqa.selenium.WebElement;
 import uk.co.oaktest.constants.Status;
-import uk.co.oaktest.container.Container;
+import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.elementInteractions.BaseElement;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.messages.jackson.ElementMessage;

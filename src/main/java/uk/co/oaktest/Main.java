@@ -6,6 +6,7 @@ import com.rabbitmq.client.ConnectionFactory;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.apache.log4j.Logger;
 import uk.co.oaktest.api.*;
 import uk.co.oaktest.constants.Queues;
 import uk.co.oaktest.rabbit.OakConsumer;
@@ -13,6 +14,8 @@ import uk.co.oaktest.rabbit.OakConsumer;
 import java.util.concurrent.*;
 
 public class Main extends Application<TestConfiguration> {
+
+    final static Logger logger = Logger.getLogger(Main.class);
 
     private static final int NTHREDS = 2;
     private static final int MAXTHREDS = 4;
@@ -32,7 +35,7 @@ public class Main extends Application<TestConfiguration> {
             OakConsumer newConsumer = new OakConsumer(executor, ch, Queues.TESTS.getValue());
         }
         catch (Exception e) {
-            throw new Error(e);
+            logger.error("Fatal error: " + e.getMessage());
         }
 
     }

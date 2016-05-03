@@ -20,6 +20,7 @@ public class GenericProperties {
     public String headers;
     public String payload;
     public String expectedResults;
+    Integer screenshotSetting;
 
     public GenericProperties() {
         //TODO: screenshot, wait (pause), save value
@@ -177,4 +178,35 @@ public class GenericProperties {
         }
         return true;
     }
+
+    public Integer getScreenshotSetting() {
+        return this.screenshotSetting;
+    }
+
+    public Integer setScreenshotSetting(Integer newScreenshotSetting) {
+        this.screenshotSetting = newScreenshotSetting;
+        return this.screenshotSetting;
+    }
+
+    public Integer calculateScreenshotSetting(Integer parentScreenshotSetting) {
+        Integer currentScreenshotSetting = getScreenshotSetting();
+        if (parentScreenshotSetting != null && parentScreenshotSetting > 0) {
+            if (currentScreenshotSetting != null && currentScreenshotSetting > 0) {
+                if (parentScreenshotSetting > currentScreenshotSetting) {
+                    return parentScreenshotSetting;
+                }
+                return currentScreenshotSetting;
+            }
+            else {
+                return parentScreenshotSetting;
+            }
+        }
+        else if (currentScreenshotSetting != null && currentScreenshotSetting > 0) {
+            return currentScreenshotSetting;
+        }
+        else {
+            return 0;
+        }
+    }
+
 }

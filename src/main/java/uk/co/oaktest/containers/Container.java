@@ -1,4 +1,4 @@
-package uk.co.oaktest.container;
+package uk.co.oaktest.containers;
 
 import org.openqa.selenium.WebDriver;
 import uk.co.oaktest.messages.jackson.TestMessage;

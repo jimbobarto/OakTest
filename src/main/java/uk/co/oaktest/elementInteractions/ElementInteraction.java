@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import uk.co.oaktest.config.Config;
 import uk.co.oaktest.constants.Selenium;
 import uk.co.oaktest.constants.Status;
-import uk.co.oaktest.container.Container;
+import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.messages.jackson.ElementMessage;
 import uk.co.oaktest.results.ResponseNode;

@@ -3,7 +3,7 @@ package uk.co.oaktest.elementInteractions;
 import org.openqa.selenium.WebElement;
 
 import uk.co.oaktest.constants.Status;
-import uk.co.oaktest.container.Container;
+import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.messages.jackson.ElementMessage;
 import uk.co.oaktest.results.ResponseNode;
@@ -34,7 +34,7 @@ public class Select extends BaseElement{
             }
 
             stopTimerInteract();
-            responseNode.addMessage(Status.BASIC_SUCCESS.getValue(), "Selected " + inputValue + " on a dropdown identified by " + this.identifierType + " of " + this.identifier);
+            this.responseNode.addMessage(Status.BASIC_SUCCESS.getValue(), "Selected " + inputValue + " on a dropdown identified by " + this.identifierType + " of " + this.identifier);
             return true;
         } else {
             return false;

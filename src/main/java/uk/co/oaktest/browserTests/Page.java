@@ -1,7 +1,7 @@
 package uk.co.oaktest.browserTests;
 
 import org.openqa.selenium.WebDriver;
-import uk.co.oaktest.container.Container;
+import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.messages.interfaces.PageInterface;
 import uk.co.oaktest.messages.jackson.ElementMessage;

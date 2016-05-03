@@ -9,11 +9,8 @@ import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 
 public class OakConsumer extends DefaultConsumer {
-    String name;
-    long sleep;
     Channel channel;
     String queue;
-    int processed;
     ExecutorService executorService;
 
     public OakConsumer(ExecutorService threadExecutor, Channel newChannel, String newQueue) {
@@ -34,8 +31,6 @@ public class OakConsumer extends DefaultConsumer {
 
     @Override
     public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-        String routingKey = envelope.getRoutingKey();
-        String contentType = properties.getContentType();
         long deliveryTag = envelope.getDeliveryTag();
 
         Runnable task = new OakRunnable(body);

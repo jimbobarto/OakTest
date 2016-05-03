@@ -3,7 +3,7 @@ package uk.co.oaktest.rabbit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import uk.co.oaktest.browserTests.BrowserTest;
-import uk.co.oaktest.container.Container;
+import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.messages.jackson.TestMessage;
 
 import java.io.UnsupportedEncodingException;
