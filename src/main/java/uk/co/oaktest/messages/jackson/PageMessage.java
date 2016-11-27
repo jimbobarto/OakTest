@@ -1,5 +1,6 @@
 package uk.co.oaktest.messages.jackson;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 We have a single PageMessage class for both true Pages and for Requests, because a test can have both pages and requests
 */
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PageMessage {
     @NotEmpty
     @JsonProperty

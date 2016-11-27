@@ -1,8 +1,10 @@
 package uk.co.oaktest.messages.jackson;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ElementMessage {
     @NotEmpty
     @JsonProperty
