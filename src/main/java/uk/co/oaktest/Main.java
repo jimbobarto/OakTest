@@ -25,18 +25,18 @@ public class Main extends Application<TestConfiguration> {
         executor = new ThreadPoolExecutor(NTHREDS, MAXTHREDS, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue());
         new Main().run(args);
         //ExecutorService executor = Executors.newFixedThreadPool(5);
-        try {
-            ConnectionFactory cfconn = new ConnectionFactory();
-            cfconn.setUri("amqp://localhost");
-            Connection conn = cfconn.newConnection();
-
-            Channel ch = conn.createChannel();
-
-            OakConsumer newConsumer = new OakConsumer(executor, ch, Queues.TESTS.getValue());
-        }
-        catch (Exception e) {
-            logger.error("Fatal error: " + e.getMessage());
-        }
+//        try {
+//            ConnectionFactory cfconn = new ConnectionFactory();
+//            cfconn.setUri("amqp://localhost");
+//            Connection conn = cfconn.newConnection();
+//
+//            Channel ch = conn.createChannel();
+//
+//            OakConsumer newConsumer = new OakConsumer(executor, ch, Queues.TESTS.getValue());
+//        }
+//        catch (Exception e) {
+//            logger.error("Fatal error: " + e.getMessage());
+//        }
 
     }
 
