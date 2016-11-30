@@ -12,6 +12,8 @@ import uk.co.oaktest.messages.jackson.TestMessage;
 import uk.co.oaktest.messages.jackson.PageMessage;
 import uk.co.oaktest.rabbit.RabbitMessage;
 import uk.co.oaktest.rabbit.SimpleProducer;
+import uk.co.oaktest.requests.Request;
+import uk.co.oaktest.requests.RequestException;
 import uk.co.oaktest.results.ResponseNode;
 import uk.co.oaktest.utils.UrlConstructor;
 import uk.co.oaktest.variables.Translator;
@@ -126,7 +128,19 @@ public class BrowserTest {
             }
         }
         else if (this.messageSource == MessageSource.HTTP) {
-            String resultUrl = this.testMessage.getResultUrl();
+            try {
+                String resultUrl = this.testMessage.getResultUrl();
+                reportMessage = this.rootResponseNode.createReport().toString(3);
+                Request request = new Request();
+
+                request.put(resultUrl, reportMessage);
+            }
+            catch (RequestException requestException) {
+                logger.error("Error returning results! " + requestException.getMessage());
+            }
+            catch (JSONException jsonException) {
+                logger.error("Error creating report! " + jsonException.getMessage());
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ package uk.co.oaktest.requests;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.*;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -74,6 +75,25 @@ public class Request {
         try {
             HttpUriRequest httpGet = new HttpGet(finalUrl);
             this.response = this.httpclient.execute(httpGet);
+            this.responseBody = extractBody();
+            this.statusCode = this.response.getStatusLine().getStatusCode();
+            this.response.close();
+        }
+        catch (IOException ex) {
+            throw new RequestException("Unexpected response status: " + this.statusCode, ex);
+        }
+
+        return this.statusCode;
+    }
+
+    public Integer put(String uri, String body) throws RequestException {
+        String finalUrl = formUrl(uri);
+        try {
+            HttpPut httpPut = new HttpPut(finalUrl);
+            StringEntity jsonEntity = new StringEntity(body, ContentType.APPLICATION_JSON);
+            httpPut.setEntity(jsonEntity);
+
+            this.response = this.httpclient.execute(httpPut);
             this.responseBody = extractBody();
             this.statusCode = this.response.getStatusLine().getStatusCode();
             this.response.close();
