@@ -3,6 +3,7 @@ package uk.co.oaktest.api;
 import io.dropwizard.Configuration;
 import org.apache.log4j.Logger;
 import uk.co.oaktest.browserTests.BrowserTest;
+import uk.co.oaktest.constants.MessageSource;
 import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.messages.jackson.TestMessage;
 import uk.co.oaktest.rabbit.OakRunnable;
@@ -19,6 +20,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class RunTest extends Configuration {
+
     final static Logger logger = Logger.getLogger(RunTest.class);
     ThreadPoolExecutor executor;
 
@@ -28,7 +30,7 @@ public class RunTest extends Configuration {
 
     @POST
     public TestMessage acceptTest(@Valid TestMessage testMessage) {
-        Runnable task = new OakRunnable(testMessage);
+        Runnable task = new OakRunnable(testMessage, MessageSource.HTTP);
         this.executor.submit(task);
 
         return testMessage;

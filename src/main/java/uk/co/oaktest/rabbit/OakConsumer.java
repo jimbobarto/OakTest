@@ -4,6 +4,7 @@ import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.DefaultConsumer;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Envelope;
+import uk.co.oaktest.constants.MessageSource;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
@@ -33,7 +34,7 @@ public class OakConsumer extends DefaultConsumer {
     public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
         long deliveryTag = envelope.getDeliveryTag();
 
-        Runnable task = new OakRunnable(body);
+        Runnable task = new OakRunnable(body, MessageSource.RABBIT);
         executorService.submit(task);
 
         channel.basicAck(deliveryTag, false);

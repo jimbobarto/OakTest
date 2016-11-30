@@ -3,6 +3,7 @@ package uk.co.oaktest.browserTests;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import uk.co.oaktest.constants.MessageSource;
 import uk.co.oaktest.constants.Queues;
 import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.containers.Container;
@@ -18,15 +19,35 @@ import uk.co.oaktest.variables.Translator;
 import java.util.ArrayList;
 
 public class BrowserTest {
+
     TestMessage testMessage;
     ResponseNode rootResponseNode;
     Translator translator;
     UrlConstructor urlConstructor;
     Container container;
     String rootUrl;
+    MessageSource messageSource;
     final static Logger logger = Logger.getLogger(BrowserTest.class);
 
     public BrowserTest(Container setUpContainer) {
+        setUpBrowserTest(setUpContainer);
+        //TODO: ability to set a status that sets when a test stops (e.g. if a status is over 399 then the test stops), and not just rely on a default
+    }
+
+    public BrowserTest(Container setUpContainer, MessageSource source) {
+        setUpBrowserTest(setUpContainer);
+        this.messageSource = source;
+
+        if (this.messageSource == MessageSource.HTTP && this.testMessage.getResultUrl().equals("")) {
+            this.rootResponseNode.addMessage(Status.BASIC_ERROR.getValue(), "Message was received from an HTTP request but no return URL for results was specified", "");
+        }
+    }
+
+    public BrowserTest(TestMessage setUpTestMessage) {
+        this(new Container(setUpTestMessage));
+    }
+
+    private void setUpBrowserTest(Container setUpContainer) {
         this.container = setUpContainer;
         this.testMessage = this.container.getTestMessage();
         this.rootUrl = testMessage.getUrl();
@@ -47,12 +68,6 @@ public class BrowserTest {
 
         this.urlConstructor = new UrlConstructor(this.rootUrl);
         this.container.setUrlConstructor(this.urlConstructor);
-
-        //TODO: ability to set a status that sets when a test stops (e.g. if a status is over 399 then the test stops), and not just rely on a default
-    }
-
-    public BrowserTest(TestMessage setUpTestMessage) {
-        this(new Container(setUpTestMessage));
     }
 
     public ResponseNode getResponseNode() {
@@ -98,15 +113,20 @@ public class BrowserTest {
 
     private void publishResults() {
         String reportMessage = "";
-        try {
-            reportMessage = this.rootResponseNode.createReport().toString(3);
-            RabbitMessage rabbitMessage = new RabbitMessage("amqp://localhost", "", Queues.RESULTS.getValue());
-            rabbitMessage.setMessage(reportMessage);
 
-            SimpleProducer producer = new SimpleProducer(rabbitMessage);
+        if (this.messageSource == MessageSource.RABBIT) {
+            try {
+                reportMessage = this.rootResponseNode.createReport().toString(3);
+                RabbitMessage rabbitMessage = new RabbitMessage("amqp://localhost", "", Queues.RESULTS.getValue());
+                rabbitMessage.setMessage(reportMessage);
+
+                SimpleProducer producer = new SimpleProducer(rabbitMessage);
+            } catch (JSONException ex) {
+                logger.error("Could not publish results: " + reportMessage);
+            }
         }
-        catch (JSONException ex) {
-            logger.error("Could not publish results: " + reportMessage);
+        else if (this.messageSource == MessageSource.HTTP) {
+            String resultUrl = this.testMessage.getResultUrl();
         }
     }
 }

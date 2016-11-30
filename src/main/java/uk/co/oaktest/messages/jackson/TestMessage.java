@@ -23,8 +23,8 @@ public class TestMessage {
     private ArrayList<PageMessage> pages;
 
     private String name;
-
     private String implementation;
+    private String resultUrl = "";
 
     public TestMessage() {
         this.variables = new ArrayList<>();
@@ -57,6 +57,10 @@ public class TestMessage {
         return this.implementation;
     }
 
+    public String getResultUrl() {
+        return this.resultUrl;
+    }
+
     public String setName(String name) {
         this.name = name;
         return this.name;
@@ -70,6 +74,11 @@ public class TestMessage {
     public String setImplementation(String implementation) {
         this.implementation = implementation;
         return this.implementation;
+    }
+
+    public String setResultUrl(String resultUrl) {
+        this.resultUrl = resultUrl;
+        return this.resultUrl;
     }
 
     public boolean hasVariables() {

@@ -3,6 +3,7 @@ package uk.co.oaktest.requests;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.*;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
@@ -29,10 +30,14 @@ public class Request {
     }
 
     public int request(String verb, String uri) throws RequestException {
+        return request(verb, uri, "");
+    }
+
+    public int request(String verb, String uri, String body) throws RequestException {
         String finalUrl = formUrl(uri);
 
         try {
-            HttpUriRequest httpRequest = createRequest(verb, finalUrl);
+            HttpUriRequest httpRequest = createRequest(verb, finalUrl, body);
             this.response = this.httpclient.execute(httpRequest);
             this.responseBody = extractBody();
             this.statusCode = this.response.getStatusLine().getStatusCode();
@@ -54,9 +59,14 @@ public class Request {
         }
     }
 
-    public void setUp(String verb, String uri) {
+    public void setUp(String verb, String uri) throws RequestException {
         String finalUrl = formUrl(uri);
-        this.httpRequest = createRequest(verb, finalUrl);
+        try {
+            this.httpRequest = createRequest(verb, finalUrl, "");
+        }
+        catch (Exception exception) {
+            throw new RequestException(exception.getMessage());
+        }
     }
 
     public Integer get(String uri) throws RequestException {
@@ -75,27 +85,47 @@ public class Request {
         return this.statusCode;
     }
 
-    public HttpUriRequest createRequest(String methodName, String uri) {
-        HttpUriRequest request;
+    public HttpUriRequest createRequest(String methodName, String uri, String body) throws RequestException {
+        //HttpUriRequest request;
         switch (methodName) {
             case "get":
-                request = new HttpGet(uri);
-                break;
+                return new HttpGet(uri);
             case "post":
-                request = new HttpPost(uri);
-                break;
+                HttpEntityEnclosingRequestBase postRequest = new HttpPost(uri);
+                try {
+                    postRequest = addBody(postRequest, body);
+                }
+                catch (Exception exception) {
+                    throw new RequestException(exception.getMessage());
+                }
+                return postRequest;
             case "put":
-                request = new HttpPut(uri);
-                break;
+                HttpEntityEnclosingRequestBase putRequest = new HttpPut(uri);
+                try {
+                    putRequest = addBody(putRequest, body);
+                }
+                catch (Exception exception) {
+                    throw new RequestException(exception.getMessage());
+                }
+                return putRequest;
             case "delete":
-                request = new HttpDelete(uri);
-                break;
+                return new HttpDelete(uri);
             default:
-                request = new HttpGet(uri);
-                break;
+                return new HttpGet(uri);
         }
+    }
 
-        return request;
+    private HttpEntityEnclosingRequestBase addBody(HttpEntityEnclosingRequestBase request, String body) throws RequestException {
+        try {
+            if (!body.equals("")) {
+                StringEntity bodyEntity = new StringEntity(body);
+                request.setEntity(bodyEntity);
+            }
+            return request;
+        }
+        catch (Exception exception) {
+            throw new RequestException("Could not add body to request: " + exception.getMessage());
+        }
     }
 
     private String extractBody() throws RequestException {

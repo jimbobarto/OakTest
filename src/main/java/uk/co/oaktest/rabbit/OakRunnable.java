@@ -3,13 +3,15 @@ package uk.co.oaktest.rabbit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import uk.co.oaktest.browserTests.BrowserTest;
+import uk.co.oaktest.constants.MessageSource;
 import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.messages.jackson.TestMessage;
 
 import java.io.UnsupportedEncodingException;
 
 public class OakRunnable implements Runnable {
-    TestMessage rabbitMessage;
+    TestMessage testMessage;
+    MessageSource messageSource;
     final static Logger logger = Logger.getLogger(OakRunnable.class);
 
     public OakRunnable(byte[] byteMessage) {
@@ -20,15 +22,31 @@ public class OakRunnable implements Runnable {
         catch (UnsupportedEncodingException e) {
             throw new Error(e);
         }
-        this.rabbitMessage = getMessages(message);
+        this.testMessage = getMessages(message);
+    }
+
+    public OakRunnable(byte[] byteMessage, MessageSource messageSource) {
+        String message;
+        try {
+            message = new String(byteMessage, "UTF-8");
+        }
+        catch (UnsupportedEncodingException e) {
+            throw new Error(e);
+        }
+        this.testMessage = getMessages(message);
     }
 
     public OakRunnable(String newMessage) {
-        this.rabbitMessage = getMessages(newMessage);
+        this.testMessage = getMessages(newMessage);
     }
 
     public OakRunnable(TestMessage newMessage) {
-        this.rabbitMessage = newMessage;
+        this.testMessage = newMessage;
+    }
+
+    public OakRunnable(TestMessage newMessage, MessageSource messageSource) {
+        this.testMessage = newMessage;
+        this.messageSource = messageSource;
     }
 
     private TestMessage getMessages(String message) {
@@ -46,9 +64,9 @@ public class OakRunnable implements Runnable {
     }
 
     public void run() {
-        Container container = new Container(this.rabbitMessage);
+        Container container = new Container(this.testMessage);
 
-        BrowserTest browser = new BrowserTest(container);
+        BrowserTest browser = new BrowserTest(container, messageSource);
         browser.test();
     }
 }
