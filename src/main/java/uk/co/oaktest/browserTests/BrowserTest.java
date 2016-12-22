@@ -114,6 +114,10 @@ public class BrowserTest {
     }
 
     private void publishResults() {
+        publishResults("complete");
+    }
+
+    private void publishResults(String progress) {
         String reportMessage = "";
 
         if (this.messageSource == MessageSource.RABBIT) {
