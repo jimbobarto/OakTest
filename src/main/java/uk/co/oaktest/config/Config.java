@@ -20,6 +20,7 @@ public class Config {
         interactionMap.put("typevalue", "typeValue");
         interactionMap.put("type", "typeValue");
         interactionMap.put("select", "select");
+        interactionMap.put("hover", "hover");
 
         return interactionMap;
     }

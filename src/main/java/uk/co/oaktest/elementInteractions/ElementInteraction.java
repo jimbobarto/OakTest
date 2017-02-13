@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import uk.co.oaktest.config.Config;
@@ -104,7 +105,6 @@ public class ElementInteraction {
         }
     }
 
-
     public boolean checkElementText() {
         String expectedText = this.setUpMessage.getText();
 
@@ -119,23 +119,31 @@ public class ElementInteraction {
 
             String displayedText = targetElement.getText();
 
-
-            if (expectedText.equals(displayedText)) {
-                responseNode.addMessage(Status.CHECK_SUCCESS.getValue(), "Text as expected.");
-                return true;
-            } else if(expectedText.toLowerCase().equals(displayedText.toLowerCase())){
-                responseNode.addMessage(Status.TEXT_CHECK_WARNING.getValue(), "Text matched but only when case insensitive.");
-                return true;
-            } else {
-                responseNode.addMessage(Status.TEXT_CHECK_FAILURE.getValue(), "Text expected - " + expectedText + " but found text was - " + displayedText);
-                return false;
-            }
+            uk.co.oaktest.utils.StringUtils utils = new uk.co.oaktest.utils.StringUtils();
+            return utils.compareStrings(expectedText, displayedText, responseNode);
         } else {
             return false;
         }
 
     }
 
+    public boolean hover() {
+
+        WebElement targetElement = findMyElement();
+
+        if (targetElement != null ) {
+            startTimerInteract();
+
+            Actions action = new Actions(driver);
+            action.moveToElement(targetElement).build().perform();
+
+            stopTimerInteract();
+            responseNode.addMessage(Status.BASIC_SUCCESS.getValue(), "Hovered over the " + this.type + " identified by " + this.identifierType + " of " + this.identifier);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public boolean getAttribute() {
 
