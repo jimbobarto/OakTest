@@ -42,7 +42,7 @@ public class Main extends Application<TestConfiguration> {
 
     @Override
     public String getName() {
-        return "hello-world";
+        return "OakTest";
     }
 
     @Override
