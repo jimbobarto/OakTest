@@ -2,6 +2,7 @@ package uk.co.oaktest.browserTests;
 
 import org.apache.log4j.Logger;
 import org.json.JSONException;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import uk.co.oaktest.constants.MessageSource;
 import uk.co.oaktest.constants.Queues;
@@ -19,6 +20,8 @@ import uk.co.oaktest.utils.UrlConstructor;
 import uk.co.oaktest.variables.Translator;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class BrowserTest {
 
@@ -80,7 +83,33 @@ public class BrowserTest {
         WebDriver driver = new FirefoxDriver();
         this.container.setDriver(driver);
 
-        driver.get(this.rootUrl);
+        driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
+        try {
+            driver.get(this.rootUrl);
+        }
+        catch (org.openqa.selenium.TimeoutException timeoutException) {
+            this.rootResponseNode.addMessage(Status.BASIC_ERROR.getValue(), "Timed out waiting for page to load");
+            finish(driver);
+            return this.rootResponseNode.getStatus();
+        }
+        catch (WebDriverException webDriverException) {
+            String message = webDriverException.getMessage();
+            if (message.contains("is not well-formed")) {
+                this.rootResponseNode.addMessage(Status.BASIC_ERROR.getValue(), "Invalid URL");
+                finish(driver);
+                return this.rootResponseNode.getStatus();
+            }
+            else {
+                this.rootResponseNode.addMessage(Status.BASIC_ERROR.getValue(), webDriverException.getMessage(), webDriverException.toString());
+                finish(driver);
+                return this.rootResponseNode.getStatus();
+            }
+        }
+        catch (Exception exception) {
+            this.rootResponseNode.addMessage(Status.BASIC_ERROR.getValue(), exception.getMessage(), exception.toString());
+            finish(driver);
+            return this.rootResponseNode.getStatus();
+        }
 
         ArrayList<PageMessage> pageMessages = this.testMessage.getPages();
 
@@ -105,12 +134,16 @@ public class BrowserTest {
         }
         finally {
             //TODO: we must always make sure Rabbit is up!
-            this.rootResponseNode.end();
-            publishResults();
-            driver.close();
+            finish(driver);
         }
 
         return this.rootResponseNode.getStatus();
+    }
+
+    private void finish(WebDriver driver) {
+        this.rootResponseNode.end();
+        publishResults();
+        driver.close();
     }
 
     private void publishResults() {
