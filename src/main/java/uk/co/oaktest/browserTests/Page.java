@@ -39,10 +39,10 @@ public class Page {
         ArrayList<ElementMessage> elements = this.message.getElements();
         for (Iterator<ElementMessage> elementIterator = elements.iterator(); elementIterator.hasNext(); ) {
             ElementMessage elementMessage = elementIterator.next();
-            ResponseNode elementResponseNode = this.pageNode.createChildNode(elementMessage.getName());
 
             String behaviour = elementMessage.getBehaviour();
             if (!behaviour.equals("ignore")) {
+                ResponseNode elementResponseNode = this.pageNode.createChildNode(elementMessage.getName());
                 Element element = new Element(elementMessage, elementResponseNode, this.container);
                 Integer elementResult = element.test();
                 elementResponseNode.end();
