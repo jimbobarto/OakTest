@@ -41,12 +41,15 @@ public class Page {
             ElementMessage elementMessage = elementIterator.next();
             ResponseNode elementResponseNode = this.pageNode.createChildNode(elementMessage.getName());
 
-            Element element = new Element(elementMessage, elementResponseNode, this.container);
-            Integer elementResult = element.test();
-            elementResponseNode.end();
+            String behaviour = elementMessage.getBehaviour();
+            if (!behaviour.equals("ignore")) {
+                Element element = new Element(elementMessage, elementResponseNode, this.container);
+                Integer elementResult = element.test();
+                elementResponseNode.end();
 
-            if (elementResult > 499) {
-                return this.pageNode.getStatus();
+                if (elementResult > 499) {
+                    return this.pageNode.getStatus();
+                }
             }
         }
 

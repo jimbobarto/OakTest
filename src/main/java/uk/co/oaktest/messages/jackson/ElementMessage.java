@@ -24,6 +24,10 @@ public class ElementMessage {
 
     @NotEmpty
     @JsonProperty
+    private String behaviour;
+
+    @NotEmpty
+    @JsonProperty
     private String name;
 
     @JsonProperty
@@ -42,12 +46,13 @@ public class ElementMessage {
 
     }
 
-    public ElementMessage(String name, String identifier, String identifierType, String interaction, String type) {
+    public ElementMessage(String name, String identifier, String identifierType, String interaction, String behaviour, String type) {
         this.name = name;
         this.identifier = identifier;
         this.identifierType = identifierType;
         this.interaction = interaction;
         this.type = type;
+        this.behaviour = behaviour;
     }
 
     public String getType() {
@@ -86,6 +91,10 @@ public class ElementMessage {
         return this.value;
     }
 
+    public String getBehaviour() {
+        return this.behaviour;
+    }
+
     public String setName(String name) {
         this.name = name;
         return this.name;
@@ -109,5 +118,10 @@ public class ElementMessage {
     public String setValue(String value) {
         this.value = value;
         return this.value;
+    }
+
+    public String setBehaviour(String behaviour) {
+        this.behaviour = behaviour;
+        return this.behaviour;
     }
 }
