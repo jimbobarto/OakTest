@@ -14,6 +14,10 @@ public class TestMessage {
     @JsonProperty
     private String url;
 
+    @NotEmpty
+    @JsonProperty
+    private String type;
+
     @Valid
     @JsonProperty
     private ArrayList<Variable> variables;
@@ -61,6 +65,10 @@ public class TestMessage {
         return this.resultUrl;
     }
 
+    public String getType() {
+        return this.type;
+    }
+
     public String setName(String name) {
         this.name = name;
         return this.name;
@@ -79,6 +87,11 @@ public class TestMessage {
     public String setResultUrl(String resultUrl) {
         this.resultUrl = resultUrl;
         return this.resultUrl;
+    }
+
+    public String setType(String type) {
+        this.type = type;
+        return this.type;
     }
 
     public boolean hasVariables() {

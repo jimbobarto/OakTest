@@ -164,16 +164,19 @@ public class Request {
             return finalUrl;
         }
         else {
-            String lastCharacterOfBaseUrl = this.baseUrl.substring(this.baseUrl.length() - 1);
-            String firstCharacterOfUri = uri.substring(0, 1);
-            if (lastCharacterOfBaseUrl.equals("/") && firstCharacterOfUri.equals("/")) {
-                finalUrl = this.baseUrl + uri.substring(1, uri.length());
-            }
-            else if (!lastCharacterOfBaseUrl.equals("/") && !firstCharacterOfUri.equals("/")) {
-                finalUrl = this.baseUrl + "/" + uri;
+            if (uri == null) {
+                return this.baseUrl;
             }
             else {
-                finalUrl = this.baseUrl + uri;
+                String lastCharacterOfBaseUrl = this.baseUrl.substring(this.baseUrl.length() - 1);
+                String firstCharacterOfUri = uri.substring(0, 1);
+                if (lastCharacterOfBaseUrl.equals("/") && firstCharacterOfUri.equals("/")) {
+                    finalUrl = this.baseUrl + uri.substring(1, uri.length());
+                } else if (!lastCharacterOfBaseUrl.equals("/") && !firstCharacterOfUri.equals("/")) {
+                    finalUrl = this.baseUrl + "/" + uri;
+                } else {
+                    finalUrl = this.baseUrl + uri;
+                }
             }
         }
 

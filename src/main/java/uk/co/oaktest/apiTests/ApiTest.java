@@ -1,32 +1,53 @@
 package uk.co.oaktest.apiTests;
 
+import org.apache.log4j.Logger;
+import org.json.JSONException;
+import uk.co.oaktest.constants.MessageSource;
+import uk.co.oaktest.constants.Queues;
+import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.messages.interfaces.MessageInterface;
 import uk.co.oaktest.messages.interfaces.PageInterface;
+import uk.co.oaktest.messages.jackson.PageMessage;
+import uk.co.oaktest.messages.jackson.TestMessage;
+import uk.co.oaktest.rabbit.RabbitMessage;
+import uk.co.oaktest.rabbit.SimpleProducer;
 import uk.co.oaktest.requests.Request;
+import uk.co.oaktest.requests.RequestException;
 import uk.co.oaktest.results.ResponseNode;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ApiTest {
-    MessageInterface message;
+    TestMessage testMessage;
     ResponseNode rootResponseNode;
+    Container container;
+    MessageSource messageSource;
+    final static Logger logger = Logger.getLogger(ApiTest.class);
 
-    public ApiTest(MessageInterface setUpMessage) {
-        this.message = setUpMessage;
+    public ApiTest(Container setUpContainer) {
+        this.container = setUpContainer;
 
-        this.rootResponseNode = new ResponseNode(message.getName());
+        this.testMessage = this.container.getTestMessage();
+
+        this.rootResponseNode = new ResponseNode(this.testMessage.getName());
     }
 
-    public String test() {
-        Request requestContainer = new Request(this.message.getUrl());
+    public ApiTest(Container setUpContainer, MessageSource messageSource) {
+        this.container = setUpContainer;
+        this.messageSource = messageSource;
 
-        ArrayList<PageInterface> pages = this.message.getPages();
+        this.testMessage = this.container.getTestMessage();
 
-        for (Iterator<PageInterface> pageIterator = pages.iterator(); pageIterator.hasNext(); ) {
-            PageInterface pageMessage = pageIterator.next();
-            //assertEquals("Status code was as expected", pageMessage.getExpectedStatusCode(), statusCode);
+        this.rootResponseNode = new ResponseNode(this.testMessage.getName());
+    }
 
+    public Integer test() {
+        Request requestContainer = new Request(this.testMessage.getUrl());
+
+        ArrayList<PageMessage> pageMessages = this.testMessage.getPages();
+
+        for (PageMessage pageMessage: pageMessages) {
             ResponseNode requestResponseNode = this.rootResponseNode.createChildNode(pageMessage.getName());
 
             ApiRequest request = new ApiRequest(requestContainer, pageMessage, requestResponseNode);
@@ -36,9 +57,44 @@ public class ApiTest {
         }
 
 
-        System.out.println("Final status: " + this.rootResponseNode.getStatus());
+        this.rootResponseNode.end();
+        publishResults();
 
-        return "Hello";
+        return this.rootResponseNode.getStatus();
     }
 
+    private void publishResults() {
+        publishResults("complete");
+    }
+
+    private void publishResults(String progress) {
+        String reportMessage = "";
+
+        if (this.messageSource == MessageSource.RABBIT) {
+            try {
+                reportMessage = this.rootResponseNode.createReport().toString(3);
+                RabbitMessage rabbitMessage = new RabbitMessage("amqp://localhost", "", Queues.RESULTS.getValue());
+                rabbitMessage.setMessage(reportMessage);
+
+                SimpleProducer producer = new SimpleProducer(rabbitMessage);
+            } catch (JSONException ex) {
+                logger.error("Could not publish results: " + reportMessage);
+            }
+        }
+        else if (this.messageSource == MessageSource.HTTP) {
+            try {
+                String resultUrl = this.testMessage.getResultUrl();
+                reportMessage = this.rootResponseNode.createReport().toString(3);
+                Request request = new Request();
+
+                request.put(resultUrl, reportMessage);
+            }
+            catch (RequestException requestException) {
+                logger.error("Error returning results! " + requestException.getMessage());
+            }
+            catch (JSONException jsonException) {
+                logger.error("Error creating report! " + jsonException.getMessage());
+            }
+        }
+    }
 }
