@@ -12,6 +12,7 @@ import uk.co.oaktest.messages.jackson.TestMessage;
 import uk.co.oaktest.messages.json.JsonMessage;
 import uk.co.oaktest.requests.Request;
 import uk.co.oaktest.requests.RequestException;
+import uk.co.oaktest.results.ResponseNode;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,9 +53,10 @@ public class RequestTests {
         try {
             Request newRequest = new Request(testMessage.getUrl());
             ArrayList<PageInterface> pages = testMessage.getPages();
+            ResponseNode requestNode = new ResponseNode("test");
             for (Iterator<PageInterface> pageIterator = pages.iterator(); pageIterator.hasNext(); ) {
                 PageInterface pageMessage = pageIterator.next();
-                int statusCode = newRequest.request(pageMessage.getVerb(), pageMessage.getUri());
+                int statusCode = newRequest.request(pageMessage.getVerb(), pageMessage.getUri(), requestNode);
                 //assertEquals("Status code was as expected", pageMessage.getExpectedStatusCode(), statusCode);
                 logger.info("Body: " + newRequest.getBody());
             }

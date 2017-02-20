@@ -1,6 +1,7 @@
 package uk.co.oaktest.variables;
 
 import com.jayway.jsonpath.JsonPath;
+import org.apache.commons.lang3.StringUtils;
 import uk.co.oaktest.messages.jackson.Variable;
 
 import java.util.ArrayList;
@@ -13,9 +14,12 @@ import java.util.regex.Pattern;
  */
 public class Translator {
 
+    //TODO: make this XML aware
+
     ArrayList<Variable> existingVariables;
 
     public Translator() {
+        this.existingVariables = new ArrayList<>();
     }
 
     public Translator(ArrayList<Variable> variables) {
@@ -43,35 +47,57 @@ public class Translator {
         return false;
     }
 
+    public boolean isPath(String testString) {
+        Pattern pathPattern = Pattern.compile("^(\\w+)\\.(.+)$");
+        Matcher pathMatcher = pathPattern.matcher(testString);
+        if (pathMatcher.find()) {
+            return true;
+        }
+        return false;
+    }
+
     public String translate(String stringContainingVariable) {
-        Pattern pattern = Pattern.compile("\\$\\{(.+)\\}");
-        Matcher matcher = pattern.matcher(stringContainingVariable);
-        while (matcher.find()) {
-            String currentVariable = matcher.group(1);
+        String parsedString = stringContainingVariable;
 
-            Pattern variableNamePattern = Pattern.compile("^\\w+$");
-            Matcher variableMatcher = variableNamePattern.matcher(currentVariable);
-            if (variableMatcher.find()) {
-                // the variable is simply the name of a variable in turn, so look for it in the list
-                stringContainingVariable = stringContainingVariable.replaceFirst("\\$\\{" + currentVariable + "\\}", getVariable(currentVariable));
-            }
-            else {
-                Pattern variablePathPattern = Pattern.compile("^(\\w+)\\.(.+)$");
-                Matcher variablePathMatcher = variablePathPattern.matcher(currentVariable);
-                if (variablePathMatcher.find()) {
-                    // the variable is a path! First things first, get the variable
-                    String pathName = variablePathMatcher.group(1);
-                    String path = variablePathMatcher.group(2);
+        if (!StringUtils.isEmpty(stringContainingVariable)) {
+            Pattern pattern = Pattern.compile("\\$\\{(.+)\\}");
+            Matcher matcher = pattern.matcher(stringContainingVariable);
+            while (matcher.find()) {
+                String currentVariable = matcher.group(1);
 
-                    String pathString = getVariable(pathName);
-                    String evaluatedVariable = JsonPath.read(pathString, "$." + path);
-                    stringContainingVariable = stringContainingVariable.replaceFirst("\\$\\{" + currentVariable + "\\}", evaluatedVariable);
+                Pattern variableNamePattern = Pattern.compile("^\\w+$");
+                Matcher variableMatcher = variableNamePattern.matcher(currentVariable);
+                if (variableMatcher.find()) {
+                    // the variable is simply the name of a variable in turn, so look for it in the list
+                    parsedString = stringContainingVariable.replaceFirst("\\$\\{" + currentVariable + "\\}", getVariable(currentVariable));
+                } else {
+                    String evaluatedVariable = evaluatePath(currentVariable);
+                    parsedString = stringContainingVariable.replaceFirst("\\$\\{" + currentVariable + "\\}", evaluatedVariable);
                 }
-
             }
+
+            //In theory (!) all of the variables have now been replaced; now check if the translated string is in itself a path
+            parsedString = evaluatePath(parsedString);
         }
 
-        return stringContainingVariable;
+        return parsedString;
+    }
+
+    private String evaluatePath(String possiblePath) {
+        String evaluatedPath = possiblePath;
+
+        Pattern pathPattern = Pattern.compile("^(\\w+)\\.(.+)$");
+        Matcher pathMatcher = pathPattern.matcher(possiblePath);
+        if (pathMatcher.find()) {
+            // the string is a path! First things first, get the variable
+            String pathName = pathMatcher.group(1);
+            String path = pathMatcher.group(2);
+
+            String pathString = getVariable(pathName);
+            evaluatedPath = JsonPath.read(pathString, "$." + path).toString();
+        }
+
+        return evaluatedPath;
     }
 
     private String getVariable(String variableName) {

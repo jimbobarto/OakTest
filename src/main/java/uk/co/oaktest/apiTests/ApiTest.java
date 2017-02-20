@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONException;
 import uk.co.oaktest.constants.MessageSource;
 import uk.co.oaktest.constants.Queues;
+import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.messages.interfaces.MessageInterface;
 import uk.co.oaktest.messages.interfaces.PageInterface;
@@ -50,8 +51,13 @@ public class ApiTest {
         for (PageMessage pageMessage: pageMessages) {
             ResponseNode requestResponseNode = this.rootResponseNode.createChildNode(pageMessage.getName());
 
-            ApiRequest request = new ApiRequest(requestContainer, pageMessage, requestResponseNode);
-            request.test();
+            try {
+                ApiRequest request = new ApiRequest(requestContainer, pageMessage, requestResponseNode, this.container);
+                request.test();
+            }
+            catch(Exception exception) {
+                requestResponseNode.addMessage(Status.BASIC_ERROR.getValue(), exception.getMessage());
+            }
 
             requestResponseNode.end();
         }

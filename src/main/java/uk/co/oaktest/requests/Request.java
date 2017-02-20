@@ -9,6 +9,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
+import uk.co.oaktest.constants.Status;
+import uk.co.oaktest.results.ResponseNode;
 
 import java.io.IOException;
 
@@ -17,6 +19,7 @@ public class Request {
     HttpUriRequest httpRequest;
     CloseableHttpResponse response;
     ResponseHandler<String> responseHandler;
+
     Integer statusCode;
     String responseBody;
     String baseUrl;
@@ -30,12 +33,13 @@ public class Request {
         this.httpclient = HttpClients.createDefault();
     }
 
-    public int request(String verb, String uri) throws RequestException {
-        return request(verb, uri, "");
+    public int request(String verb, String uri, ResponseNode requestNode) throws RequestException {
+        return request(verb, uri, "", requestNode);
     }
 
-    public int request(String verb, String uri, String body) throws RequestException {
+    public int request(String verb, String uri, String body, ResponseNode requestNode) throws RequestException {
         String finalUrl = formUrl(uri);
+        requestNode.addMessage(Status.ACTUAL_URL.getValue(), "URL: " + finalUrl);
 
         try {
             HttpUriRequest httpRequest = createRequest(verb, finalUrl, body);

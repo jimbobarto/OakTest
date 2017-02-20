@@ -28,6 +28,9 @@ public class PageMessage {
     private String httpVerb;
 
     @JsonProperty
+    private String contentType;
+
+    @JsonProperty
     private String headers;
 
     @JsonProperty
@@ -81,6 +84,10 @@ public class PageMessage {
 
     public String getHttpVerb() {
         return this.httpVerb;
+    }
+
+    public String getContentType() {
+        return this.contentType;
     }
 
     public String getHeaders() {return this.headers; }
