@@ -44,6 +44,7 @@ public class Translator {
     }
 
     public String translate(String stringContainingVariable) {
+        //TODO: add in something for xPath -
         Pattern pattern = Pattern.compile("\\$\\{(.+)\\}");
         Matcher matcher = pattern.matcher(stringContainingVariable);
         while (matcher.find()) {
