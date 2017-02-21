@@ -3,6 +3,7 @@ package uk.co.oaktest.messages.jackson;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
+import uk.co.oaktest.assertions.Assertion;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -46,6 +47,10 @@ public class PageMessage {
     @JsonProperty
     private ArrayList<ElementMessage> elements;
 
+    @Valid
+    @JsonProperty
+    private ArrayList<Assertion> assertions;
+
     public PageMessage() {
 
     }
@@ -80,6 +85,10 @@ public class PageMessage {
 
     public ArrayList<ElementMessage> getElements() {
         return this.elements;
+    }
+
+    public ArrayList<Assertion> getAssertions() {
+        return this.assertions;
     }
 
     public String getHttpVerb() {

@@ -2,6 +2,7 @@ package uk.co.oaktest.apiTests;
 
 import org.apache.log4j.Logger;
 import org.json.JSONException;
+import uk.co.oaktest.assertions.Assertion;
 import uk.co.oaktest.constants.MessageSource;
 import uk.co.oaktest.constants.Queues;
 import uk.co.oaktest.constants.Status;
@@ -54,6 +55,16 @@ public class ApiTest {
             try {
                 ApiRequest request = new ApiRequest(requestContainer, pageMessage, requestResponseNode, this.container);
                 request.test();
+            }
+            catch(Exception exception) {
+                requestResponseNode.addMessage(Status.BASIC_ERROR.getValue(), exception.getMessage());
+            }
+
+            try {
+                ArrayList<Assertion> assertions = pageMessage.getAssertions();
+                for (Assertion assertion: assertions) {
+                    requestResponseNode.addMessage( assertion.check(this.container.getTranslator()) );
+                }
             }
             catch(Exception exception) {
                 requestResponseNode.addMessage(Status.BASIC_ERROR.getValue(), exception.getMessage());

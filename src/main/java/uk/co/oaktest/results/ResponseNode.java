@@ -93,6 +93,14 @@ public class ResponseNode {
     }
 
 
+    public void addMessage(ResponseMessage responseMessage) {
+        this.responseMessages.add(responseMessage);
+
+        aggregateStatus(responseMessage.getStatus());
+
+        logger.info(this.name + " (" + responseMessage.getStatus() + "): " + responseMessage.getMessage());
+    }
+
     public void addMessage(Integer status, String message) {
         ResponseMessage createMessage = new ResponseMessage(status, message);
         this.responseMessages.add(createMessage);
