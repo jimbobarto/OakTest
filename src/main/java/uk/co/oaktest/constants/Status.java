@@ -20,6 +20,8 @@ public enum Status {
 
     BASIC_SUCCESS(200, "Success"),
     CHECK_SUCCESS(201, "Successful check"),
+    TEXT_MATCH_SUCCESS(210, "Text matches"),
+    ACTUAL_URL(240, "Final URL used for request"),
 
     TEXT_CHECK_WARNING(300, "Text does not match"),
     UNKNOWN_ELEMENT(390, "Unknown element"),
@@ -30,6 +32,7 @@ public enum Status {
     NO_TEXT_CHECK_DATA(402, "No text found to check"),
     OBJECT_NOT_FOUND(404, "Object not found"),
     TIMEOUT(405, "Timeout"),
+    NOT_A_PATH(420, "Path assertion on something that is not a path"),
 
     BASIC_ERROR(500, "Error"),
     BASE_ELEMENT_NOT_FOUND(590, "Error - base element not found");
@@ -43,6 +46,10 @@ public enum Status {
     }
 
     public Integer getValue() {
+        return this.value;
+    }
+
+    public Integer value() {
         return this.value;
     }
 

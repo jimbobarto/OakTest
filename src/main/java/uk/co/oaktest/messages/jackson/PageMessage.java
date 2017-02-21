@@ -3,6 +3,7 @@ package uk.co.oaktest.messages.jackson;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
+import uk.co.oaktest.assertions.Assertion;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -25,7 +26,10 @@ public class PageMessage {
     private String url;
 
     @JsonProperty
-    private String verb;
+    private String httpVerb;
+
+    @JsonProperty
+    private String contentType;
 
     @JsonProperty
     private String headers;
@@ -33,16 +37,19 @@ public class PageMessage {
     @JsonProperty
     private String payload;
 
-    @JsonProperty
-    private String expectedResults;
+//    @JsonProperty
+//    private String expectedResults;
 
     @JsonProperty
-    private long expectedStatusCode;
+    private Integer expectedStatus;
 
     @Valid
-    @NotEmpty
     @JsonProperty
     private ArrayList<ElementMessage> elements;
+
+    @Valid
+    @JsonProperty
+    private ArrayList<Assertion> assertions;
 
     public PageMessage() {
 
@@ -54,14 +61,14 @@ public class PageMessage {
         this.elements = elementMessages;
     }
 
-    public PageMessage(String name, String type, String verb, String headers, String payload, String expectedResults, long expectedStatusCode) {
+    public PageMessage(String name, String type, String httpVerb, String headers, String payload, String expectedResults, Integer expectedStatus) {
         this.name = name;
         this.type = type;
-        this.verb = verb;
+        this.httpVerb = httpVerb;
         this.headers = headers;
         this.payload = payload;
-        this.expectedResults = expectedResults;
-        this.expectedStatusCode = expectedStatusCode;
+        //this.expectedResults = expectedResults;
+        this.expectedStatus = expectedStatus;
     }
 
     public String getType() {
@@ -80,17 +87,25 @@ public class PageMessage {
         return this.elements;
     }
 
-    public String getVerb() {
-        return this.verb;
+    public ArrayList<Assertion> getAssertions() {
+        return this.assertions;
+    }
+
+    public String getHttpVerb() {
+        return this.httpVerb;
+    }
+
+    public String getContentType() {
+        return this.contentType;
     }
 
     public String getHeaders() {return this.headers; }
 
     public String getPayload() {return this.payload; }
 
-    public String getExpectedResults() {return this.expectedResults; }
+    //public String getExpectedResults() {return this.expectedResults; }
 
-    public long getExpectedStatusCode() {return this.expectedStatusCode; }
+    public Integer getExpectedStatus() {return this.expectedStatus; }
 
     public String setName(String name) {
         this.name = name;

@@ -2,6 +2,7 @@ package uk.co.oaktest.rabbit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
+import uk.co.oaktest.apiTests.ApiTest;
 import uk.co.oaktest.browserTests.BrowserTest;
 import uk.co.oaktest.constants.MessageSource;
 import uk.co.oaktest.containers.Container;
@@ -66,7 +67,13 @@ public class OakRunnable implements Runnable {
     public void run() {
         Container container = new Container(this.testMessage);
 
-        BrowserTest browser = new BrowserTest(container, messageSource);
-        browser.test();
+        if ( this.testMessage.getType().equals("api") ) {
+            ApiTest api = new ApiTest(container, messageSource);
+            api.test();
+        }
+        else {
+            BrowserTest browser = new BrowserTest(container, messageSource);
+            browser.test();
+        }
     }
 }

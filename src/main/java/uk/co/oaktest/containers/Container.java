@@ -15,6 +15,7 @@ public class Container {
     String implementation;
 
     public Container() {
+        this.translator = new Translator();
     }
 
     public Container(TestMessage containerTestMessage) {
@@ -22,6 +23,8 @@ public class Container {
         if (this.testMessage.getImplementation() != null) {
             setImplementation(this.testMessage.getImplementation());
         }
+
+        this.translator = new Translator();
     }
 
     public TestMessage getTestMessage() {
