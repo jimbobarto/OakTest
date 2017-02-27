@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import java.util.Map;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ElementMessage {
     @NotEmpty
@@ -41,6 +43,9 @@ public class ElementMessage {
 
     @JsonProperty
     private String selectBy;
+
+    @JsonProperty
+    private Map metaData;
 
     public ElementMessage() {
 
@@ -93,6 +98,10 @@ public class ElementMessage {
 
     public String getBehaviour() {
         return this.behaviour;
+    }
+
+    public Map getMetaData() {
+        return this.metaData;
     }
 
     public String setName(String name) {

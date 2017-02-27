@@ -1,5 +1,7 @@
 package uk.co.oaktest.browserTests;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import uk.co.oaktest.config.Config;
 import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.containers.Container;
@@ -12,9 +14,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-/**
- * Created by jamesbartlett on 30/11/15.
- */
 public class Element {
     ElementMessage message;
     ResponseNode elementNode;
@@ -25,6 +24,17 @@ public class Element {
         this.message = setUpMessage;
         this.elementNode = elementResponseNode;
         this.container = elementContainer;
+
+        Map metaData = this.message.getMetaData();
+        if (metaData != null) {
+            try {
+                String json = new ObjectMapper().writeValueAsString(metaData);
+                this.elementNode.addMessage(Status.META_DATA.value(), json);
+            }
+            catch (JsonProcessingException jsonProcessingException) {
+                this.elementNode.addMessage(Status.BASIC_ERROR.value(), jsonProcessingException);
+            }
+        }
     }
 
     public Integer test() {

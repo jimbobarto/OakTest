@@ -1,6 +1,9 @@
 package uk.co.oaktest.browserTests;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openqa.selenium.WebDriver;
+import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.messages.interfaces.PageInterface;
@@ -11,10 +14,8 @@ import uk.co.oaktest.utils.UrlConstructor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 
-/**
- * Created by jamesbartlett on 30/11/15.
- */
 public class Page {
     PageMessage message;
     ResponseNode pageNode;
@@ -24,6 +25,17 @@ public class Page {
         this.message = pageMessage;
         this.pageNode = pageResponseNode;
         this.container = pageContainer;
+
+        Map metaData = this.message.getMetaData();
+        if (metaData != null) {
+            try {
+                String json = new ObjectMapper().writeValueAsString(metaData);
+                this.pageNode.addMessage(Status.META_DATA.value(), json);
+            }
+            catch (JsonProcessingException jsonProcessingException) {
+                this.pageNode.addMessage(Status.BASIC_ERROR.value(), jsonProcessingException);
+            }
+        }
     }
 
     public Integer test() {

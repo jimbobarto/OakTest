@@ -1,5 +1,7 @@
 package uk.co.oaktest.browserTests;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.openqa.selenium.WebDriverException;
@@ -20,6 +22,7 @@ import uk.co.oaktest.utils.UrlConstructor;
 import uk.co.oaktest.variables.Translator;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -73,6 +76,17 @@ public class BrowserTest {
 
         this.urlConstructor = new UrlConstructor(this.rootUrl);
         this.container.setUrlConstructor(this.urlConstructor);
+
+        Map metaData = this.testMessage.getMetaData();
+        if (metaData != null) {
+            try {
+                String json = new ObjectMapper().writeValueAsString(metaData);
+                this.rootResponseNode.addMessage(Status.META_DATA.value(), json);
+            }
+            catch (JsonProcessingException jsonProcessingException) {
+                this.rootResponseNode.addMessage(Status.BASIC_ERROR.value(), jsonProcessingException);
+            }
+        }
     }
 
     public ResponseNode getResponseNode() {

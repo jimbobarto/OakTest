@@ -8,6 +8,7 @@ public enum Status {
     //500 - bad errors
 
     NODE_CREATED(101, "Node created"),
+    META_DATA(105, "Meta data"),
     NODE_FINISHED(111, "Node finished"),
     TIMER_STARTED_FIND(121, "Timer started to find object"),
     TIMER_FINISHED_FIND(122, "Timer finished to find object"),

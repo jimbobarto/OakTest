@@ -7,6 +7,7 @@ import uk.co.oaktest.assertions.Assertion;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Map;
 
 /*
 We have a single PageMessage class for both true Pages and for Requests, because a test can have both pages and requests
@@ -50,6 +51,9 @@ public class PageMessage {
     @Valid
     @JsonProperty
     private ArrayList<Assertion> assertions;
+
+    @JsonProperty
+    private Map metaData;
 
     public PageMessage() {
 
@@ -106,6 +110,10 @@ public class PageMessage {
     //public String getExpectedResults() {return this.expectedResults; }
 
     public Integer getExpectedStatus() {return this.expectedStatus; }
+
+    public Map getMetaData() {
+        return this.metaData;
+    }
 
     public String setName(String name) {
         this.name = name;

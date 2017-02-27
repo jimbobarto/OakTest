@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TestMessage {
@@ -25,6 +26,9 @@ public class TestMessage {
     @Valid
     @JsonProperty
     private ArrayList<PageMessage> pages;
+
+    @JsonProperty
+    private Map metaData;
 
     private String name;
     private String implementation;
@@ -67,6 +71,10 @@ public class TestMessage {
 
     public String getType() {
         return this.type;
+    }
+
+    public Map getMetaData() {
+        return this.metaData;
     }
 
     public String setName(String name) {
