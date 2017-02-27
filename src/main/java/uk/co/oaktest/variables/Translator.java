@@ -57,12 +57,19 @@ public class Translator {
     }
 
     public String translate(String stringContainingVariable) {
+        return translate(stringContainingVariable, false);
+    }
+
+    public String translate(String stringContainingVariable, Boolean forceEvaluation) {
         String parsedString = stringContainingVariable;
 
         if (!StringUtils.isEmpty(stringContainingVariable)) {
             Pattern pattern = Pattern.compile("\\$\\{(.+)\\}");
             Matcher matcher = pattern.matcher(stringContainingVariable);
+
+            Boolean matchesFound = false;
             while (matcher.find()) {
+                matchesFound = true;
                 String currentVariable = matcher.group(1);
 
                 Pattern variableNamePattern = Pattern.compile("^\\w+$");
@@ -77,7 +84,9 @@ public class Translator {
             }
 
             //In theory (!) all of the variables have now been replaced; now check if the translated string is in itself a path
-            parsedString = evaluatePath(parsedString);
+            if (matchesFound || forceEvaluation) {
+                parsedString = evaluatePath(parsedString);
+            }
         }
 
         return parsedString;
