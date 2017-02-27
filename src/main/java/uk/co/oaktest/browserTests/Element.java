@@ -52,7 +52,7 @@ public class Element {
             classInstance = constructor.newInstance(this.message, this.elementNode, this.container);
         } catch (Exception getClassException) {
             //TODO: replace with exception
-            this.container.getResponseNode().addMessage(Status.BASIC_ERROR.value(), getClassException);
+            this.elementNode.addMessage(Status.BASIC_ERROR.value(), getClassException);
             return Status.BASIC_ERROR.value();
         }
 
@@ -62,7 +62,7 @@ public class Element {
             methodInstance = classInstance.getClass().getMethod(interactionType);
         } catch (Exception getMethodException) {
             //TODO: replace with exception
-            this.container.getResponseNode().addMessage(Status.BASIC_ERROR.value(), getMethodException);
+            this.elementNode.addMessage(Status.BASIC_ERROR.value(), getMethodException);
             return Status.BASIC_ERROR.value();
         }
 
@@ -72,13 +72,13 @@ public class Element {
             methodInstance.invoke(classInstance);
 
         } catch (IllegalArgumentException e) {
-            this.container.getResponseNode().addMessage(Status.BASIC_ERROR.value(), e);
+            this.elementNode.addMessage(Status.BASIC_ERROR.value(), e);
             return Status.BASIC_ERROR.value();
         } catch (IllegalAccessException e) {
-            this.container.getResponseNode().addMessage(Status.BASIC_ERROR.value(), e);
+            this.elementNode.addMessage(Status.BASIC_ERROR.value(), e);
             return Status.BASIC_ERROR.value();
         } catch (InvocationTargetException e) {
-            this.container.getResponseNode().addMessage(Status.BASIC_ERROR.value(), e);
+            this.elementNode.addMessage(Status.BASIC_ERROR.value(), e);
             return Status.BASIC_ERROR.value();
         }
 
