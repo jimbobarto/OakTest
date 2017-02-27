@@ -48,7 +48,7 @@ public class Page {
                 elementResponseNode.end();
 
                 if (elementResult > 499) {
-                    return this.pageNode.getStatus();
+                    break;
                 }
             }
         }

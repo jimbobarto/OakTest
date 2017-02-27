@@ -53,7 +53,8 @@ public class Element {
         }
         catch(Exception getClassException) {
             //TODO: replace with exception
-            throw new Error(getClassException);
+            this.container.getResponseNode().addMessage(Status.BASIC_ERROR.value(), getClassException);
+            return Status.BASIC_ERROR.value();
         }
 
         //Get the relevant method
@@ -63,7 +64,8 @@ public class Element {
         }
         catch (Exception getMethodException) {
             //TODO: replace with exception
-            throw new Error(getMethodException);
+            this.container.getResponseNode().addMessage(Status.BASIC_ERROR.value(), getMethodException);
+            return Status.BASIC_ERROR.value();
         }
 
 
@@ -71,12 +73,15 @@ public class Element {
         try {
             methodInstance.invoke(classInstance);
 
-        } catch (IllegalArgumentException e) {System.out.println(e);
-        } catch (IllegalAccessException e) {System.out.println(e);
+        } catch (IllegalArgumentException e) {
+            this.container.getResponseNode().addMessage(Status.BASIC_ERROR.value(), e);
+            return Status.BASIC_ERROR.value();
+        } catch (IllegalAccessException e) {
+            this.container.getResponseNode().addMessage(Status.BASIC_ERROR.value(), e);
+            return Status.BASIC_ERROR.value();
         } catch (InvocationTargetException e) {
-            //TODO: replace with exception
-            throw new Error(e);
-
+            this.container.getResponseNode().addMessage(Status.BASIC_ERROR.value(), e);
+            return Status.BASIC_ERROR.value();
         }
 
         return this.elementNode.getStatus();

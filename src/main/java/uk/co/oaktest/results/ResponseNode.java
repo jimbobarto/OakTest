@@ -119,12 +119,11 @@ public class ResponseNode {
     }
 
     public void addMessage(Integer status, Throwable exception) {
-        addMessage(status, exception.getMessage());
-
-        // ExceptionUtils.getStackTrace will get the stack trace as a string. See http://stackoverflow.com/questions/1149703/how-can-i-convert-a-stack-trace-to-a-string for details.
-        ResponseMessage createMessage = new ResponseMessage(Status.STACK_TRACE_ADDED.getValue(), ExceptionUtils.getStackTrace(exception));
-        this.responseMessages.add(createMessage);
-        aggregateStatus(Status.STACK_TRACE_ADDED.getValue());
+        String message = exception.getMessage();
+        if (message == null) {
+            message = "Unknown stack trace!";
+        }
+        addMessage(status, message, ExceptionUtils.getStackTrace(exception));
     }
 
     public void setParentNode(ResponseNode parent) {
