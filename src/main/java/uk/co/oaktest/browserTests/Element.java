@@ -38,8 +38,8 @@ public class Element {
         HashMap elementTypes = new HashMap(Config.elementTypes());
 
         //Get the relevant values from the maps
-        String interactionType=(String)interactionTypes.get(interaction);
-        String elementType=(String)elementTypes.get(type);
+        String interactionType = (String) interactionTypes.get(interaction);
+        String elementType = (String) elementTypes.get(type);
 
         Class<?> runtimeClass = getRuntimeClass(implementation, elementType, type);
         if (runtimeClass == null) {
@@ -50,8 +50,7 @@ public class Element {
         try {
             Constructor<?> constructor = runtimeClass.getConstructor(ElementMessage.class, ResponseNode.class, Container.class);
             classInstance = constructor.newInstance(this.message, this.elementNode, this.container);
-        }
-        catch(Exception getClassException) {
+        } catch (Exception getClassException) {
             //TODO: replace with exception
             this.container.getResponseNode().addMessage(Status.BASIC_ERROR.value(), getClassException);
             return Status.BASIC_ERROR.value();
@@ -61,8 +60,7 @@ public class Element {
         java.lang.reflect.Method methodInstance;
         try {
             methodInstance = classInstance.getClass().getMethod(interactionType);
-        }
-        catch (Exception getMethodException) {
+        } catch (Exception getMethodException) {
             //TODO: replace with exception
             this.container.getResponseNode().addMessage(Status.BASIC_ERROR.value(), getMethodException);
             return Status.BASIC_ERROR.value();

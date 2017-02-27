@@ -103,7 +103,9 @@ public class Translator {
             String path = pathMatcher.group(2);
 
             String pathString = getVariable(pathName);
-            evaluatedPath = JsonPath.read(pathString, "$." + path).toString();
+            if (!pathString.equals("")) {
+                evaluatedPath = JsonPath.read(pathString, "$." + path).toString();
+            }
         }
 
         return evaluatedPath;

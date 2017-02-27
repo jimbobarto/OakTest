@@ -81,4 +81,19 @@ public class RequestTests {
             logger.error("Got a problem... " + reqEx.getMessage());
         }
     }
+
+    @Test
+    public void simpleApiTestWithAssertionsFromMessage() {
+        GetFileContents fileGetter = new GetFileContents();
+        TestMessage testMessage = fileGetter.getMessageFromFile("src/test/resources/testRequestMessageWithAssertions.json");
+        //TestMessage testMessage = fileGetter.getMessageFromFile("testRequestMessageWithAssertions.json");
+
+        try {
+            ApiTest api = new ApiTest(new Container(testMessage));
+            api.test();
+        }
+        catch(Exception reqEx) {
+            logger.error("Got a problem... " + reqEx.getMessage());
+        }
+    }
 }

@@ -31,6 +31,10 @@ public class Assertion {
 
     private Translator translator;
 
+    public Assertion() {
+
+    }
+
     public Assertion(String expected, String actual, String comparisonType, String assertionType) {
         this.expected = expected;
         this.actual = actual;

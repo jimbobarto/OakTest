@@ -1,0 +1,18 @@
+{
+  "url": "http://jsonplaceholder.typicode.com",
+  "name": "Example test",
+  "pages": [
+    {
+      "name": "request1",
+      "httpVerb": "get",
+      "url": "/posts/1",
+      "expectedStatusCode": 200,
+      "assertions": [{
+        "expected": "1",
+        "actual": "request1_body.userId",
+        "comparisonType": "equals",
+        "assertionType": "string"
+      }]
+    }
+  ]
+}
