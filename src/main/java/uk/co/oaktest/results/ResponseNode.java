@@ -19,22 +19,27 @@ public class ResponseNode {
     ArrayList<ResponseMessage> responseMessages = new ArrayList<ResponseMessage>();
     ArrayList<ResponseNode> childNodes = new ArrayList<ResponseNode>();
     ResponseNode parentNode = null;
+    String uuid;
 
     public ResponseNode(String nodeName) {
-        //TODO: add in timestamps
         this(nodeName, Status.NODE_CREATED.getValue(), "Node created");
     }
 
     public ResponseNode(String nodeName, Integer newStatus, String newMessage) {
         this.name = nodeName;
         addMessage(newStatus, newMessage);
+        createSetupMessages();
+    }
+
+    private void createSetupMessages() {
+        this.uuid = new Uuid().toString();
+        addMessage(Status.UUID.getValue(), this.uuid);
+        //TODO: add in timestamps
     }
 
     public ArrayList<ResponseNode> getChildNodes(String nodeName){
-
         //TODO get all nodes that match the name and return that array
         return this.childNodes;
-        
     }
 
     public ResponseNode getNodeByPath(String nodePath){
@@ -92,6 +97,9 @@ public class ResponseNode {
         return this.name;
     }
 
+    public String getUuid(){
+        return this.uuid;
+    }
 
     public void addMessage(ResponseMessage responseMessage) {
         this.responseMessages.add(responseMessage);
@@ -192,6 +200,17 @@ public class ResponseNode {
             statuses.add(responseMessage.getStatus());
         }
         return statuses;
+    }
+
+    public Integer getNumberOfMessagesForStatus(Integer status) {
+        Integer numberOfMessages = 0;
+        for (ResponseMessage responseMessage : this.responseMessages) {
+            if ( responseMessage.getStatus().equals(status) ) {
+                numberOfMessages++;
+            }
+        }
+
+        return numberOfMessages;
     }
 
     public void end() {

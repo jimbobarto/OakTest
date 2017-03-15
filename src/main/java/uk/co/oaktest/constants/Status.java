@@ -8,6 +8,7 @@ public enum Status {
     //500 - bad errors
 
     NODE_CREATED(101, "Node created"),
+    UUID(102, "uuid"),
     META_DATA(105, "Meta data"),
     NODE_FINISHED(111, "Node finished"),
     TIMER_STARTED_FIND(121, "Timer started to find object"),
@@ -23,6 +24,8 @@ public enum Status {
     CHECK_SUCCESS(201, "Successful check"),
     TEXT_MATCH_SUCCESS(210, "Text matches"),
     ACTUAL_URL(240, "Final URL used for request"),
+    SCREENSHOT_BEFORE(260, "Screenshot before"),
+    SCREENSHOT_AFTER(261, "Screenshot after"),
 
     TEXT_CHECK_WARNING(300, "Text does not match"),
     UNKNOWN_ELEMENT(390, "Unknown element"),

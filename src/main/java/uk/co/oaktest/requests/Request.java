@@ -5,6 +5,8 @@ import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
@@ -12,6 +14,11 @@ import org.apache.http.util.EntityUtils;
 import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.results.ResponseNode;
 
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.ContentBody;
+import org.apache.http.entity.mime.content.FileBody;
+
+import java.io.File;
 import java.io.IOException;
 
 public class Request {
@@ -19,6 +26,7 @@ public class Request {
     HttpUriRequest httpRequest;
     CloseableHttpResponse response;
     ResponseHandler<String> responseHandler;
+    ContentType contentType;
 
     Integer statusCode;
     String responseBody;
@@ -38,11 +46,33 @@ public class Request {
     }
 
     public int request(String verb, String uri, String body, ResponseNode requestNode) throws RequestException {
+        return request(verb, uri, body, requestNode, ContentType.APPLICATION_JSON);
+    }
+
+    public int request(String verb, String uri, String body, ResponseNode requestNode, ContentType contentType) throws RequestException {
         String finalUrl = formUrl(uri);
         requestNode.addMessage(Status.ACTUAL_URL.getValue(), "URL: " + finalUrl);
 
         try {
-            HttpUriRequest httpRequest = createRequest(verb, finalUrl, body);
+            HttpUriRequest httpRequest = createRequest(verb, finalUrl, body, contentType);
+            this.response = this.httpclient.execute(httpRequest);
+            this.responseBody = extractBody();
+            this.statusCode = this.response.getStatusLine().getStatusCode();
+            this.response.close();
+        }
+        catch (IOException ex) {
+            throw new RequestException("Unexpected response status: " + this.statusCode, ex);
+        }
+
+        return this.statusCode;
+    }
+
+    public int request(String verb, String uri, File file, String fileName, ResponseNode requestNode) throws RequestException {
+        String finalUrl = formUrl(uri);
+        requestNode.addMessage(Status.ACTUAL_URL.getValue(), "URL: " + finalUrl);
+
+        try {
+            HttpUriRequest httpRequest = createRequest(verb, finalUrl, file, fileName);
             this.response = this.httpclient.execute(httpRequest);
             this.responseBody = extractBody();
             this.statusCode = this.response.getStatusLine().getStatusCode();
@@ -109,8 +139,28 @@ public class Request {
         return this.statusCode;
     }
 
+    public Integer execute(HttpUriRequest request) throws RequestException {
+        try {
+            this.response = this.httpclient.execute(request);
+            this.responseBody = extractBody();
+            this.statusCode = this.response.getStatusLine().getStatusCode();
+            this.response.close();
+        }
+        catch (IOException ex) {
+            throw new RequestException("Unexpected response status: " + this.statusCode, ex);
+        }
+
+        return this.statusCode;
+    }
+
     public HttpUriRequest createRequest(String methodName, String uri, String body) throws RequestException {
-        //HttpUriRequest request;
+        return createRequest(methodName, uri, body, ContentType.APPLICATION_JSON);
+    }
+
+    public HttpUriRequest createRequest(String methodName, String uri, String body, ContentType contentType) throws RequestException {
+        StringEntity jsonEntity = new StringEntity(body, contentType);
+        //httpPut.setEntity(jsonEntity);
+
         switch (methodName) {
             case "get":
                 return new HttpGet(uri);
@@ -118,6 +168,7 @@ public class Request {
                 HttpEntityEnclosingRequestBase postRequest = new HttpPost(uri);
                 try {
                     postRequest = addBody(postRequest, body);
+                    postRequest.setEntity(jsonEntity);
                 }
                 catch (Exception exception) {
                     throw new RequestException(exception.getMessage());
@@ -127,6 +178,7 @@ public class Request {
                 HttpEntityEnclosingRequestBase putRequest = new HttpPut(uri);
                 try {
                     putRequest = addBody(putRequest, body);
+                    putRequest.setEntity(jsonEntity);
                 }
                 catch (Exception exception) {
                     throw new RequestException(exception.getMessage());
@@ -136,6 +188,31 @@ public class Request {
                 return new HttpDelete(uri);
             default:
                 return new HttpGet(uri);
+        }
+    }
+
+    public HttpUriRequest createRequest(String methodName, String uri, File file, String fileName) throws RequestException {
+        switch (methodName.toLowerCase()) {
+            case "post":
+                HttpEntityEnclosingRequestBase postRequest = new HttpPost(uri);
+                try {
+                    postRequest = addBody(postRequest, file, fileName);
+                }
+                catch (Exception exception) {
+                    throw new RequestException(exception.getMessage());
+                }
+                return postRequest;
+            case "put":
+                HttpEntityEnclosingRequestBase putRequest = new HttpPut(uri);
+                try {
+                    putRequest = addBody(putRequest, file, fileName);
+                }
+                catch (Exception exception) {
+                    throw new RequestException(exception.getMessage());
+                }
+                return putRequest;
+            default:
+                throw new RequestException("Invalid HTTP method (" + methodName + ") for file transfer");
         }
     }
 
@@ -149,6 +226,23 @@ public class Request {
         }
         catch (Exception exception) {
             throw new RequestException("Could not add body to request: " + exception.getMessage());
+        }
+    }
+
+    private HttpEntityEnclosingRequestBase addBody(HttpEntityEnclosingRequestBase request, File file, String fileName) throws RequestException {
+        try {
+            MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+            builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+            FileBody fileBody = new FileBody(file);
+            builder.addPart(fileName, fileBody);
+            HttpEntity entity = builder.build();
+
+            request.setEntity(entity);
+
+            return request;
+        }
+        catch (Exception exception) {
+            throw new RequestException("Could not add file to request: " + exception.getMessage());
         }
     }
 

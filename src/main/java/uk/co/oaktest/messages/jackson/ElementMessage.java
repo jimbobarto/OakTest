@@ -45,6 +45,12 @@ public class ElementMessage {
     private String selectBy;
 
     @JsonProperty
+    private Boolean screenshotBefore;
+
+    @JsonProperty
+    private Boolean screenshotAfter;
+
+    @JsonProperty
     private Map metaData;
 
     public ElementMessage() {
@@ -102,6 +108,14 @@ public class ElementMessage {
 
     public Map getMetaData() {
         return this.metaData;
+    }
+
+    public Boolean getScreenshotBefore() {
+        return this.screenshotBefore;
+    }
+
+    public Boolean getScreenshotAfter() {
+        return this.screenshotAfter;
     }
 
     public String setName(String name) {

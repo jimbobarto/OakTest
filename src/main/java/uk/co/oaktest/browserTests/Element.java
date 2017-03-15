@@ -2,12 +2,14 @@ package uk.co.oaktest.browserTests;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.openqa.selenium.WebDriver;
 import uk.co.oaktest.config.Config;
 import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.messages.jackson.ElementMessage;
 import uk.co.oaktest.results.ResponseNode;
+import uk.co.oaktest.results.Uuid;
 import uk.co.oaktest.variables.Translator;
 
 import java.lang.reflect.Constructor;
@@ -51,6 +53,14 @@ public class Element {
         String interactionType = (String) interactionTypes.get(interaction);
         String elementType = (String) elementTypes.get(type);
 
+        Boolean screenshotBefore = this.message.getScreenshotBefore();
+        Boolean screenshotAfter = this.message.getScreenshotAfter();
+
+        if (screenshotBefore) {
+            Screenshot screenshot = new Screenshot(this.container, this.elementNode, Status.SCREENSHOT_BEFORE.value());
+            screenshot.cleanUpload("http://localhost:8090/Copper/result/uploadScreenshot/");
+        }
+
         Class<?> runtimeClass = getRuntimeClass(implementation, elementType, type);
         if (runtimeClass == null) {
             return this.elementNode.getStatus();
@@ -90,6 +100,11 @@ public class Element {
         } catch (InvocationTargetException e) {
             this.elementNode.addMessage(Status.BASIC_ERROR.value(), e);
             return Status.BASIC_ERROR.value();
+        }
+
+        if (screenshotAfter) {
+            Screenshot screenshot = new Screenshot(this.container, this.elementNode, Status.SCREENSHOT_AFTER.value());
+            screenshot.cleanUpload("http://localhost:8090/Copper/result/uploadScreenshot/");
         }
 
         return this.elementNode.getStatus();

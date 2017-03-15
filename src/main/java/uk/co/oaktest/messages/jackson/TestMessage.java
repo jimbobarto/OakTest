@@ -30,6 +30,9 @@ public class TestMessage {
     @JsonProperty
     private Map metaData;
 
+    @JsonProperty
+    private Integer resultId;
+
     private String name;
     private String implementation;
     private String resultUrl = "";
@@ -67,6 +70,10 @@ public class TestMessage {
 
     public String getResultUrl() {
         return this.resultUrl;
+    }
+
+    public Integer getResultId() {
+        return this.resultId;
     }
 
     public String getType() {
