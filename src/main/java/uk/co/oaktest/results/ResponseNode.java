@@ -119,6 +119,9 @@ public class ResponseNode {
     }
 
     public void addMessage(Integer status, String message, String stackTrace) {
+        if (message == null) {
+            message = stackTrace;
+        }
         addMessage(status, message);
 
         ResponseMessage createMessage = new ResponseMessage(Status.STACK_TRACE_ADDED.getValue(), stackTrace);
