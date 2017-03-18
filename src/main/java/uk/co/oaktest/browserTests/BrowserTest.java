@@ -97,7 +97,7 @@ public class BrowserTest {
         WebDriver driver = new FirefoxDriver();
         this.container.setDriver(driver);
 
-        driver.manage().timeouts().pageLoadTimeout(20, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         try {
             driver.get(this.rootUrl);
         }
