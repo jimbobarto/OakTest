@@ -111,10 +111,16 @@ public class ElementMessage {
     }
 
     public Boolean getScreenshotBefore() {
+        if (this.screenshotBefore == null) {
+            return false;
+        }
         return this.screenshotBefore;
     }
 
     public Boolean getScreenshotAfter() {
+        if (this.screenshotAfter == null) {
+            return false;
+        }
         return this.screenshotAfter;
     }
 
