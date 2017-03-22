@@ -18,6 +18,7 @@ import uk.co.oaktest.rabbit.SimpleProducer;
 import uk.co.oaktest.requests.Request;
 import uk.co.oaktest.requests.RequestException;
 import uk.co.oaktest.results.ResponseNode;
+import uk.co.oaktest.results.TestTimer;
 import uk.co.oaktest.utils.UrlConstructor;
 import uk.co.oaktest.variables.Translator;
 
@@ -35,6 +36,7 @@ public class BrowserTest {
     Container container;
     String rootUrl;
     MessageSource messageSource;
+    TestTimer timer;
     final static Logger logger = Logger.getLogger(BrowserTest.class);
 
     public BrowserTest(Container setUpContainer) {
@@ -59,6 +61,7 @@ public class BrowserTest {
         this.container = setUpContainer;
         this.testMessage = this.container.getTestMessage();
         this.rootUrl = testMessage.getUrl();
+        this.timer = new TestTimer();
 
         this.rootResponseNode = new ResponseNode(testMessage.getName());
         this.container.setResponseNode(this.rootResponseNode);
@@ -94,6 +97,8 @@ public class BrowserTest {
     }
 
     public Integer test() {
+        this.timer.startTimer(this.rootResponseNode);
+
         WebDriver driver = new FirefoxDriver();
         this.container.setDriver(driver);
 
@@ -151,6 +156,7 @@ public class BrowserTest {
             finish(driver);
         }
 
+        this.timer.stopTimer(this.rootResponseNode);
         return this.rootResponseNode.getStatus();
     }
 

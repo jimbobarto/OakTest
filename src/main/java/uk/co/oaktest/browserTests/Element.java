@@ -9,6 +9,7 @@ import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.messages.jackson.ElementMessage;
 import uk.co.oaktest.results.ResponseNode;
+import uk.co.oaktest.results.TestTimer;
 import uk.co.oaktest.results.Uuid;
 import uk.co.oaktest.variables.Translator;
 
@@ -21,11 +22,13 @@ public class Element {
     ResponseNode elementNode;
     Translator translator;
     Container container;
+    TestTimer timer;
 
     public Element (ElementMessage setUpMessage, ResponseNode elementResponseNode, Container elementContainer) {
         this.message = setUpMessage;
         this.elementNode = elementResponseNode;
         this.container = elementContainer;
+        this.timer = new TestTimer();
 
         Map metaData = this.message.getMetaData();
         if (metaData != null) {
@@ -55,6 +58,8 @@ public class Element {
 
         Boolean screenshotBefore = this.message.getScreenshotBefore();
         Boolean screenshotAfter = this.message.getScreenshotAfter();
+
+        this.timer.startTimer(this.elementNode);
 
         if (screenshotBefore) {
             Screenshot screenshot = new Screenshot(this.container, this.elementNode, Status.SCREENSHOT_BEFORE.value());
@@ -106,6 +111,8 @@ public class Element {
             Screenshot screenshot = new Screenshot(this.container, this.elementNode, Status.SCREENSHOT_AFTER.value());
             screenshot.cleanUpload("http://localhost:8090/Copper/result/uploadScreenshot/");
         }
+
+        this.timer.stopTimer(this.elementNode);
 
         return this.elementNode.getStatus();
     }

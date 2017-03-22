@@ -1,5 +1,7 @@
 package uk.co.oaktest.results;
 
+import uk.co.oaktest.constants.Status;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -18,6 +20,15 @@ public class TestTimer {
         return this.startTime;
     }
 
+    public Calendar startTimer(ResponseNode responseNode) {
+        this.startTime = Calendar.getInstance();
+        this.finishTime = null;
+
+        responseNode.addMessage(Status.TIMER_STARTED.value(), getFormattedStartTime());
+
+        return this.startTime;
+    }
+
     public String getFormattedStartTime() {
         if (this.startTime != null) {
             return getTimeFromCalendar(this.startTime);
@@ -29,6 +40,14 @@ public class TestTimer {
 
     public Calendar stopTimer() {
         this.finishTime = Calendar.getInstance();
+        return this.finishTime;
+    }
+
+    public Calendar stopTimer(ResponseNode responseNode) {
+        this.finishTime = Calendar.getInstance();
+
+        responseNode.addMessage(Status.TIMER_FINISHED.value(), getFormattedFinishTime());
+
         return this.finishTime;
     }
 

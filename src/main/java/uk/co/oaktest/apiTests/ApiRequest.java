@@ -7,6 +7,7 @@ import uk.co.oaktest.messages.jackson.PageMessage;
 import uk.co.oaktest.requests.Request;
 import uk.co.oaktest.requests.RequestException;
 import uk.co.oaktest.results.ResponseNode;
+import uk.co.oaktest.results.TestTimer;
 import uk.co.oaktest.variables.Translator;
 
 public class ApiRequest {
@@ -15,6 +16,7 @@ public class ApiRequest {
     Request requestContainer;
     Container container;
     Translator translator;
+    TestTimer timer;
 
     String requestName;
     String uri;
@@ -33,6 +35,7 @@ public class ApiRequest {
         this.message = pageMessage;
         this.requestNode = requestResponseNode;
         this.container = container;
+        this.timer = new TestTimer();
 
         this.translator = container.getTranslator();
 
@@ -50,6 +53,8 @@ public class ApiRequest {
     }
 
     public int test() {
+        this.timer.startTimer(this.requestNode);
+
         try {
             this.actualStatus = this.requestContainer.request(this.verb, this.uri, this.requestNode);
         }
@@ -72,6 +77,7 @@ public class ApiRequest {
 
         check();
 
+        this.timer.stopTimer(this.requestNode);
         return this.actualStatus;
     }
 

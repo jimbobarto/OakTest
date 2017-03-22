@@ -10,6 +10,7 @@ import uk.co.oaktest.messages.interfaces.PageInterface;
 import uk.co.oaktest.messages.jackson.ElementMessage;
 import uk.co.oaktest.messages.jackson.PageMessage;
 import uk.co.oaktest.results.ResponseNode;
+import uk.co.oaktest.results.TestTimer;
 import uk.co.oaktest.utils.UrlConstructor;
 
 import java.util.ArrayList;
@@ -20,11 +21,13 @@ public class Page {
     PageMessage message;
     ResponseNode pageNode;
     Container container;
+    TestTimer timer;
 
     public Page (PageMessage pageMessage, ResponseNode pageResponseNode, Container pageContainer) {
         this.message = pageMessage;
         this.pageNode = pageResponseNode;
         this.container = pageContainer;
+        this.timer = new TestTimer();
 
         Map metaData = this.message.getMetaData();
         if (metaData != null) {
@@ -39,6 +42,8 @@ public class Page {
     }
 
     public Integer test() {
+        this.timer.startTimer(this.pageNode);
+
         String pageUri = this.message.getUrl();
         if (pageUri != null) {
             WebDriver driver = this.container.getDriver();
@@ -65,6 +70,7 @@ public class Page {
             }
         }
 
+        this.timer.stopTimer(this.pageNode);
         return this.pageNode.getStatus();
     }
 }

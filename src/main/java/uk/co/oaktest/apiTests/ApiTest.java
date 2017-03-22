@@ -16,6 +16,7 @@ import uk.co.oaktest.rabbit.SimpleProducer;
 import uk.co.oaktest.requests.Request;
 import uk.co.oaktest.requests.RequestException;
 import uk.co.oaktest.results.ResponseNode;
+import uk.co.oaktest.results.TestTimer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -25,10 +26,12 @@ public class ApiTest {
     ResponseNode rootResponseNode;
     Container container;
     MessageSource messageSource;
+    TestTimer timer;
     final static Logger logger = Logger.getLogger(ApiTest.class);
 
     public ApiTest(Container setUpContainer) {
         this.container = setUpContainer;
+        this.timer = new TestTimer();
 
         this.testMessage = this.container.getTestMessage();
 
@@ -45,6 +48,8 @@ public class ApiTest {
     }
 
     public Integer test() {
+        this.timer.startTimer(this.rootResponseNode);
+
         Request requestContainer = new Request(this.testMessage.getUrl());
 
         ArrayList<PageMessage> pageMessages = this.testMessage.getPages();
@@ -77,6 +82,7 @@ public class ApiTest {
         this.rootResponseNode.end();
         publishResults();
 
+        this.timer.stopTimer(this.rootResponseNode);
         return this.rootResponseNode.getStatus();
     }
 

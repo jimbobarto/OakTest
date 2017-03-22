@@ -17,6 +17,9 @@ public enum Status {
     TIMER_STARTED_INTERACT(124, "Timer started to interact with object"),
     TIMER_FINISHED_INTERACT(125, "Timer finished to interact with object"),
     ELAPSED_TIME_INTERACT(126, "Time to interact with object"),
+    TIMER_STARTED(127, "Timer started"),
+    TIMER_FINISHED(128, "Timer finished"),
+    ELAPSED_TIME(129, "Elapsed time"),
     ACTUAL_IDENTIFIER(130, "Identifier used to find object"),
     STACK_TRACE_ADDED(150, "Stack trace added"),
 
