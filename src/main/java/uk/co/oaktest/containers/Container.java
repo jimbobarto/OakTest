@@ -1,5 +1,6 @@
 package uk.co.oaktest.containers;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import uk.co.oaktest.messages.jackson.TestMessage;
 import uk.co.oaktest.results.ResponseNode;
@@ -11,6 +12,8 @@ Horrible class that acts as a container (natch) for lots of things a test will n
 */
 
 public class Container {
+    final static Logger logger = Logger.getLogger(Container.class);
+
     TestMessage testMessage;
     WebDriver driver;
     ResponseNode responseNode;
@@ -32,7 +35,7 @@ public class Container {
             setResultId(this.testMessage.getResultId());
         }
 
-        this.translator = new Translator();
+        this.translator = new Translator(containerTestMessage.getVariables());
     }
 
     public TestMessage getTestMessage() {
@@ -41,6 +44,12 @@ public class Container {
 
     public TestMessage setMessage(TestMessage containerTestMessage) {
         this.testMessage = containerTestMessage;
+        try {
+            this.translator.initialiseVariables(containerTestMessage.getVariables());
+        }
+        catch(Exception exception) {
+            logger.error("Variables have already been initialized");
+        }
         return this.testMessage;
     }
 

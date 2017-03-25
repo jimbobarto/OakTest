@@ -9,9 +9,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by jamesbartlett on 19/12/15.
- */
 public class Translator {
 
     //TODO: make this XML aware
