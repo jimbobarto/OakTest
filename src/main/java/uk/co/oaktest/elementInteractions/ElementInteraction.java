@@ -13,7 +13,6 @@ import uk.co.oaktest.config.Config;
 import uk.co.oaktest.constants.Selenium;
 import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.containers.Container;
-import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.messages.jackson.ElementMessage;
 import uk.co.oaktest.results.ResponseNode;
 
@@ -75,7 +74,7 @@ public class ElementInteraction {
     public boolean typeValue() {
         String inputValue = setUpMessage.getValue();
 
-        WebElement targetElement = findMyElement();
+        WebElement targetElement = findElement();
 
         if ( targetElement != null ) {
             startTimerInteract();
@@ -92,7 +91,7 @@ public class ElementInteraction {
 
     public boolean click() {
 
-        WebElement targetElement = findMyElement();
+        WebElement targetElement = findElement();
 
         if (targetElement != null ) {
             startTimerInteract();
@@ -113,7 +112,8 @@ public class ElementInteraction {
             return false;
         }
 
-        WebElement targetElement = findMyElement();
+        expectedText = this.translator.translate(expectedText);
+        WebElement targetElement = findElement();
 
         if(targetElement != null ) {
 
@@ -129,7 +129,7 @@ public class ElementInteraction {
 
     public boolean hover() {
 
-        WebElement targetElement = findMyElement();
+        WebElement targetElement = findElement();
 
         if (targetElement != null ) {
             startTimerInteract();
@@ -147,7 +147,7 @@ public class ElementInteraction {
 
     public boolean getAttribute() {
 
-        WebElement targetElement = findMyElement();
+        WebElement targetElement = findElement();
 
         return targetElement != null;
     }
@@ -159,7 +159,7 @@ public class ElementInteraction {
         return identifierType;
     }
 
-    public WebElement findMyElement() {
+    public WebElement findElement() {
         WebElement targetElement = null;
 
         By identifier = getElementBy();
@@ -176,6 +176,9 @@ public class ElementInteraction {
             finally {
                 stopTimerFind();
             }
+        }
+        else {
+            stopTimerFind();
         }
         return targetElement;
     }

@@ -5,7 +5,6 @@ import org.openqa.selenium.WebElement;
 import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.elementInteractions.BaseElement;
-import uk.co.oaktest.messages.interfaces.ElementInterface;
 import uk.co.oaktest.messages.jackson.ElementMessage;
 import uk.co.oaktest.results.ResponseNode;
 
@@ -20,7 +19,7 @@ public class Link extends BaseElement {
 
     public boolean click() {
 
-        WebElement targetElement = findMyElement();
+        WebElement targetElement = findElement();
 
         if (targetElement != null) {
             startTimerInteract();
