@@ -68,7 +68,7 @@ public class BrowserTest {
 
         this.translator = new Translator();
         this.container.setTranslator(this.translator);
-        if (this.testMessage.hasVariables()) {
+        if (!this.testMessage.hasVariables()) {
             try {
                 translator.initialiseVariables(this.testMessage.getVariables());
             }
