@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import uk.co.oaktest.constants.Status;
+import uk.co.oaktest.database.Database;
 import uk.co.oaktest.results.ResponseMessage;
 
 public class BrowserSpecificDriver {
@@ -16,27 +17,33 @@ public class BrowserSpecificDriver {
 
     BrowserSpecificDriver(String browser) {
         this.browser = browser;
+        new Database();
     }
 
     public WebDriver getDriver() {
         WebDriver driver;
-        try {
-            switch (this.browser) {
-                case "Internet Explorer":
-                    driver = new InternetExplorerDriver();
-                    break;
-                case "Chrome":
-                    driver = new ChromeDriver();
-                    break;
-                case "Firefox":
-                default:
-                    driver = new FirefoxDriver();
-                    break;
+
+        if (this.browser != null) {
+            try {
+                switch (this.browser) {
+                    case "Internet Explorer":
+                        driver = new InternetExplorerDriver();
+                        break;
+                    case "Chrome":
+                        driver = new ChromeDriver();
+                        break;
+                    case "Firefox":
+                    default:
+                        driver = new FirefoxDriver();
+                        break;
+                }
+            } catch (Exception exception) {
+                logger.error(exception.getMessage());
+                return null;
             }
         }
-        catch(Exception exception) {
-            logger.error(exception.getMessage());
-            return null;
+        else {
+            driver = new FirefoxDriver();
         }
 
         return driver;
