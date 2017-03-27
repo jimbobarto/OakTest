@@ -59,24 +59,14 @@ public class BrowserTest {
 
     private void setUpBrowserTest(Container setUpContainer) {
         this.container = setUpContainer;
-        this.testMessage = this.container.getTestMessage();
+        this.testMessage = setUpContainer.getTestMessage();
         this.rootUrl = testMessage.getUrl();
         this.timer = new TestTimer();
 
         this.rootResponseNode = new ResponseNode(testMessage.getName());
         this.container.setResponseNode(this.rootResponseNode);
 
-        this.translator = new Translator();
-        this.container.setTranslator(this.translator);
-        if (!this.testMessage.hasVariables()) {
-            try {
-                translator.initialiseVariables(this.testMessage.getVariables());
-            }
-            catch (Exception e) {
-                this.rootResponseNode.addMessage(Status.BASIC_ERROR.getValue(), e.getMessage(), e.toString());
-            }
-        }
-
+        this.translator = setUpContainer.getTranslator();
         this.urlConstructor = new UrlConstructor(this.rootUrl);
         this.container.setUrlConstructor(this.urlConstructor);
 
