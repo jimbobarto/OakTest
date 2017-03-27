@@ -33,6 +33,9 @@ public class TestMessage {
     @JsonProperty
     private Integer resultId;
 
+    @JsonProperty
+    private String browser;
+
     private String name;
     private String implementation;
     private String resultUrl = "";
@@ -54,6 +57,10 @@ public class TestMessage {
 
     public String getUrl() {
         return this.url;
+    }
+
+    public String getBrowser() {
+        return this.browser;
     }
 
     public ArrayList<PageMessage> getPages() {

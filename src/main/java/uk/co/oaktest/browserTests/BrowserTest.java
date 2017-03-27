@@ -99,7 +99,10 @@ public class BrowserTest {
     public Integer test() {
         this.timer.startTimer(this.rootResponseNode);
 
-        WebDriver driver = new FirefoxDriver();
+        String browser = this.testMessage.getBrowser();
+        BrowserSpecificDriver browserDriver = new BrowserSpecificDriver(browser);
+        WebDriver driver = browserDriver.getDriver();
+
         this.container.setDriver(driver);
 
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
