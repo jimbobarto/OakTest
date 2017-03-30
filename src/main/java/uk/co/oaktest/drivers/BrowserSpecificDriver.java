@@ -1,13 +1,11 @@
-package uk.co.oaktest.browserTests;
+package uk.co.oaktest.drivers;
 
 import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.database.Database;
-import uk.co.oaktest.results.ResponseMessage;
 
 public class BrowserSpecificDriver {
 
@@ -15,7 +13,7 @@ public class BrowserSpecificDriver {
 
     final static Logger logger = Logger.getLogger(BrowserSpecificDriver.class);
 
-    BrowserSpecificDriver(String browser) {
+    public BrowserSpecificDriver(String browser) {
         this.browser = browser;
         new Database();
     }

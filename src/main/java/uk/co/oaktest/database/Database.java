@@ -2,59 +2,40 @@ package uk.co.oaktest.database;
 
 import org.apache.log4j.Logger;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Map;
 
 public class Database {
 
     Connection connection = null;
+    String databasePath = "src/main/resources/oaktest.db";
+    String absoluteDatabasePath;
 
     final static Logger logger = Logger.getLogger(Database.class);
 
     public Database() {
         try {
-            // create a database connection
-            this.connection = DriverManager.getConnection("jdbc:sqlite:src/main/resources/oaktest.db");
-            Statement statement = this.connection.createStatement();
-            statement.setQueryTimeout(10);  // set timeout to 30 sec.
-
-            statement.executeUpdate("drop table if exists person");
-            statement.executeUpdate("create table person (id integer, name string)");
-            statement.executeUpdate("insert into person values(1, 'leo')");
-            statement.executeUpdate("insert into person values(2, 'yui')");
-            ResultSet rs = statement.executeQuery("select * from person");
-            while(rs.next()) {
-                // read the result set
-                logger.info("name = " + rs.getString("name"));
-                logger.info("id = " + rs.getInt("id"));
+            File databaseFile = new File(this.databasePath);
+            this.absoluteDatabasePath = databaseFile.getAbsolutePath();
+            if (!databaseFile.exists()) {
+                databaseFile.createNewFile();
             }
         }
-        catch(SQLException e) {
-            // if the error message is "out of memory",
-            // it probably means no database file is found
-            logger.error("File probably doesn't exist: " + e.getMessage());
-        }
-        finally {
-            try {
-                if(this.connection != null) {
-                    this.connection.close();
-                }
-            }
-            catch(SQLException e) {
-                // connection close failed.
-                logger.error("Close failed: " + e.getMessage());
-            }
+        catch(IOException ioException) {
+            logger.error("Could not create db file: " + ioException.getMessage());
         }
     }
 
     public ResultSet query(String query) {
         ResultSet resultSet = null;
         try {
-            Statement statement = this.connection.createStatement();
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
         }
         catch(SQLException sqlException) {
@@ -62,5 +43,64 @@ public class Database {
         }
 
         return resultSet;
+    }
+
+    public void executeUpdate(String update) {
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(update);
+        }
+        catch(SQLException sqlException) {
+            logger.error("Update failed: " + sqlException.getMessage());
+        }
+    }
+
+    public Boolean checkTableExists(String tableName) {
+        try {
+            ResultSet results = query("SELECT name FROM sqlite_master WHERE type='table' AND name='" + tableName + "';");
+            if (!results.isBeforeFirst() ) {
+                return false;
+            }
+        }
+        catch(SQLException sqlException) {
+            logger.error("Issue when checking for table '" + tableName + "': " + sqlException.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean createTable(String createStatement) {
+        try {
+            Connection connection = getConnection();
+            if (connection != null){
+                Statement statement = connection.createStatement();
+                statement.setQueryTimeout(10);  // set timeout to 30 sec.
+
+                statement.executeUpdate(createStatement);
+            }
+            else {
+                return false;
+            }
+        }
+        catch(SQLException sqlException) {
+            logger.error("File probably doesn't exist: " + sqlException.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    private Connection getConnection() {
+        Connection connection;
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:" + this.absoluteDatabasePath);
+        }
+        catch(SQLException sqlException) {
+            logger.error("File probably doesn't exist: " + sqlException.getMessage());
+            return null;
+        }
+
+        return connection;
     }
 }

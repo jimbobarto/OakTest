@@ -54,12 +54,14 @@ public class Main extends Application<TestConfiguration> {
     public void run(TestConfiguration configuration,
                     Environment environment) {
         final RunTest runTest = new RunTest(executor);
+        final Drivers driver = new Drivers();
         final ThreadStatus status = new ThreadStatus(executor);
         final TemplateHealthCheck healthCheck = new TemplateHealthCheck(configuration.getTemplate());
 
         environment.healthChecks().register("template", healthCheck);
         environment.jersey().register(runTest);
         environment.jersey().register(status);
+        environment.jersey().register(driver);
     }
 
 }
