@@ -36,6 +36,9 @@ public class TestMessage {
     @JsonProperty
     private String browser;
 
+    @JsonProperty
+    private String screenshotUrl;
+
     private String name;
     private String implementation;
     private String resultUrl = "";
@@ -77,6 +80,10 @@ public class TestMessage {
 
     public String getResultUrl() {
         return this.resultUrl;
+    }
+
+    public String getScreenshotUrl() {
+        return this.screenshotUrl;
     }
 
     public Integer getResultId() {
