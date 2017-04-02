@@ -17,7 +17,7 @@ public class DriverDatabase {
     public DriverDatabase() {
         this.database = new Database();
         if (!this.database.checkTableExists("driver")) {
-            if (this.database.createTable("create table driver (id integer, driver_name string, driver_version string)")) {
+            if (this.database.createTable("create table driver (id integer, name string, version string)")) {
                 this.database.executeUpdate("insert into driver values(1, 'chrome', '33')");
             }
         }
@@ -37,9 +37,9 @@ public class DriverDatabase {
                 else {
                     while (resultSet.next()) {
                         // read the result set
-                        logger.info("Name: " + resultSet.getString("driver_name"));
-                        logger.info("Version: " + resultSet.getString("driver_version"));
-                        driverVersions.put(resultSet.getString("driver_name"), resultSet.getString("driver_version"));
+                        logger.info("Name: " + resultSet.getString("name"));
+                        logger.info("Version: " + resultSet.getString("version"));
+                        driverVersions.put(resultSet.getString("name"), resultSet.getString("version"));
                     }
                 }
             } else {
@@ -60,11 +60,9 @@ public class DriverDatabase {
     public String getDriverVersion(String driverName) {
         String driverVersion = null;
         try {
-            if (this.database.checkTableExists("drivers")) {
-                ResultSet resultSet = this.database.query("select driver_version from driver where driver_name=" + driverName);
+            if (this.database.checkTableExists("driver")) {
+                ResultSet resultSet = this.database.query("select version from driver where name='" + driverName + "'");
                 if (resultSet == null) {
-                    return null;
-                } else if (resultSet.getRow() == 0) {
                     return null;
                 }
                 else {
@@ -73,7 +71,7 @@ public class DriverDatabase {
                         if (driverVersion != null) {
                             logger.error("More than one driver version for " + driverName + " browser");
                         }
-                        driverVersion = resultSet.getString("driver_version");
+                        driverVersion = resultSet.getString("version");
                     }
                 }
             } else {
