@@ -5,12 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import uk.co.oaktest.constants.MessageSource;
 import uk.co.oaktest.constants.Queues;
 import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.containers.Container;
 import org.openqa.selenium.WebDriver;
+import uk.co.oaktest.drivers.BrowserSpecificDriver;
 import uk.co.oaktest.messages.jackson.TestMessage;
 import uk.co.oaktest.messages.jackson.PageMessage;
 import uk.co.oaktest.rabbit.RabbitMessage;
@@ -25,7 +25,6 @@ import uk.co.oaktest.variables.Translator;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 public class BrowserTest {
 
