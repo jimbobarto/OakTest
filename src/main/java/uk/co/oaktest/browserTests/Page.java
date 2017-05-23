@@ -47,10 +47,8 @@ public class Page {
         String pageUri = this.message.getUrl();
         if (pageUri != null) {
             WebDriver driver = this.container.getDriver();
-            if (!pageUri.startsWith("http")) {
-                UrlConstructor constructor = container.getUrlConstructor();
-                pageUri = constructor.buildUrl(pageUri);
-            }
+            UrlConstructor constructor = container.getUrlConstructor();
+            pageUri = constructor.buildUrl(pageUri);
             driver.get(pageUri);
         }
         ArrayList<ElementMessage> elements = this.message.getElements();
