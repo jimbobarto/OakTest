@@ -97,6 +97,7 @@ public class BrowserTest {
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
         try {
             driver.get(this.rootUrl);
+            this.rootResponseNode.addMessage(Status.ACTUAL_URL.getValue(), "URL: " + this.rootUrl);
         }
         catch (org.openqa.selenium.TimeoutException timeoutException) {
             this.rootResponseNode.addMessage(Status.BASIC_ERROR.getValue(), "Timed out waiting for page to load");
@@ -145,10 +146,10 @@ public class BrowserTest {
         }
         finally {
             //TODO: we must always make sure Rabbit is up!
+            this.timer.stopTimer(this.rootResponseNode);
             finish(driver);
         }
 
-        this.timer.stopTimer(this.rootResponseNode);
         return this.rootResponseNode.getStatus();
     }
 
