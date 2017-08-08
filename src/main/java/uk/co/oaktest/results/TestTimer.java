@@ -4,6 +4,7 @@ import uk.co.oaktest.constants.Status;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.TimeZone;
 
 public class TestTimer {
     Calendar startTime;
@@ -61,8 +62,10 @@ public class TestTimer {
     }
 
     public String getTimeFromCalendar(Calendar calendar) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
-        dateFormat.setTimeZone(calendar.getTimeZone());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy H:mm:ss");
+        TimeZone timeZone = TimeZone.getTimeZone("UTC");
+        dateFormat.setTimeZone(timeZone);
+
         return dateFormat.format(calendar.getTime());
     }
 
