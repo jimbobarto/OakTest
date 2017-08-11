@@ -35,7 +35,7 @@ public class Main extends Application<TestConfiguration> {
             OakConsumer newConsumer = new OakConsumer(executor, ch, Queues.TESTS.getValue());
         }
         catch (Exception e) {
-            logger.error("Fatal error: " + e.getMessage());
+            logger.warn("Could not connect to amqp messaging: " + e.getMessage());
         }
 
     }

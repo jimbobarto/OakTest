@@ -8,6 +8,7 @@ import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.messages.jackson.TestMessage;
 import uk.co.oaktest.rabbit.OakRunnable;
 
+import javax.validation.ReportAsSingleViolation;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
