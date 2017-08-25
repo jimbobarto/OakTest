@@ -52,10 +52,6 @@ public class BrowserTest {
         }
     }
 
-    public BrowserTest(TestMessage setUpTestMessage) {
-        this(new Container(setUpTestMessage));
-    }
-
     private void setUpBrowserTest(Container setUpContainer) {
         this.container = setUpContainer;
         this.testMessage = setUpContainer.getTestMessage();
@@ -91,7 +87,6 @@ public class BrowserTest {
         String browser = this.testMessage.getBrowser();
         BrowserSpecificDriver browserDriver = new BrowserSpecificDriver(browser);
         WebDriver driver = browserDriver.getDriver();
-
         this.container.setDriver(driver);
 
         driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);

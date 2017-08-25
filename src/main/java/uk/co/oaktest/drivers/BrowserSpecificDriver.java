@@ -18,7 +18,7 @@ public class BrowserSpecificDriver {
 
     public BrowserSpecificDriver(String browser) {
         this.browser = browser;
-        new Database();
+        //new Database();
     }
 
     public WebDriver getDriver() {

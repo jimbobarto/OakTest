@@ -67,13 +67,21 @@ public class OakRunnable implements Runnable {
     public void run() {
         Container container = new Container(this.testMessage);
 
-        if ( this.testMessage.getType().equals("api") ) {
-            ApiTest api = new ApiTest(container, messageSource);
-            api.test();
+        try {
+            if (this.testMessage.getType().equals("api")) {
+                ApiTest api = new ApiTest(container, this.messageSource);
+                api.test();
+            } else {
+                BrowserTest browser = new BrowserTest(container, this.messageSource);
+                browser.test();
+            }
         }
-        else {
-            BrowserTest browser = new BrowserTest(container, messageSource);
-            browser.test();
+        catch (Throwable throwable) {
+            logger.error("Error: " + throwable.getMessage());
+            logger.error("Error: " + throwable.toString());
+            for (StackTraceElement trace : throwable.getStackTrace()) {
+                logger.error("Trace: " + trace.toString());
+            }
         }
     }
 }
