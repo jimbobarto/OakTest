@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -43,6 +45,13 @@ public class ElementMessage {
 
     @JsonProperty
     private String selectBy;
+
+    @Valid
+    @JsonProperty
+    private ArrayList<Option> options;
+
+    @JsonProperty
+    private Boolean selectByText;
 
     @JsonProperty
     private Boolean screenshotBefore;
@@ -106,6 +115,14 @@ public class ElementMessage {
         return this.behaviour;
     }
 
+    public ArrayList<Option> getOptions() {
+        return this.options;
+    }
+
+    public Boolean getSelectByText() {
+        return this.selectByText;
+    }
+
     public Map getMetaData() {
         return this.metaData;
     }
@@ -152,5 +169,12 @@ public class ElementMessage {
     public String setBehaviour(String behaviour) {
         this.behaviour = behaviour;
         return this.behaviour;
+    }
+
+    public boolean hasOptions() {
+        if (this.options == null) {
+            return false;
+        }
+        return this.options.size() > 0;
     }
 }

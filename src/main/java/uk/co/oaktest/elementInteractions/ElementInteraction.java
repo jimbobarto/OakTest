@@ -16,7 +16,10 @@ import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.messages.jackson.ElementMessage;
 import uk.co.oaktest.results.ResponseNode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import org.openqa.selenium.TimeoutException;
 import uk.co.oaktest.results.TestTimer;
 import uk.co.oaktest.variables.Translator;
@@ -35,7 +38,6 @@ public class ElementInteraction {
     public String identifier;
     public String type;
     public Integer timeoutInSeconds;
-    public By byIdentifier;
     public TestTimer timer;
 
 
@@ -90,14 +92,19 @@ public class ElementInteraction {
     }
 
     public boolean click() {
+        return click(findElement());
+    }
 
-        WebElement targetElement = findElement();
+    public boolean click(WebElement targetElement) {
+        return click(targetElement, this.identifier);
+    }
 
+    public boolean click(WebElement targetElement, String overrideIdentifier) {
         if (targetElement != null ) {
             startTimerInteract();
             targetElement.click();
             stopTimerInteract();
-            responseNode.addMessage(Status.BASIC_SUCCESS.getValue(), "Clicked the " + this.type + " identified by " + this.identifierType + " of " + this.identifier);
+            responseNode.addMessage(Status.BASIC_SUCCESS.getValue(), "Clicked the " + this.type + " identified by " + this.identifierType + " of " + overrideIdentifier);
             return true;
         } else {
             return false;
@@ -160,9 +167,15 @@ public class ElementInteraction {
     }
 
     public WebElement findElement() {
-        WebElement targetElement = null;
+        return findElement(getElementBy());
+    }
 
-        By identifier = getElementBy();
+    public WebElement findElement(String identifier) {
+        return findElement(getElementBy(identifier));
+    }
+
+    public WebElement findElement(By identifier) {
+        WebElement targetElement = null;
 
         startTimerFind();
         if (elementIsVisible(identifier)) {
@@ -184,39 +197,35 @@ public class ElementInteraction {
     }
 
     public By getElementBy() {
-        if (this.byIdentifier == null) {
+        return getElementBy(this.identifier);
+    }
 
-            By identifier;
-            switch (this.identifierType) {
-                case "ID":
-                    identifier = By.id(this.identifier);
-                    break;
-                case "NAME":
-                    identifier = By.name(this.identifier);
-                    break;
-                case "XPATH":
-                    identifier = By.xpath(this.identifier);
-                    break;
-                case "CSS":
-                    identifier = By.cssSelector(this.identifier);
-                    break;
-                case "CLASS":
-                    identifier = By.className(this.identifier);
-                    break;
-                case "LINKTEXT":
-                    identifier = By.linkText(this.identifier);
-                    break;
-                default:
-                    identifier = By.id(this.identifier);
-                    break;
-            }
-            this.byIdentifier = identifier;
-
-            return identifier;
+    public By getElementBy(String identifierString) {
+        By identifier;
+        switch (this.identifierType) {
+            case "ID":
+                identifier = By.id(identifierString);
+                break;
+            case "NAME":
+                identifier = By.name(identifierString);
+                break;
+            case "XPATH":
+                identifier = By.xpath(identifierString);
+                break;
+            case "CSS":
+                identifier = By.cssSelector(identifierString);
+                break;
+            case "CLASS":
+                identifier = By.className(identifierString);
+                break;
+            case "LINKTEXT":
+                identifier = By.linkText(identifierString);
+                break;
+            default:
+                identifier = By.id(identifierString);
+                break;
         }
-        else {
-            return this.byIdentifier;
-        }
+        return identifier;
     }
 
     public Boolean elementIsVisible(By identifier) {

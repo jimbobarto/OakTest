@@ -69,20 +69,24 @@ public class Translator {
                 matchesFound = true;
                 String currentVariable = matcher.group(1);
 
-                Pattern variableNamePattern = Pattern.compile("^\\w+$");
+                Pattern variableNamePattern = Pattern.compile("^[\\w\\-]+$");
                 Matcher variableMatcher = variableNamePattern.matcher(currentVariable);
+                String evaluatedVariable;
                 if (variableMatcher.find()) {
                     // the variable is simply the name of a variable in turn, so look for it in the list
-                    parsedString = stringContainingVariable.replaceFirst("\\$\\{" + currentVariable + "\\}", getVariable(currentVariable));
+                    evaluatedVariable = getVariable(currentVariable);
                 } else {
-                    String evaluatedVariable = evaluatePath(currentVariable);
-                    parsedString = stringContainingVariable.replaceFirst("\\$\\{" + currentVariable + "\\}", evaluatedVariable);
+                    evaluatedVariable = evaluatePath(currentVariable);
+                }
+                if (!evaluatedVariable.equals("")) {
+                    parsedString = stringContainingVariable.replaceFirst("\\$\\{" + currentVariable + "\\}", getVariable(currentVariable));
                 }
             }
 
             //In theory (!) all of the variables have now been replaced; now check if the translated string is in itself a path
-            if (matchesFound || forceEvaluation) {
-                parsedString = evaluatePath(parsedString);
+            String evaluatedEntirePath = evaluatePath(parsedString);
+            if ( (matchesFound || forceEvaluation) && !evaluatedEntirePath.equals("")) {
+                parsedString = evaluatedEntirePath;
             }
         }
 
@@ -90,7 +94,7 @@ public class Translator {
     }
 
     private String evaluatePath(String possiblePath) {
-        String evaluatedPath = possiblePath;
+        String evaluatedPath = "";
 
         Pattern pathPattern = Pattern.compile("^(\\w+)\\.(.+)$");
         Matcher pathMatcher = pathPattern.matcher(possiblePath);

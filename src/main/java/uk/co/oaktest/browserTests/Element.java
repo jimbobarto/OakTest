@@ -44,29 +44,28 @@ public class Element {
 
     public Integer test() {
         String identifier = this.message.getIdentifier();
-        String type = this.message.getType();
+        String elementType = this.message.getType();
         String interaction = this.message.getInteraction();
         String implementation = this.container.getImplementation();
 
         //Get the maps for classes and methods
         HashMap interactionTypes = new HashMap(Config.interactionTypes());
-        HashMap elementTypes = new HashMap(Config.elementTypes());
 
         //Get the relevant values from the maps
         String interactionType = (String) interactionTypes.get(interaction);
-        String elementType = (String) elementTypes.get(type);
 
         Boolean screenshotBefore = this.message.getScreenshotBefore();
         Boolean screenshotAfter = this.message.getScreenshotAfter();
 
         this.timer.startTimer(this.elementNode);
 
+        // TODO: check that screenshot URL exists and remove hard-coded link!
         if (screenshotBefore) {
             Screenshot screenshot = new Screenshot(this.container, this.elementNode, Status.SCREENSHOT_BEFORE.value());
             screenshot.cleanUpload("http://localhost:8090/Copper/result/uploadScreenshot/");
         }
 
-        Class<?> runtimeClass = getRuntimeClass(implementation, elementType, type);
+        Class<?> runtimeClass = getRuntimeClass(implementation, elementType, elementType);
         if (runtimeClass == null) {
             return this.elementNode.getStatus();
         }
@@ -158,7 +157,7 @@ public class Element {
                 return runtimeClass;
             }
         }
-        runtimeClass = checkClass("uk.co.oaktest.elementInteractions." + elementType, Status.UNKNOWN_ELEMENT.getValue(), "ElementMessage type '" + type + "' unrecognised");
+        runtimeClass = checkClass("uk.co.oaktest.elementInteractions." + elementType, Status.UNKNOWN_ELEMENT.getValue(), "element type '" + type + "' not recognised");
         if (runtimeClass != null) {
             return runtimeClass;
         }
