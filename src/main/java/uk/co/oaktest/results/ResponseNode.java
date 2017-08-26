@@ -132,7 +132,7 @@ public class ResponseNode {
     public void addMessage(Integer status, Throwable exception) {
         String message = exception.getMessage();
         if (message == null) {
-            message = "Unknown stack trace!";
+            message = "Unknown problem occurred: " + exception.getMessage();
         }
         addMessage(status, message, ExceptionUtils.getStackTrace(exception));
     }
