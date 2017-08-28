@@ -105,6 +105,10 @@ public class XmlNode extends GenericProperties {
         return children;
     }
 
+    public Node getTopNode() {
+        return this.message;
+    }
+
     public boolean isValid() {
         if (parseDocument() != null) {
             return true;
