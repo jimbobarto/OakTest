@@ -4,16 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.dropwizard.Configuration;
 import org.apache.log4j.Logger;
-import uk.co.oaktest.constants.MessageSource;
 import uk.co.oaktest.drivers.DriverDatabase;
-import uk.co.oaktest.drivers.Manager;
+import uk.co.oaktest.drivers.resources.Manager;
 import uk.co.oaktest.messages.jackson.Driver;
-import uk.co.oaktest.messages.jackson.TestMessage;
-import uk.co.oaktest.rabbit.OakRunnable;
 
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -42,7 +40,7 @@ public class Drivers extends Configuration {
     }
 
     @GET
-    @Path("/listPossibleDrivers")
+    @Path("/list")
     public String listPossibleDrivers() {
         DriverDatabase driverDatabase = new DriverDatabase();
         ArrayList<String> drivers = driverDatabase.validBrowsers();
@@ -58,6 +56,14 @@ public class Drivers extends Configuration {
         versionMap.put("version", driverDatabase.getDriverVersion(browser));
 
         return convertToJsonString(versionMap);
+    }
+
+    @GET
+    @Path("/{browser}/installed")
+    public String getInstalledDrivers(@PathParam("browser") String browser) {
+        DriverDatabase driverDatabase = new DriverDatabase();
+
+        return convertToJsonString(driverDatabase.getInstalledVersions(browser));
     }
 
     @GET
@@ -84,6 +90,18 @@ public class Drivers extends Configuration {
         urlMap.put("url", driver.getUrl());
 
         return convertToJsonString(urlMap);
+    }
+
+    @POST
+    @Path("/{browser}/{version}")
+    @Produces("application/json")
+    public Response setBrowser(@Valid Driver driver, @PathParam("browser") String browser, @PathParam("version") String version) {
+        Manager driverManager = new Manager(browser);
+        HashMap<String, String> results = driverManager.downloadVersion(version);
+        Response.Status responseStatus = Response.Status.fromStatusCode(Integer.parseInt(results.get("status")));
+        String message = "{\"message\": \"" + results.get("message") + "\"}";
+
+        return Response.status(responseStatus).entity(message).build();
     }
 
     private String convertToJsonString(HashMap data) {

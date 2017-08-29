@@ -1,16 +1,37 @@
-package uk.co.oaktest.drivers;
+package uk.co.oaktest.drivers.resources;
 
 import org.apache.log4j.Logger;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import uk.co.oaktest.constants.Browser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Manager {
 
     final static Logger logger = Logger.getLogger(Manager.class);
+
+    GenericDriver managedDriver;
+
+    public Manager() {
+    }
+
+    public Manager(String driverName) {
+        if (isValidBrowserName(driverName)) {
+            managedDriver = getDriver(driverName);
+        }
+    }
+
+    public ArrayList<String> getAvailableVersions() {
+        return managedDriver.getAllAvailableVersions();
+    }
+
+    public String getLatestAvailableVersion() {
+        return managedDriver.getLatestAvailableVersion();
+    }
+
+    public HashMap downloadVersion(String version) {
+        return managedDriver.downloadVersion(version);
+    }
 
     public ArrayList<String> getAvailableVersions(String driverName) {
         GenericDriver driver = getDriver(driverName);
@@ -60,4 +81,9 @@ public class Manager {
         return false;
     }
 
+    public HashMap downloadVersion(String driverName, String version) {
+        //downloadVersion
+        GenericDriver driver = getDriver(driverName);
+        return driver.downloadVersion(version);
+    }
 }

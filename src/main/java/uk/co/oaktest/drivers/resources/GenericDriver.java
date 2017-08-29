@@ -1,4 +1,4 @@
-package uk.co.oaktest.drivers;
+package uk.co.oaktest.drivers.resources;
 
 import org.apache.log4j.Logger;
 import uk.co.oaktest.database.Database;
@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 
 public abstract class GenericDriver {
@@ -34,6 +35,8 @@ public abstract class GenericDriver {
     public abstract ArrayList<String> getAllAvailableVersions();
 
     public abstract String getCurrentVersion();
+
+    public abstract HashMap downloadVersion(String version);
 
     public String getCurrentVersionFromDatabase() {
         Database database = new Database();
