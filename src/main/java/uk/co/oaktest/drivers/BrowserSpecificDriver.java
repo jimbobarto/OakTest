@@ -31,6 +31,9 @@ public class BrowserSpecificDriver {
                         driver = new InternetExplorerDriver();
                         break;
                     case "Chrome":
+                        DriverDatabase driverDb = new DriverDatabase();
+                        String path = driverDb.getDriverPath("chrome");
+                        System.setProperty("webdriver.chrome.driver", path);
                         driver = new ChromeDriver();
                         break;
                     case "Firefox":
