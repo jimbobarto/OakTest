@@ -63,7 +63,11 @@ public class Chrome extends GenericDriver {
     }
 
     public String getCurrentVersion() {
-        return getCurrentVersionFromDatabase();
+        return getCurrentVersionFromDatabase("chrome");
+    }
+
+    public Boolean setCurrentVersion(String driverVersion) {
+        return setCurrentVersion("chrome", driverVersion);
     }
 
     public HashMap downloadVersion(String version) {
@@ -84,6 +88,7 @@ public class Chrome extends GenericDriver {
                 File unzippedDriver = new File(downloadDirectory + "chromedriver.exe");
                 if (unzippedDriver.exists()) {
                     if (saveFile.delete()) {
+                        unzippedDriver.setExecutable(true, false);
                         DriverDatabase driverDb = new DriverDatabase();
                         driverDb.addInstalledDriver("chrome", version, unzippedDriver.getAbsolutePath());
                     }
@@ -97,10 +102,10 @@ public class Chrome extends GenericDriver {
             }
         }
         catch (MalformedURLException urlException) {
-            results.put("message", "URL was bad");
+            results.put("message", "URL was bad: " + urlException.getMessage());
         }
         catch (IOException ioException) {
-            results.put("message", "Malformed URL: " + ioException.getMessage());
+            results.put("message", "I/O problem: " + ioException.getMessage());
         }
 
         if (!results.containsKey("message")) {

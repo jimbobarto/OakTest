@@ -29,6 +29,10 @@ public class Manager {
         return managedDriver.getLatestAvailableVersion();
     }
 
+    public Boolean setVersion(String version) {
+        return managedDriver.setCurrentVersion(version);
+    }
+
     public HashMap downloadVersion(String version) {
         return managedDriver.downloadVersion(version);
     }

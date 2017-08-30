@@ -93,13 +93,28 @@ public class Drivers extends Configuration {
     }
 
     @POST
-    @Path("/{browser}/{version}")
+    @Path("/{browser}/install/{version}")
     @Produces("application/json")
-    public Response setBrowser(@Valid Driver driver, @PathParam("browser") String browser, @PathParam("version") String version) {
+    public Response installDriver(@Valid Driver driver, @PathParam("browser") String browser, @PathParam("version") String version) {
         Manager driverManager = new Manager(browser);
         HashMap<String, String> results = driverManager.downloadVersion(version);
         Response.Status responseStatus = Response.Status.fromStatusCode(Integer.parseInt(results.get("status")));
         String message = "{\"message\": \"" + results.get("message") + "\"}";
+
+        return Response.status(responseStatus).entity(message).build();
+    }
+
+    @POST
+    @Path("/{browser}/set/{version}")
+    @Produces("application/json")
+    public Response setBrowser(@Valid Driver driver, @PathParam("browser") String browser, @PathParam("version") String version) {
+        Manager driverManager = new Manager(browser);
+        Response.Status responseStatus = Response.Status.BAD_REQUEST;
+        String message = "{\"message\": \"browser could not be set\"}";
+        if (driverManager.setVersion(version)) {
+            responseStatus = Response.Status.OK;
+            message = "{\"message\": \"browser set OK\"}";
+        }
 
         return Response.status(responseStatus).entity(message).build();
     }

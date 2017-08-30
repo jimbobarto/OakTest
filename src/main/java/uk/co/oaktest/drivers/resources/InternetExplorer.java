@@ -29,7 +29,11 @@ public class InternetExplorer extends GenericDriver {
     }
 
     public String getCurrentVersion() {
-        return getCurrentVersionFromDatabase();
+        return getCurrentVersionFromDatabase("internet_explorer");
+    }
+
+    public Boolean setCurrentVersion(String driverVersion) {
+        return setCurrentVersion("internet_explorer", driverVersion);
     }
 
     public ArrayList<String> getAllAvailableVersions() {

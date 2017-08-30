@@ -2,6 +2,7 @@ package uk.co.oaktest.drivers.resources;
 
 import org.apache.log4j.Logger;
 import uk.co.oaktest.database.Database;
+import uk.co.oaktest.drivers.DriverDatabase;
 import uk.co.oaktest.requests.Request;
 import uk.co.oaktest.requests.RequestException;
 
@@ -38,30 +39,16 @@ public abstract class GenericDriver {
 
     public abstract HashMap downloadVersion(String version);
 
-    public String getCurrentVersionFromDatabase() {
-        Database database = new Database();
-        try {
-            if (database.checkTableExists("current_versions")) {
-                ResultSet resultSet = database.query("select * from current_versions where name=chrome");
-                if (resultSet == null) {
-                    return null;
-                }
-                if (!resultSet.isBeforeFirst() ) {
-                    return null;
-                }
-                else {
-                    while (resultSet.next()) {
-                        return resultSet.getString("version");
-                    }
-                }
-            } else {
-                return null;
-            }
-        }
-        catch(SQLException sqlException) {
-            logger.error("Could not identify driver: " + sqlException.getMessage());
-        }
-        return null;
+    public String getCurrentVersionFromDatabase(String driverName) {
+        DriverDatabase driverDb = new DriverDatabase();
+        return driverDb.getDriverVersion(driverName);
+    }
+
+    public abstract Boolean setCurrentVersion(String driverVersion);
+
+    public Boolean setCurrentVersion(String driverName, String driverVersion) {
+        DriverDatabase driverDb = new DriverDatabase();
+        return driverDb.setDriverVersion(driverName, driverVersion);
     }
 
     public String readVersionInfoInManifest(Class driverClass, String propertiesPath){

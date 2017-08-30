@@ -28,6 +28,10 @@ public class Firefox extends GenericDriver {
         return readVersionInfoInManifest(FirefoxDriver.class, firefoxPropertiesPath);
     }
 
+    public Boolean setCurrentVersion(String driverVersion) {
+        return setCurrentVersion("firefox", driverVersion);
+    }
+
     public HashMap downloadVersion(String version) {
         HashMap<String, String> results = new HashMap<>();
         results.put("status", Integer.toString(Response.Status.BAD_REQUEST.getStatusCode()));

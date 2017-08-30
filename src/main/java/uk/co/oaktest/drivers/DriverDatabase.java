@@ -20,13 +20,8 @@ public class DriverDatabase {
         this.database = new Database();
         Firefox firefox = new Firefox();
         if (!this.database.checkTableExists("driver")) {
-            if (this.database.createTable("create table driver (id INTEGER PRIMARY KEY, name string, version string, path string)")) {
-                this.database.executeUpdate("insert into driver values(null, 'firefox', '" + firefox.getCurrentVersion() + "', '')");
-            }
-        }
-        if (!this.database.checkTableExists("current_versions")) {
-            if (this.database.createTable("create table current_versions (id INTEGER PRIMARY KEY, name string, version string, path string)")) {
-                this.database.executeUpdate("insert into current_versions values(null, 'firefox', '" + firefox.getCurrentVersion() + "', '')");
+            if (this.database.createTable("create table driver (id INTEGER PRIMARY KEY, name string, version string, path string, current INTEGER)")) {
+                this.database.executeUpdate("insert into driver values(null, 'firefox', '" + firefox.getCurrentVersion() + "', '', 1)");
             }
         }
     }
@@ -61,12 +56,29 @@ public class DriverDatabase {
     }
 
     public Boolean setDriverVersion(String driverName, String driverVersion) {
-        return false;
+        if (this.database.checkTableExists("driver") && isValidBrowserName(driverName)) {
+            if (this.database.executeUpdate("update driver set current=1 where name='" + driverName + "' and version='" + driverVersion + "'")) {
+                if (this.database.executeUpdate("update driver set current=0 where name='" + driverName + "' and version!='" + driverVersion + "'")) {
+                    return true;
+                }
+                else {
+                    logger.error("Could not reset other versions of '" + driverName + "'");
+                    return false;
+                }
+            }
+            else {
+                logger.error("Could not set '" + driverName + "' to version '" + driverVersion + "'");
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
     }
 
     public Boolean addInstalledDriver(String driverName, String driverVersion, String path) {
         if (this.database.checkTableExists("driver") && isValidBrowserName(driverName)) {
-            this.database.executeUpdate("insert into driver values(null, '" + driverName + "', '" + driverVersion + "', '" + path + "')");
+            this.database.executeUpdate("insert into driver values(null, '" + driverName + "', '" + driverVersion + "', '" + path + "', 0)");
             return true;
         }
         else {
@@ -75,21 +87,30 @@ public class DriverDatabase {
     }
 
     public String getDriverVersion(String driverName) {
-        String driverVersion = null;
+        return getDriverProperty(driverName, "version");
+    }
+
+    public String getDriverPath(String driverName) {
+        return getDriverProperty(driverName, "path");
+    }
+
+    public String getDriverProperty(String driverName, String propertyName) {
+        String propertyValue = null;
         if (isValidBrowserName(driverName)) {
             try {
                 if (this.database.checkTableExists("driver")) {
-                    ResultSet resultSet = this.database.query("select version from driver where name='" + driverName + "'");
+                    ResultSet resultSet = this.database.query("select * from driver where name='" + driverName + "' and current=1");
                     if (resultSet == null) {
                         return null;
                     }
                     else {
                         while (resultSet.next()) {
                             // read the result set
-                            if (driverVersion != null) {
+                            if (propertyValue != null) {
                                 logger.error("More than one driver version for " + driverName + " browser");
+                                return null;
                             }
-                            driverVersion = resultSet.getString("version");
+                            propertyValue = resultSet.getString(propertyName);
                         }
                     }
                 } else {
@@ -100,7 +121,7 @@ public class DriverDatabase {
                 logger.error("Could not identify driver: " + sqlException.getMessage());
             }
         }
-        return driverVersion;
+        return propertyValue;
     }
 
     public ArrayList<String> getInstalledVersions(String driverName) {
