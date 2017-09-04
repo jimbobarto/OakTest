@@ -63,6 +63,8 @@ The executor is database-independant.
     ArrayList<ElementMessage> (required)
         This is a list of elements - the HTML elements the test will *actually* interact with.
 
+    ArrayList<Assertion> (required)
+        This is a list of assertions - checks that can be made using variables.
 
 ##Element Structure
 
@@ -101,4 +103,15 @@ The executor is database-independant.
     * String type (required)
         The variable type - currently only Strings but will include at least Dates in the future
     * String value (required)
+        The vaiable value - will replace all references to the varibale name in the test at run time
+
+##Assertion Structure
+
+    * String expected (required)
+        Expected value to assert against
+    * String actual (required)
+        Actual value to copare to expected value
+    * String comparisonType (required)
+        Assertions can be of the following types - "string", "path", "integer", "decimal" or "date"
+    * String assertionType (required)
         The vaiable value - will replace all references to the varibale name in the test at run time
