@@ -9,6 +9,7 @@ import uk.co.oaktest.constants.Status;
 import uk.co.oaktest.containers.Container;
 import uk.co.oaktest.messages.interfaces.MessageInterface;
 import uk.co.oaktest.messages.interfaces.PageInterface;
+import uk.co.oaktest.messages.jackson.AssertionMessage;
 import uk.co.oaktest.messages.jackson.PageMessage;
 import uk.co.oaktest.messages.jackson.TestMessage;
 import uk.co.oaktest.rabbit.RabbitMessage;
@@ -66,8 +67,9 @@ public class ApiTest {
             }
 
             try {
-                ArrayList<Assertion> assertions = pageMessage.getAssertions();
-                for (Assertion assertion: assertions) {
+                ArrayList<AssertionMessage> assertions = pageMessage.getAssertions();
+                for (AssertionMessage assertionMessage: assertions) {
+                    Assertion assertion = new Assertion(assertionMessage);
                     requestResponseNode.addMessage( assertion.check(this.container.getTranslator()) );
                 }
             }

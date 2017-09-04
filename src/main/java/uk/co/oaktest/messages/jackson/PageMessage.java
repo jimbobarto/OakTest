@@ -3,7 +3,6 @@ package uk.co.oaktest.messages.jackson;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
-import uk.co.oaktest.assertions.Assertion;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class PageMessage {
 
     @Valid
     @JsonProperty
-    private ArrayList<Assertion> assertions;
+    private ArrayList<AssertionMessage> assertions;
 
     @JsonProperty
     private Map metaData;
@@ -91,7 +90,7 @@ public class PageMessage {
         return this.elements;
     }
 
-    public ArrayList<Assertion> getAssertions() {
+    public ArrayList<AssertionMessage> getAssertions() {
         return this.assertions;
     }
 

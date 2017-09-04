@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 import uk.co.oaktest.constants.Status;
+import uk.co.oaktest.messages.jackson.AssertionMessage;
 import uk.co.oaktest.results.ResponseMessage;
 import uk.co.oaktest.variables.Translator;
 
@@ -42,6 +43,13 @@ public class Assertion {
         this.actual = actual;
         this.comparisonType = comparisonType;
         this.assertionType = assertionType;
+    }
+
+    public Assertion(AssertionMessage assertionMessage) {
+        this.expected = assertionMessage.getExpected();
+        this.actual = assertionMessage.getActual();
+        this.comparisonType = assertionMessage.getComparisonType();
+        this.assertionType = assertionMessage.getAssertionType();
     }
 
     public ResponseMessage check(Translator translator) {
