@@ -84,15 +84,6 @@ public class Drivers extends Configuration {
     }
 
     @POST
-    @Path("/{browser}")
-    public String setBrowser(@Valid Driver driver, @PathParam("browser") String browser) {
-        HashMap urlMap = new HashMap<>();
-        urlMap.put("url", driver.getUrl());
-
-        return convertToJsonString(urlMap);
-    }
-
-    @POST
     @Path("/{browser}/install/{version}")
     @Produces("application/json")
     public Response installDriver(@Valid Driver driver, @PathParam("browser") String browser, @PathParam("version") String version) {
