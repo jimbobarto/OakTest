@@ -20,7 +20,7 @@ public class AssertionTests {
         Translator translator = new Translator();
         ResponseMessage responseMessage = assertion.check(translator);
 
-        assert responseMessage.getStatus().equals(Status.TEXT_MATCH_SUCCESS.value());
+        assertEquals(responseMessage.getStatus(), Status.TEXT_MATCH_SUCCESS.value());
     }
 
     @Test
@@ -29,16 +29,16 @@ public class AssertionTests {
         Translator translator = new Translator();
         ResponseMessage responseMessage = assertion.check(translator);
 
-        assert responseMessage.getStatus().equals(Status.TEXT_MATCH_SUCCESS.value());
+        assertEquals(responseMessage.getStatus(), Status.TEXT_CHECK_FAILURE.value());
     }
 
     @Test
     public void stringContains() {
-        Assertion assertion = new Assertion("string", "notstring", "contains", "string");
+        Assertion assertion = new Assertion("longstringmaybe", "string", "contains", "string");
         Translator translator = new Translator();
         ResponseMessage responseMessage = assertion.check(translator);
 
-        assert responseMessage.getStatus().equals(Status.TEXT_MATCH_SUCCESS.value());
+        assertEquals(responseMessage.getStatus(), Status.TEXT_MATCH_SUCCESS.value());
     }
 
     @Test
@@ -47,6 +47,6 @@ public class AssertionTests {
         Translator translator = new Translator();
         ResponseMessage responseMessage = assertion.check(translator);
 
-        assert responseMessage.getStatus().equals(Status.TEXT_CHECK_FAILURE.value());
+        assertEquals(responseMessage.getStatus(), Status.TEXT_CHECK_FAILURE.value());
     }
 }
