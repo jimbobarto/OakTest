@@ -13,7 +13,7 @@ import java.sql.Statement;
 public class Database {
 
     Connection connection = null;
-    String databasePath = "src/main/resources/oaktest.db";
+    String databasePath = "oaktest.db";
     String absoluteDatabasePath;
     String lastError;
 
@@ -126,10 +126,15 @@ public class Database {
     private Connection getConnection() {
         Connection connection;
         try {
+            Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + this.absoluteDatabasePath);
         }
         catch(SQLException sqlException) {
             logError("File probably doesn't exist: " + sqlException.getMessage(), sqlException);
+            return null;
+        }
+        catch(ClassNotFoundException notFoundException) {
+            logError("JDBC class not found: " + notFoundException.getMessage(), notFoundException);
             return null;
         }
 
