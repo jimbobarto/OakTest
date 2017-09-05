@@ -9,24 +9,17 @@ import uk.co.oaktest.results.ResponseMessage;
 import uk.co.oaktest.variables.Translator;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Assertion {
-
-    @NotEmpty
-    @JsonProperty
+    //TODO: cope with null actual values - this may be valid in some cases
     private String expected;
-
-    @NotEmpty
-    @JsonProperty
     private String actual;
-
-    @NotEmpty
-    @JsonProperty
     private String comparisonType;
-
-    @NotEmpty
-    @JsonProperty
     private String assertionType;
 
     private String translatedExpected;
@@ -38,7 +31,7 @@ public class Assertion {
 
     }
 
-    public Assertion(String expected, String actual, String comparisonType, String assertionType) {
+    public  Assertion(String expected, String actual, String comparisonType, String assertionType) {
         this.expected = expected;
         this.actual = actual;
         this.comparisonType = comparisonType;
@@ -46,6 +39,8 @@ public class Assertion {
     }
 
     public Assertion(AssertionMessage assertionMessage) {
+        //TODO: add in the parent responseMessage as returning single responseMessages feels wrong -
+        //should be able to add as many responseMessages as we like and then return simple Boolean
         this.expected = assertionMessage.getExpected();
         this.actual = assertionMessage.getActual();
         this.comparisonType = assertionMessage.getComparisonType();
@@ -68,6 +63,7 @@ public class Assertion {
             case "decimal":
                 return checkDecimals();
             case "date":
+                return checkDates();
             default:
                 return new ResponseMessage(Status.BASIC_FAILURE.value(), "Unknown assertion type '" + this.assertionType + "'");
         }
@@ -75,7 +71,6 @@ public class Assertion {
 
     private ResponseMessage checkStrings() {
         switch (this.comparisonType) {
-            case "does not exist":
             case "equals":
                 if (this.translatedExpected.equals(this.translatedActual)) {
                     return new ResponseMessage(Status.TEXT_MATCH_SUCCESS.value(), "The variable '" + this.actual + "' had the value '" + this.translatedExpected + "' as expected");
@@ -125,21 +120,21 @@ public class Assertion {
         switch (comparisonType) {
             case "equals":
                 if (comparisonResult == 0) {
-                    return new ResponseMessage(Status.TEXT_MATCH_SUCCESS.value(), "The actual value '" + actualNumber + "' was equal to the expected value '" + expectedNumber + "' as expected");
+                    return new ResponseMessage(Status.CHECK_SUCCESS.value(), "The actual value '" + actualNumber + "' was equal to the expected value '" + expectedNumber + "' as expected");
                 } else {
-                    return new ResponseMessage(Status.TEXT_CHECK_FAILURE.value(), "The actual value '" + actualNumber + "' was not equal to '" + expectedNumber + "'");
+                    return new ResponseMessage(Status.BASIC_FAILURE.value(), "The actual value '" + actualNumber + "' was not equal to '" + expectedNumber + "'");
                 }
             case "greater than":
                 if (comparisonResult > 0) {
-                    return new ResponseMessage(Status.TEXT_MATCH_SUCCESS.value(), "The expected value '" + expectedNumber + "' was greater than '" + actualNumber + "' as expected");
+                    return new ResponseMessage(Status.CHECK_SUCCESS.value(), "The expected value '" + expectedNumber + "' was greater than '" + actualNumber + "' as expected");
                 } else {
-                    return new ResponseMessage(Status.TEXT_CHECK_FAILURE.value(), "The expected value  '" + expectedNumber + "' was not greater than '" + actualNumber + "'");
+                    return new ResponseMessage(Status.BASIC_FAILURE.value(), "The expected value  '" + expectedNumber + "' was not greater than '" + actualNumber + "'");
                 }
             case "less than":
                 if (comparisonResult < 0) {
-                    return new ResponseMessage(Status.TEXT_MATCH_SUCCESS.value(), "The expected value '" + expectedNumber + "' was less than '" + actualNumber + "' as expected");
+                    return new ResponseMessage(Status.CHECK_SUCCESS.value(), "The expected value '" + expectedNumber + "' was less than '" + actualNumber + "' as expected");
                 } else {
-                    return new ResponseMessage(Status.TEXT_CHECK_FAILURE.value(), "The expected value  '" + expectedNumber + "' was not less than '" + actualNumber + "'");
+                    return new ResponseMessage(Status.BASIC_FAILURE.value(), "The expected value  '" + expectedNumber + "' was not less than '" + actualNumber + "'");
                 }
             default:
                 return new ResponseMessage(Status.BASIC_FAILURE.value(), "Unknown comparison type '" + comparisonType + "'");
@@ -164,22 +159,76 @@ public class Assertion {
         }
     }
 
+    private Date convertDate(String dateAsString) {
+        try {
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            return dateFormat.parse(dateAsString);
+        }
+        catch (ParseException dateParseException) {
+            return null;
+        }
+    }
+
     private ResponseMessage checkPaths() {
         switch (this.comparisonType) {
             case "does not exist":
-                if (this.translator.isPath(this.translatedActual)) {
+                if (this.translator.isPath(this.translatedExpected)) {
                     return new ResponseMessage(Status.BASIC_FAILURE.value(), "The path '" + this.actual + "' existed");
                 }
                 else {
                     return new ResponseMessage(Status.BASIC_SUCCESS.value(), "The path '" + this.actual + "' did not exist, as expected");
                 }
             case "exists":
-                if (this.translator.isPath(this.translatedActual)) {
+                if (this.translator.isPath(this.translatedExpected)) {
                     return new ResponseMessage(Status.BASIC_SUCCESS.value(), "The path '" + this.actual + "' exists as expected");
                 }
                 else {
                     return new ResponseMessage(Status.BASIC_FAILURE.value(), "The path '" + this.actual + "' did not exist");
                 }
+            default:
+                return new ResponseMessage(Status.BASIC_FAILURE.value(), "Unknown comparison type '" + this.comparisonType + "'");
+        }
+    }
+
+    private ResponseMessage checkDates() {
+        Integer comparisonResult = null;
+
+        Date expectedDate = convertDate(this.translatedExpected);
+        if (expectedDate == null) {
+            return new ResponseMessage(Status.BASIC_ERROR.value(), "The expected value '" + this.translatedExpected + "' could not be converted to a date");
+        }
+        Date actualDate = convertDate(this.translatedActual);
+        if (actualDate == null && !this.comparisonType.equals("is date")) {
+            return new ResponseMessage(Status.BASIC_ERROR.value(), "The actual value '" + this.translatedActual + "' could not be converted to a date");
+        }
+        else if (actualDate != null && !this.comparisonType.equals("is date")) {
+            comparisonResult = actualDate.compareTo(expectedDate);
+        }
+
+        switch (this.comparisonType) {
+            case "after":
+                if (comparisonResult != null && comparisonResult > 0) {
+                    return new ResponseMessage(Status.BASIC_SUCCESS.value(), "The expected date '" + this.translatedExpected + "' was after '" + this.translatedActual + "' as expected");
+                }
+                else {
+                    return new ResponseMessage(Status.BASIC_FAILURE.value(), "The expected date '" + this.translatedExpected + "' was not after '" + this.translatedActual);
+                }
+            case "before":
+                if (comparisonResult != null && comparisonResult < 0) {
+                    return new ResponseMessage(Status.BASIC_SUCCESS.value(), "The expected date '" + this.translatedExpected + "' was before '" + this.translatedActual + "' as expected");
+                }
+                else {
+                    return new ResponseMessage(Status.BASIC_FAILURE.value(), "The expected date '" + this.translatedExpected + "' was not before '" + this.translatedActual);
+                }
+            case "equals":
+                if (comparisonResult != null && comparisonResult == 0) {
+                    return new ResponseMessage(Status.BASIC_SUCCESS.value(), "The expected date '" + this.translatedExpected + "' was equal to '" + this.translatedActual + "' as expected");
+                }
+                else {
+                    return new ResponseMessage(Status.BASIC_FAILURE.value(), "The expected date '" + this.translatedExpected + "' was not equal to  '" + this.translatedActual);
+                }
+            case "is date":
+                return new ResponseMessage(Status.BASIC_SUCCESS.value(), "The expected date '" + this.translatedExpected + "' was valid");
             default:
                 return new ResponseMessage(Status.BASIC_FAILURE.value(), "Unknown comparison type '" + this.comparisonType + "'");
         }

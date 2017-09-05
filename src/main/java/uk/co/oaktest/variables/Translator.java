@@ -1,6 +1,7 @@
 package uk.co.oaktest.variables;
 
 import com.jayway.jsonpath.JsonPath;
+import com.jayway.jsonpath.PathNotFoundException;
 import org.apache.commons.lang3.StringUtils;
 import uk.co.oaktest.messages.jackson.Variable;
 
@@ -105,7 +106,12 @@ public class Translator {
 
             String pathString = getVariable(pathName);
             if (!pathString.equals("")) {
-                evaluatedPath = JsonPath.read(pathString, "$." + path).toString();
+                try {
+                    evaluatedPath = JsonPath.read(pathString, "$." + path).toString();
+                }
+                catch (PathNotFoundException pathNotFoundException) {
+                    return "";
+                }
             }
         }
 
