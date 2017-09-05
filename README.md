@@ -3,11 +3,17 @@ A selenium framework that requires no coding knowledge
 
 This is the execution part of the overall framework - the part that runs the tests/drives browsers/sends HTTP requests.
 
-OakTest provides a HTTP endpoint to which you can send a 'test' - a test being JSON that represents an actual test.
-We have removed RabbitMQ functionality for now.
+OakTest provides a HTTP endpoint to which you can send a 'test' - JSON that represents an actual test.
+
+A test can be either a browser or an API test, or a mixture of the two.
+
+We are planning to include RabbitMQ as a channel for scheduling tests but this is disabled for now.
 
 If the 'test' contains a link then results are passed back to that link, again as JSON.
 The executor is database-independant.
+
+OakTest also contains endpoints for managing webdriver versions - if your version of Chrome automatically updates
+then you can download a more up to date version of ChromeDriver and set that to be the default.
 
 
 ##Test structure:
@@ -40,7 +46,7 @@ The executor is database-independant.
         The page name
 
     String type (required)
-        The page type - can be a browser or API request
+        The page type - can be a browser page or API request
 
     String url (optional)
         This allows an override URL to be visited before the page starts
@@ -84,7 +90,7 @@ The executor is database-independant.
         The element name
 
     String text (optional)
-        The element text (label) to check
+        The element text to check
 
     String value (optional)
         If a textbox or similar, the value to enter in the field
@@ -103,7 +109,7 @@ The executor is database-independant.
     * String type (required)
         The variable type - currently only Strings but will include at least Dates in the future
     * String value (required)
-        The vaiable value - will replace all references to the varibale name in the test at run time
+        The variable value - will replace all references to the variable name in the test at run time
 
 ##Assertion Structure
 
@@ -112,6 +118,27 @@ The executor is database-independant.
     * String actual (required)
         Actual value to copare to expected value
     * String comparisonType (required)
-        Assertions can be of the following types - "string", "path", "integer", "decimal" or "date"
+        Comparison types depend on the assertion type.
+
+        string:
+           * equals
+           * contains
+        path:
+           * exists
+           * does not exist
+        integer:
+           * equals
+           * greater than
+           * less than
+        decimal:
+           * equals
+           * greater than
+           * less than
+        date:
+           * equals
+           * before
+           * after
+           * is date
+
     * String assertionType (required)
-        The vaiable value - will replace all references to the varibale name in the test at run time
+        Assertions can be of the following types - "string", "path", "integer", "decimal" or "date"
