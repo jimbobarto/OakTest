@@ -16,7 +16,7 @@ OakTest also contains endpoints for managing webdriver versions - if your versio
 then you can download a more up to date version of ChromeDriver and set that to be the default.
 
 
-##Test structure:
+## Test structure:
 
     String url (required)
         This is the first URL the test starts at.
@@ -40,7 +40,7 @@ then you can download a more up to date version of ChromeDriver and set that to 
         if this is defined, the results will be PUT to this URL.
 
 
-##Page Structure
+## Page Structure
 
     String name (required)
         The page name
@@ -72,7 +72,7 @@ then you can download a more up to date version of ChromeDriver and set that to 
     ArrayList<Assertion> (required)
         This is a list of assertions - checks that can be made using variables.
 
-##Element Structure
+## Element Structure
 
     String type (required)
         The type of the HTML element (e.g. 'link', 'textbox')
@@ -102,7 +102,7 @@ then you can download a more up to date version of ChromeDriver and set that to 
         Select elements only - defines if an option is selected by text or value.
 
 
-##Variable Structure
+## Variable Structure
 
     * String name (required)
         The variable name, used to reference the variable in the test
@@ -111,7 +111,7 @@ then you can download a more up to date version of ChromeDriver and set that to 
     * String value (required)
         The variable value - will replace all references to the variable name in the test at run time
 
-##Assertion Structure
+## Assertion Structure
 
     * String expected (required)
         Expected value to assert against
