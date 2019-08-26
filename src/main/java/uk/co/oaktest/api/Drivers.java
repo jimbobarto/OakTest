@@ -96,6 +96,19 @@ public class Drivers extends Configuration {
     }
 
     @POST
+    @Path("/{browser}/installLatestVersion")
+    @Produces("application/json")
+    public Response installDriver(@Valid Driver driver, @PathParam("browser") String browser) {
+        Manager driverManager = new Manager(browser);
+        String latestVersion = driverManager.getLatestAvailableVersion(browser);
+        HashMap<String, String> results = driverManager.downloadVersion(latestVersion);
+        Response.Status responseStatus = Response.Status.fromStatusCode(Integer.parseInt(results.get("status")));
+        String message = "{\"message\": \"" + results.get("message") + "\"}";
+
+        return Response.status(responseStatus).entity(message).build();
+    }
+
+    @POST
     @Path("/{browser}/set/{version}")
     @Produces("application/json")
     public Response setBrowser(@Valid Driver driver, @PathParam("browser") String browser, @PathParam("version") String version) {
